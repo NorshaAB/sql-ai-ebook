@@ -51,3 +51,13 @@ Tables: `CUSTOMER`, `CAR_COMPONENT`, `CLAIM`, `COMPONENT_CLAIM` (see below).
 
 ```sql
 -- Your code here
+
+---
+
+## STEP 2: Insert Data  
+**Task**: Insert all data into each table
+
+```sql
+-- Your code here
+
+---
