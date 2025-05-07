@@ -4,10 +4,35 @@
   <title>Activity 4E: CAR Database (AI-Enhanced)</title>
   <meta charset="UTF-8">
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    textarea { width: 100%; margin-top: 5px; }
-    .feedback { font-weight: bold; margin-top: 5px; }
-    button { margin-top: 10px; }
+    <style>
+  .collapsible {
+    background-color: #eee;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 14px;
+    margin-top: 5px;
+    border-radius: 5px;
+  }
+
+  .collapsible:hover {
+    background-color: #ccc;
+  }
+
+  .hint-content {
+    padding: 10px;
+    display: none;
+    border: 1px solid #ccc;
+    border-top: none;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+  }
+</style>
+
   </style>
 </head>
 <body>
@@ -95,15 +120,14 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Create table CUSTOMER.</b></p>
     <p>Details are as follow : CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
-     <textarea rows="5" placeholder="Write your SQL here..."></textarea>
+    <textarea rows="5" placeholder="Write your SQL here..."></textarea>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
+  </div>
   <br>
   <button onclick="checkAnswer(this, ['create table customer (custid text, custname text, car_number text, phone_number text, register_date date);'])">Check Answer</button>
   <p class="feedback"></p>
-
-  <button class="collapsible">💡 Show Hint</button>
-  <div class="hint-content">
-    Use the <code>CREATE TABLE</code> SQL command to define each table. Specify column names and data types, such as <code>TEXT</code> for names and <code>DATE</code> for dates. Each statement should end with a semicolon.
-  </div>
   </li>
 
   <li>
@@ -217,6 +241,19 @@ function checkAnswer(button, correctAnswers) {
     <p class="feedback"></p>
   </li>
 </ol>
+  
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const collapsibles = document.querySelectorAll(".collapsible");
+    collapsibles.forEach((btn) => {
+      btn.addEventListener("click", function () {
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
+  });
+</script>
 
 </body>
 </html>
