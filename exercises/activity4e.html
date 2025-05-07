@@ -68,16 +68,15 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
 
 <script>
 function checkAnswer(button, correctAnswers) {
-  const textarea = button.previousElementSibling;
-  const feedback = button.nextElementSibling;
+  const container = button.closest('li');
+  const textarea = container.querySelector('textarea');
+  const feedback = container.querySelector('.feedback');
   const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
 
-  // Normalize all correct answers for comparison
   const normalizedCorrect = correctAnswers.map(answer => 
     answer.toLowerCase().replace(/\s+/g, " ").replace(/;/g, "").trim()
   );
-  
-  // Normalize user answer (remove semicolons for more flexible checking)
+
   const normalizedUser = userAnswer.replace(/;/g, "").trim();
 
   if (normalizedCorrect.includes(normalizedUser)) {
@@ -89,6 +88,7 @@ function checkAnswer(button, correctAnswers) {
   }
 }
 </script>
+
 
 <!-- QUESTIONS -->
 <ol>
