@@ -148,42 +148,42 @@ function checkAnswer(button, correctAnswers) {
   </li>
 
   <li>
-    <p><b>Insert all data into CUSTOMER table.</b></p>
+    <p><b>Type SQL command to insert all data into CUSTOMER table.</b></p>
     <textarea rows="6" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
-  <div class="hint-content">
-    Use the <code>INSERT INTO</code> statement. Make sure to match the column order and use quotes around text values. Example:<br>
-    <code>INSERT INTO customer VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');</code>
+   <div class="button-row">
+    <button class="collapsible">💡 Show Hint</button>
+    <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
   </div>
-  <br>
-  <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
   <p class="feedback"></p>
+  <div class="hint-content">
+    Use the <code>INSERT INTO table_name VALUES (...)</code> syntax and follow the column order exactly as defined in the schema.
+  </div>
   </li>
 
   <li>
     <p><b>Type SQL command to find customer name from CUSTOMER table.</b></p>
    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
-  <div class="hint-content">
-    Use the <code>SELECT</code> statement with the column name <code>custname</code> and the table <code>customer</code>:<br>
-    <code>SELECT custname FROM customer;</code>
+ <div class="button-row">
+    <button class="collapsible">💡 Show Hint</button>
+    <button onclick="checkAnswer(this, ['select custname from customer;'])">Check Answer</button>
   </div>
-  <br>
-  <button onclick="checkAnswer(this, ['select custname from customer;'])">Check Answer</button>
   <p class="feedback"></p>
+  <div class="hint-content">
+    Use <code>SELECT column_name FROM table_name;</code>. In this case, select only the <code>custname</code> column from <code>customer</code>.
+  </div>
   </li>
 
   <li>
     <p><b>Type SQL command to display component ID, component name and price is between 200 and 400.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
-  <div class="hint-content">
-    Use <code>SELECT</code> with a <code>WHERE</code> clause using <code>BETWEEN 200 AND 400</code>:<br>
-    <code>SELECT compid, compname, price FROM car_component WHERE price BETWEEN 200 AND 400;</code>
+ <div class="button-row">
+    <button class="collapsible">💡 Show Hint</button>
+    <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400;'])">Check Answer</button>
   </div>
-  <br>
-  <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400;'])">Check Answer</button>
   <p class="feedback"></p>
+  <div class="hint-content">
+    Use <code>WHERE price BETWEEN 200 AND 400</code> to filter the rows based on price range.
+  </div>
   </li>
 
   <li>
