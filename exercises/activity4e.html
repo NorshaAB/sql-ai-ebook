@@ -129,18 +129,10 @@ function checkAnswer(button, correctAnswers) {
     <p>Details are as follow :</p>
     <p>CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-
 <div class="button-row">
   <button class="collapsible">💡 Show Hint</button>
   <button onclick="checkAnswer(this, ['your sql here'])">Check Answer</button>
-</div>
-
-<p class="feedback"></p>
-
-<div class="hint-content">
-  Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
-</div>
-
+</div
 <p class="feedback"></p>
 <div class="hint-content">
   Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
@@ -189,8 +181,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to display car number begin with J.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
-  <div class="button-row">
+ <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select car_number from customer where car_number like \'j%\';'])">Check Answer</button>
   </div>
@@ -203,7 +194,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to display claimID and quantity where claim number is CL001 and CL004.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+  
   <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\');'])">Check Answer</button>
@@ -217,7 +208,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to find the minimum value for price in the CAR_COMPONENT table.</b></p>
    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+  
  <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select min(price) from car_component;'])">Check Answer</button>
@@ -231,7 +222,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to find the maximum value for price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+  
  <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select max(price) from car_component;'])">Check Answer</button>
@@ -245,7 +236,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to find the average value for price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+  
   <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select avg(price) from car_component;'])">Check Answer</button>
@@ -259,7 +250,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to find the sum of price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+ 
   <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select sum(price) from car_component;'])">Check Answer</button>
@@ -273,7 +264,7 @@ function checkAnswer(button, correctAnswers) {
   <li>
     <p><b>Type SQL command to count the number of customers.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  <button class="collapsible">💡 Show Hint</button>
+  
  <div class="button-row">
     <button class="collapsible">💡 Show Hint</button>
     <button onclick="checkAnswer(this, ['select count(*) from customer;'])">Check Answer</button>
