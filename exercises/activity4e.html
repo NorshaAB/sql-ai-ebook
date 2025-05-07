@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Activity 4E: CAR Database (AI-Enhanced)</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea { width: 100%; margin-top: 5px; }
+    .feedback { font-weight: bold; margin-top: 5px; }
+    button { margin-top: 10px; }
+  </style>
+</head>
+<body>
+
+<h1>Activity 4E: CAR Database (AI-Enhanced)</h1>
+
+<h2>Database Schema</h2>
+
+<pre>
+CUSTOMER(CUSTID, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
+CAR_COMPONENT(COMPID, COMPNAME, PRICE)
+CLAIM(CLAIMID, CLAIM_DATE, CUSTID)
+COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
+</pre>
+
+<hr>
+
+<script>
+function checkAnswer(button, correctAnswers) {
+  const textarea = button.previousElementSibling;
+  const feedback = button.nextElementSibling;
+  const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
+
+  if (correctAnswers.includes(userAnswer)) {
+    feedback.innerHTML = "✅ Correct!";
+    feedback.style.color = "green";
+  } else {
+    feedback.innerHTML = "❌ Try again.";
+    feedback.style.color = "red";
+  }
+}
+</script>
+
+<!-- QUESTIONS -->
+<ol>
+  <li>
+    <p><b>Create table CUSTOMER, CAR_COMPONENT, CLAIM, COMPONENT_CLAIM.</b></p>
+    <textarea rows="5" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['create table customer (custid text, custname text, car_number text, phone_number text, register_date date);'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Insert all data into each table.</b></p>
+    <textarea rows="6" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Find customer names from CUSTOMER table.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select custname from customer;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Display component ID, name and price between 200 and 400.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Display car numbers that begin with 'J'.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select car_number from customer where car_number like \'j%\';'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Display CLAIMID and quantity where claimID is CL001 or CL004.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\');'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Find the minimum value for price in CAR_COMPONENT.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select min(price) from car_component;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Find the maximum value for price in CAR_COMPONENT.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select max(price) from car_component;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Find the average value for price in CAR_COMPONENT.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select avg(price) from car_component;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Find the sum of price in CAR_COMPONENT.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select sum(price) from car_component;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+
+  <li>
+    <p><b>Count the number of customers.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <br>
+    <button onclick="checkAnswer(this, ['select count(*) from customer;'])">Check Answer</button>
+    <p class="feedback"></p>
+  </li>
+</ol>
+
+</body>
+</html>
