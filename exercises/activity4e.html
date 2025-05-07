@@ -272,17 +272,20 @@ function checkAnswer(button, correctAnswers) {
 </ol>
   
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const collapsibles = document.querySelectorAll(".collapsible");
-    collapsibles.forEach((btn) => {
-      btn.addEventListener("click", function () {
-        this.classList.toggle("active");
-        const content = this.nextElementSibling;
+document.addEventListener('DOMContentLoaded', () => {
+  const collabs = document.querySelectorAll(".collapsible");
+  collabs.forEach(btn => {
+    btn.addEventListener("click", function () {
+      this.classList.toggle("active");
+      const content = this.nextElementSibling;
+      if (content && content.classList.contains("hint-content")) {
         content.style.display = content.style.display === "block" ? "none" : "block";
-      });
+      }
     });
   });
+});
 </script>
+
 
 </body>
 </html>
