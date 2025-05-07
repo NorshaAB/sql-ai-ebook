@@ -72,11 +72,19 @@ function checkAnswer(button, correctAnswers) {
   const feedback = button.nextElementSibling;
   const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
 
-  if (correctAnswers.includes(userAnswer)) {
+  // Normalize all correct answers for comparison
+  const normalizedCorrect = correctAnswers.map(answer => 
+    answer.toLowerCase().replace(/\s+/g, " ").replace(/;/g, "").trim()
+  );
+  
+  // Normalize user answer (remove semicolons for more flexible checking)
+  const normalizedUser = userAnswer.replace(/;/g, "").trim();
+
+  if (normalizedCorrect.includes(normalizedUser)) {
     feedback.innerHTML = "✅ Correct!";
     feedback.style.color = "green";
   } else {
-    feedback.innerHTML = "❌ Try again.";
+    feedback.innerHTML = "❌ Try again. Expected something like: " + correctAnswers[0];
     feedback.style.color = "red";
   }
 }
@@ -88,7 +96,11 @@ function checkAnswer(button, correctAnswers) {
     <p><b>Create table CUSTOMER, CAR_COMPONENT, CLAIM, COMPONENT_CLAIM.</b></p>
     <textarea rows="5" placeholder="Write your SQL here..."></textarea>
     <br>
-    <button onclick="checkAnswer(this, ['create table customer (custid text, custname text, car_number text, phone_number text, register_date date);'])">Check Answer</button>
+   <button onclick="checkAnswer(this, [
+  'CREATE TABLE CUSTOMER (CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE)',
+  'CREATE TABLE CUSTOMER (CUSTID TEXT PRIMARY KEY, CUSTNAME TEXT, CAR_NUMBER TEXT, PHONE_NUMBER TEXT, REGISTER_DATE DATE)',
+  'create table customer (custid text, custname text, car_number text, phone_number text, register_date date)'
+])">Check Answer</button>
     <p class="feedback"></p>
   </li>
 
