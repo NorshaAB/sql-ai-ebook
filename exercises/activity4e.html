@@ -131,114 +131,133 @@ function checkAnswer(button, correctAnswers) {
   </li>
 
   <li>
-    <p><b>Insert all data into each table.</b></p>
+    <p><b>Insert all data into CUSTOMER table.</b></p>
     <textarea rows="6" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'INSERT INTO CUSTOMER VALUES (\'C0001\', \'David Teo\', \'WUV2318\', \'81691\', \'2014-01-09\')',
-      'insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\')'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>INSERT INTO</code> statement. Make sure to match the column order and use quotes around text values. Example:<br>
+    <code>INSERT INTO customer VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to find customer name from CUSTOMER table.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT CUSTNAME FROM CUSTOMER',
-      'select custname from customer'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+   <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>SELECT</code> statement with the column name <code>custname</code> and the table <code>customer</code>:<br>
+    <code>SELECT custname FROM customer;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select custname from customer;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to display component ID, component name and price is between 200 and 400.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT COMPID, COMPNAME, PRICE FROM CAR_COMPONENT WHERE PRICE BETWEEN 200 AND 400',
-      'select compid, compname, price from car_component where price >= 200 and price <= 400'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use <code>SELECT</code> with a <code>WHERE</code> clause using <code>BETWEEN 200 AND 400</code>:<br>
+    <code>SELECT compid, compname, price FROM car_component WHERE price BETWEEN 200 AND 400;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to display car number begin with J.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT CAR_NUMBER FROM CUSTOMER WHERE CAR_NUMBER LIKE \'J%\'',
-      'select car_number from customer where car_number like \'j%\''
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use <code>LIKE 'J%'</code> with <code>WHERE</code> to match car numbers starting with J:<br>
+    <code>SELECT car_number FROM customer WHERE car_number LIKE 'J%';</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select car_number from customer where car_number like \'j%\';'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to display claimID and quantity where claim number is CL001 and CL004.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT CLAIMID, QUANTITY FROM COMPONENT_CLAIM WHERE CLAIMID IN (\'CL001\', \'CL004\')',
-      'select claimid, quantity from component_claim where claimid = \'CL001\' or claimid = \'CL004\''
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>IN</code> keyword to match multiple values:<br>
+    <code>SELECT claimid, quantity FROM component_claim WHERE claimid IN ('CL001', 'CL004');</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\');'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to find the minimum value for price in the CAR_COMPONENT table.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT MIN(PRICE) FROM CAR_COMPONENT',
-      'select min(price) from car_component'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+   <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>MIN()</code> function to get the smallest price:<br>
+    <code>SELECT MIN(price) FROM car_component;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select min(price) from car_component;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to find the maximum value for price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT MAX(PRICE) FROM CAR_COMPONENT',
-      'select max(price) from car_component'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>MAX()</code> function to get the highest price:<br>
+    <code>SELECT MAX(price) FROM car_component;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select max(price) from car_component;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to find the average value for price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT AVG(PRICE) FROM CAR_COMPONENT',
-      'select avg(price) from car_component'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>AVG()</code> function to calculate the average:<br>
+    <code>SELECT AVG(price) FROM car_component;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select avg(price) from car_component;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to find the sum of price in the CAR_COMPONENT table.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT SUM(PRICE) FROM CAR_COMPONENT',
-      'select sum(price) from car_component'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>SUM()</code> function to get the total:<br>
+    <code>SELECT SUM(price) FROM car_component;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select sum(price) from car_component;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 
   <li>
     <p><b>Type SQL command to count the number of customers.</b></p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'SELECT COUNT(*) FROM CUSTOMER',
-      'select count(custid) from customer',
-      'select count(*) from customer'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>COUNT(*)</code> function on the <code>customer</code> table:<br>
+    <code>SELECT COUNT(*) FROM customer;</code>
+  </div>
+  <br>
+  <button onclick="checkAnswer(this, ['select count(*) from customer;'])">Check Answer</button>
+  <p class="feedback"></p>
   </li>
 </ol>
   
