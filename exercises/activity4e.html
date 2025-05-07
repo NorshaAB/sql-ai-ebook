@@ -35,7 +35,7 @@ textarea {
   background-color: #e8f4ff;
   border-left: 4px solid #2196F3;
 }
-
+    
 button.collapsible.active + .hint-content {
   display: block;
 }
@@ -283,8 +283,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const collabs = document.querySelectorAll(".collapsible");
   collabs.forEach(btn => {
     btn.addEventListener("click", function () {
-      this.classList.toggle("active");
-      const content = this.nextElementSibling;
+      const content = this.parentElement.nextElementSibling.nextElementSibling;
       if (content && content.classList.contains("hint-content")) {
         content.style.display = content.style.display === "block" ? "none" : "block";
       }
@@ -292,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-
-
+  
 </body>
 </html>
