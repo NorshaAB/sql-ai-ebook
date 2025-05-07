@@ -93,14 +93,17 @@ function checkAnswer(button, correctAnswers) {
 <!-- QUESTIONS -->
 <ol>
   <li>
-    <p><b>Create table CUSTOMER, CAR_COMPONENT, CLAIM, COMPONENT_CLAIM.</b></p>
-    <textarea rows="5" placeholder="Write your SQL here..."></textarea>
-    <br>
-    <button onclick="checkAnswer(this, [
-      'CREATE TABLE CUSTOMER (CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE)',
-      'create table customer (custid text primary key, custname text, car_number text, phone_number text, register_date date)'
-    ])">Check Answer</button>
-    <p class="feedback"></p>
+    <p><b>Create table CUSTOMER.</b></p>
+    <p>Details are as follow : CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
+     <textarea rows="5" placeholder="Write your SQL here..."></textarea>
+  <br>
+  <button onclick="checkAnswer(this, ['create table customer (custid text, custname text, car_number text, phone_number text, register_date date);'])">Check Answer</button>
+  <p class="feedback"></p>
+
+  <button class="collapsible">💡 Show Hint</button>
+  <div class="hint-content">
+    Use the <code>CREATE TABLE</code> SQL command to define each table. Specify column names and data types, such as <code>TEXT</code> for names and <code>DATE</code> for dates. Each statement should end with a semicolon.
+  </div>
   </li>
 
   <li>
