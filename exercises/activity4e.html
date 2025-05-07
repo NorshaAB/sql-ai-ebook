@@ -118,16 +118,19 @@ function checkAnswer(button, correctAnswers) {
 <!-- QUESTIONS -->
 <ol>
   <li>
-    <p><b>Create table CUSTOMER.</b></p>
-    <p>Details are as follow : CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
+    <p><b>Type SQL command to create table CUSTOMER.</b></p>
+    <p>Details are as follow :</p>
+    <p>CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
     <textarea rows="5" style="width: 600px;" placeholder="Write your SQL here..."></textarea>
+  <div class="button-row">
   <button class="collapsible">💡 Show Hint</button>
-  <div class="hint-content">
-    Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
-  </div>
-  <br>
   <button onclick="checkAnswer(this, ['create table customer (custid text, custname text, car_number text, phone_number text, register_date date);'])">Check Answer</button>
-  <p class="feedback"></p>
+</div>
+
+<p class="feedback"></p>
+<div class="hint-content">
+  Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
+</div>
   </li>
 
   <li>
