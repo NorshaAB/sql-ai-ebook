@@ -68,12 +68,13 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
 
 <script>
 function checkAnswer(button, correctAnswers) {
-  const textarea = button.previousElementSibling;
-  const feedback = button.nextElementSibling;
+  const container = button.parentElement;
+  const textarea = container.querySelector("textarea");
+  const feedback = container.querySelector(".feedback");
   const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
 
-  // Normalize answers by removing semicolons and extra spaces
-  const normalizedCorrect = correctAnswers.map(answer => 
+  // Normalize answers
+  const normalizedCorrect = correctAnswers.map(answer =>
     answer.toLowerCase().replace(/\s+/g, " ").replace(/;/g, "").trim()
   );
   const normalizedUser = userAnswer.replace(/;/g, "").trim();
@@ -87,6 +88,7 @@ function checkAnswer(button, correctAnswers) {
   }
 }
 </script>
+
 
 <!-- QUESTIONS -->
 <ol>
