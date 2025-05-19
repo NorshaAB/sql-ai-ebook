@@ -5,7 +5,7 @@ Choose a section below:
 
 ## 🔍 Exercises
 - [Exercise 4E](exercises/activity4e.html)
-
+- [Exercise 4E AI version](exercises/activity 4E AI.html)
 ---
 
 > Made with ❤️ for better SQL understanding.
