@@ -120,9 +120,61 @@
   <p><small>Your API key is stored locally in your browser only.</small></p>
 </div>
 
-<h1>Activity 4E: CAR Database (AI Enhanced)</h1>
+<h1>Activity 4E: CAR Database</h1>
 
-<!-- (Keep all your existing database tables and schema display) -->
+<h1>Activity 4E: CAR Database</h1>
+
+  <h3>CUSTOMER</h3>
+<table border="1">
+  <tr><th>CUSTID</th><th>CUSTNAME</th><th>CAR_NUMBER</th><th>PHONE_NUMBER</th><th>REGISTER_DATE</th></tr>
+  <tr><td>C0001</td><td>David Teo</td><td>WUV2318</td><td>81691</td><td>2014-01-09</td></tr>
+  <tr><td>C0002</td><td>Sulaiman Ali</td><td>JKJ9782</td><td>61291</td><td>2011-05-07</td></tr>
+  <tr><td>C0003</td><td>Kang Gary</td><td>MAM123</td><td>41972</td><td>2010-06-13</td></tr>
+  <tr><td>C0004</td><td>Ji Hyo</td><td>SA4888</td><td>11341</td><td>2012-09-26</td></tr>
+  <tr><td>C0005</td><td>Karigalan</td><td>KUL511</td><td>21412</td><td>2003-07-18</td></tr>
+</table>
+
+<h3>CAR_COMPONENT</h3>
+<table border="1">
+  <tr><th>COMPID</th><th>COMPNAME</th><th>PRICE</th></tr>
+  <tr><td>KK001</td><td>ISWARA Rear Lamp</td><td>100</td></tr>
+  <tr><td>KK002</td><td>WIRA Front Bumper</td><td>450</td></tr>
+  <tr><td>KK003</td><td>ISWARA Front Mirror</td><td>300</td></tr>
+  <tr><td>KK004</td><td>WAJA Break Lamp</td><td>250</td></tr>
+  <tr><td>KK005</td><td>WIRA Front Lamp</td><td>600</td></tr>
+</table>
+
+<h3>CLAIM</h3>
+<table border="1">
+  <tr><th>CLAIMID</th><th>CLAIM_DATE</th><th>CUSTID</th></tr>
+  <tr><td>CL001</td><td>2014-04-19</td><td>C0005</td></tr>
+  <tr><td>CL002</td><td>2014-01-28</td><td>C0001</td></tr>
+  <tr><td>CL003</td><td>2014-02-20</td><td>C0003</td></tr>
+  <tr><td>CL004</td><td>2014-09-30</td><td>C0002</td></tr>
+  <tr><td>CL005</td><td>2014-12-07</td><td>C0004</td></tr>
+</table>
+
+<h3>COMPONENT_CLAIM</h3>
+<table border="1">
+  <tr><th>CLAIMID</th><th>COMPID</th><th>QUANTITY</th></tr>
+  <tr><td>CL001</td><td>KK001</td><td>1</td></tr>
+  <tr><td>CL003</td><td>KK003</td><td>2</td></tr>
+  <tr><td>CL002</td><td>KK002</td><td>1</td></tr>
+  <tr><td>CL005</td><td>KK005</td><td>1</td></tr>
+  <tr><td>CL004</td><td>KK004</td><td>2</td></tr>
+</table>
+
+<hr>
+
+<h2>Database Schema</h2>
+<pre>
+CUSTOMER(CUSTID, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
+CAR_COMPONENT(COMPID, COMPNAME, PRICE)
+CLAIM(CLAIMID, CLAIM_DATE, CUSTID)
+COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
+</pre>
+
+<hr>
 
 <!-- QUESTIONS -->
 <ol>
