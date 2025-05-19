@@ -516,15 +516,17 @@ async function fallbackValidation(userAnswer, questionType) {
 }
 
 // Toggle hints
+// Toggle hints - replace your existing code
 document.addEventListener('DOMContentLoaded', () => {
   loadConfig();
   
-  const collabs = document.querySelectorAll(".collapsible");
-  collabs.forEach(btn => {
+  document.querySelectorAll(".collapsible").forEach(btn => {
     btn.addEventListener("click", function() {
-      this.classList.toggle("active");
       const content = this.nextElementSibling;
-      content.style.display = content.style.display === "block" ? "none" : "block";
+      if (content.classList.contains('hint-content')) {
+        content.style.display = content.style.display === "block" ? "none" : "block";
+        this.classList.toggle("active");
+      }
     });
   });
 });
