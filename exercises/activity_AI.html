@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <style>
-    /* (Keep all your existing styles from previous implementation) */
+    
     .button-row {
       display: flex;
       justify-content: space-between;
@@ -38,12 +38,20 @@
     }
 
     .hint-content {
-     display: none;
-  padding: 10px;
-  margin-top: 5px;
-  background-color: #e8f4ff;
-  border-left: 4px solid #2196F3;
-  border-radius: 0 4px 4px 0;
+      display: none;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: #e8f4ff;
+      border-left: 4px solid #2196F3;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    .hint-content.visible {
+      display: block;
+    }
+    
+    .collapsible.active {
+      background-color: #ddd;
     }
 
     .feedback {
@@ -174,8 +182,8 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
    <p><b>Questions.</b></p>
 <ol>
   <li>
-    <p><b>Type SQL command to create table CUSTOMER.</b></p>
-    <p>The details of data type are as follow :</p>
+  <p><b>Type SQL command to create table CUSTOMER.</b></p>
+    <p>The details of data type are as follow:</p>
     <p>custid varchar(5), custname varchar(100), car_number varchar(10), phone_number varchar(15),
 and register_date date</p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
@@ -183,7 +191,6 @@ and register_date date</p>
       <button class="collapsible">💡 Show Hint</button>
       <button onclick="checkAnswer(this, 'CREATE TABLE statement for CUSTOMER', ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'])">Check Answer</button>
     </div>
-    <div class="feedback"></div>
     <div class="hint-content">
       Use <span class="sql-keyword">CREATE TABLE</span> with correct syntax for column names and types.
       <br><br>Example:
@@ -195,6 +202,7 @@ and register_date date</p>
   register_date DATE
 );</code></pre>
     </div>
+    <div class="feedback"></div>
   </li>
 
   <li>
@@ -515,14 +523,15 @@ async function fallbackValidation(userAnswer, questionType) {
 document.addEventListener('DOMContentLoaded', () => {
   loadConfig();
   
+  // Initialize all collapsible buttons
   document.querySelectorAll('.collapsible').forEach(button => {
     button.addEventListener('click', function() {
-      // Go up to button-row, then find the next element (hint-content)
-      const hintContent = this.closest('.button-row').nextElementSibling;
+      // Find the hint content - now properly structured as next sibling of button-row
+      const hintContent = this.closest('li').querySelector('.hint-content');
       
-      // Verify we found the hint content
-      if (hintContent && hintContent.classList.contains('hint-content')) {
-        hintContent.style.display = hintContent.style.display === 'block' ? 'none' : 'block';
+      // Toggle visibility
+      if (hintContent) {
+        hintContent.classList.toggle('visible');
         this.classList.toggle('active');
       }
     });
