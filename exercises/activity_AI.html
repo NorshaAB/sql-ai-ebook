@@ -24,13 +24,13 @@
     }
 
     .collapsible {
-      background-color: #f1f1f1;
-      color: #000;
-      cursor: pointer;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 4px;
-      transition: background-color 0.3s;
+       background-color: #f1f1f1;
+  color: #000;
+  cursor: pointer;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
     }
 
     .collapsible:hover {
@@ -38,16 +38,12 @@
     }
 
     .hint-content {
-      display: none;
-      padding: 10px;
-      margin-top: 5px;
-      background-color: #e8f4ff;
-      border-left: 4px solid #2196F3;
-      border-radius: 0 4px 4px 0;
-    }
-    
-    button.collapsible.active + .hint-content {
-      display: block;
+     display: none;
+  padding: 10px;
+  margin-top: 5px;
+  background-color: #e8f4ff;
+  border-left: 4px solid #2196F3;
+  border-radius: 0 4px 4px 0;
     }
 
     .feedback {
@@ -516,16 +512,18 @@ async function fallbackValidation(userAnswer, questionType) {
 }
 
 // Toggle hints
-// Toggle hints - replace your existing code
 document.addEventListener('DOMContentLoaded', () => {
   loadConfig();
   
-  document.querySelectorAll(".collapsible").forEach(btn => {
-    btn.addEventListener("click", function() {
-      const content = this.nextElementSibling;
-      if (content.classList.contains('hint-content')) {
-        content.style.display = content.style.display === "block" ? "none" : "block";
-        this.classList.toggle("active");
+  document.querySelectorAll('.collapsible').forEach(button => {
+    button.addEventListener('click', function() {
+      // Go up to button-row, then find the next element (hint-content)
+      const hintContent = this.closest('.button-row').nextElementSibling;
+      
+      // Verify we found the hint content
+      if (hintContent && hintContent.classList.contains('hint-content')) {
+        hintContent.style.display = hintContent.style.display === 'block' ? 'none' : 'block';
+        this.classList.toggle('active');
       }
     });
   });
