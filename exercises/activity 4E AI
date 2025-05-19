@@ -1,1 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Activity 4E: CAR Database (AI Enhanced)</title>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <style>
+    .button-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
 
+    textarea {
+      width: 100%;
+      margin-top: 5px;
+      font-family: monospace;
+      font-size: 1rem;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    .collapsible {
+      background-color: #f1f1f1;
+      color: #000;
+      cursor: pointer;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      transition: background-color 0.3s;
+    }
+
+    .collapsible:hover {
+      background-color: #ddd;
+    }
+
+    .hint-content {
+      display: none;
+      padding: 10px;
+      margin-top: 5px;
+      background-color: #e8f4ff;
+      border-left: 4px solid #2196F3;
+      border-radius: 0 4px 4px 0;
+    }
+    
+    button.collapsible.active + .hint-content {
+      display: block;
+    }
+
+    .feedback {
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .feedback.correct {
+      background-color: #e6f7e6;
+      border-left: 4px solid #4CAF50;
+    }
+
+    .feedback.incorrect {
+      background-color: #ffebee;
+      border-left: 4px solid #F44336;
+    }
+
+    .feedback.loading {
+      background-color: #e3f2fd;
+      border-left: 4px solid #2196F3;
+    }
+
+    .feedback.error {
+      background-color: #fff3e0;
+      border-left: 4px solid #FF9800;
+    }
+
+    .sql-keyword {
+      color: #0077cc;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Activity 4E: CAR Database (AI Enhanced)</h1>
+
+<h3>CUSTOMER</h3>
+<table border="1">
+  <tr><th>CUSTID</th><th>CUSTNAME</th><th>CAR_NUMBER</th><th>PHONE_NUMBER</th><th>REGISTER_DATE</th></tr>
+  <tr><td>C0001</td><td>David Teo</td><td>WUV2318</td><td>81691</td><td>2014-01-09</td></tr>
+  <tr><td>C0002</td><td>Sulaiman Ali</td><td>JKJ9782</td><td>61291</td><td>2011-05-07</td></tr>
+  <tr><td>C0003</td><td>Kang Gary</td><td>MAM123</td><td>41972</td><td>2010-06-13</td></tr>
+  <tr><td>C0004</td><td>Ji Hyo</td><td>SA4888</td><td>11341</td><td>2012-09-26</td></tr>
+  <tr><td>C0005</td><td>Karigalan</td><td>KUL511</td><td>21412</td><td>2003-07-18</td></tr>
+</table>
+
+<h3>CAR_COMPONENT</h3>
+<table border="1">
+  <tr><th>COMPID</th><th>COMPNAME</th><th>PRICE</th></tr>
+  <tr><td>KK001</td><td>ISWARA Rear Lamp</td><td>100</td></tr>
+  <tr><td>KK002</td><td>WIRA Front Bumper</td><td>450</td></tr>
+  <tr><td>KK003</td><td>ISWARA Front Mirror</td><td>300</td></tr>
+  <tr><td>KK004</td><td>WAJA Break Lamp</td><td>250</td></tr>
+  <tr><td>KK005</td><td>WIRA Front Lamp</td><td>600</td></tr>
+</table>
+
+<h3>CLAIM</h3>
+<table border="1">
+  <tr><th>CLAIMID</th><th>CLAIM_DATE</th><th>CUSTID</th></tr>
+  <tr><td>CL001</td><td>2014-04-19</td><td>C0005</td></tr>
+  <tr><td>CL002</td><td>2014-01-28</td><td>C0001</td></tr>
+  <tr><td>CL003</td><td>2014-02-20</td><td>C0003</td></tr>
+  <tr><td>CL004</td><td>2014-09-30</td><td>C0002</td></tr>
+  <tr><td>CL005</td><td>2014-12-07</td><td>C0004</td></tr>
+</table>
+
+<h3>COMPONENT_CLAIM</h3>
+<table border="1">
+  <tr><th>CLAIMID</th><th>COMPID</th><th>QUANTITY</th></tr>
+  <tr><td>CL001</td><td>KK001</td><td>1</td></tr>
+  <tr><td>CL003</td><td>KK003</td><td>2</td></tr>
+  <tr><td>CL002</td><td>KK002</td><td>1</td></tr>
+  <tr><td>CL005</td><td>KK005</td><td>1</td></tr>
+  <tr><td>CL004</td><td>KK004</td><td>2</td></tr>
+</table>
+
+<hr>
+
+<h2>Database Schema</h2>
+<pre>
+CUSTOMER(CUSTID, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
+CAR_COMPONENT(COMPID, COMPNAME, PRICE)
+CLAIM(CLAIMID, CLAIM_DATE, CUSTID)
+COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
+</pre>
+
+<hr>
+
+<!-- QUESTIONS -->
+<ol>
+  <li>
+    <p><b>Type SQL command to create table CUSTOMER.</b></p>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <div class="button-row">
+      <button class="collapsible">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, 'CREATE TABLE statement for CUSTOMER', ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'])">Check Answer</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="hint-content">
+      Use <span class="sql-keyword">CREATE TABLE</span> with correct syntax for column names and types.
+      <br><br>Example:
+      <pre><code>CREATE TABLE customer (
+  custid VARCHAR(5) PRIMARY KEY,
+  custname VARCHAR(100),
+  car_number VARCHAR(10),
+  phone_number VARCHAR(15),
+  register_date DATE
+);</code></pre>
+    </div>
+  </li>
+
+  <!-- Additional questions follow same pattern -->
+  <li>
+    <p><b>Type SQL command to insert all data into CUSTOMER table.</b></p>
+    <textarea rows="6" placeholder="Write your SQL here..."></textarea>
+    <div class="button-row">
+      <button class="collapsible">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, 'INSERT statement for CUSTOMER data', ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
+    </div>
+    <div class="feedback"></div>
+    <div class="hint-content">
+      Use the <span class="sql-keyword">INSERT INTO table_name VALUES (...)</span> syntax and follow the column order exactly as defined in the schema.
+    </div>
+  </li>
+
+  <!-- Remaining questions would follow the same pattern -->
+</ol>
+
+<script>
+// Configuration - In production, these should come from a secure backend
+const AI_CONFIG = {
+  enableAI: true, // Toggle AI features on/off
+  apiEndpoint: 'https://api.openai.com/v1/chat/completions',
+  model: "gpt-3.5-turbo",
+  temperature: 0.3,
+  fallbackToBasic: true // Whether to use basic validation if AI fails
+};
+
+// Store correct answers for fallback validation
+const correctAnswersMap = {
+  'CREATE TABLE statement for CUSTOMER': [
+    'create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'
+  ],
+  'INSERT statement for CUSTOMER data': [
+    'insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'
+  ]
+  // Add more as needed
+};
+
+async function checkAnswer(button, questionType, fallbackAnswers) {
+  const container = button.closest('li');
+  const textarea = container.querySelector("textarea");
+  const feedback = container.querySelector(".feedback");
+  const userAnswer = textarea.value.trim();
+  
+  // Store fallback answers
+  if (fallbackAnswers) {
+    correctAnswersMap[questionType] = fallbackAnswers;
+  }
+
+  // Show loading state
+  feedback.innerHTML = "⏳ Analyzing your answer...";
+  feedback.className = "feedback loading";
+
+  try {
+    let evaluation;
+    
+    if (AI_CONFIG.enableAI) {
+      try {
+        evaluation = await evaluateSQLWithAI(userAnswer, questionType);
+      } catch (aiError) {
+        console.error("AI Error:", aiError);
+        if (AI_CONFIG.fallbackToBasic) {
+          evaluation = await fallbackValidation(userAnswer, questionType);
+        } else {
+          throw aiError;
+        }
+      }
+    } else {
+      evaluation = await fallbackValidation(userAnswer, questionType);
+    }
+
+    // Display results
+    feedback.innerHTML = evaluation.isCorrect 
+      ? `✅ <strong>Correct!</strong> ${evaluation.explanation || ''}`
+      : `❌ <strong>Needs improvement:</strong> ${evaluation.feedback || 'Try again.'}${evaluation.hint ? '<br><br>💡 <strong>Hint:</strong> ' + evaluation.hint : ''}`;
+    
+    feedback.className = evaluation.isCorrect ? "feedback correct" : "feedback incorrect";
+    
+  } catch (error) {
+    console.error("Validation Error:", error);
+    feedback.innerHTML = "⚠️ <strong>Error:</strong> Could not validate your answer. Please try again later.";
+    feedback.className = "feedback error";
+  }
+}
+
+async function evaluateSQLWithAI(sql, questionType) {
+  // In production, this should call your backend API which then calls OpenAI
+  // This is a frontend implementation for demo purposes only
+  
+  const prompt = `You are a SQL tutor evaluating a student's answer to the question: "${questionType}".
+  
+Database Schema:
+CUSTOMER(CUSTID, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
+CAR_COMPONENT(COMPID, COMPNAME, PRICE)
+CLAIM(CLAIMID, CLAIM_DATE, CUSTID)
+COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
+
+Student's SQL:
+${sql}
+
+Evaluate for:
+1. Syntax correctness
+2. Logical correctness for the question
+3. Semantic equivalence to correct solutions
+4. Provide specific feedback if wrong
+5. Suggest a helpful hint if wrong
+6. Keep responses concise and educational
+
+Respond in JSON format like this:
+{
+  "isCorrect": boolean,
+  "explanation": string,
+  "feedback": string,
+  "hint": string
+}`;
+
+  // Note: In production, you should never expose API keys in frontend code
+  // This should be handled by your backend
+  const response = await axios.post(
+    AI_CONFIG.apiEndpoint,
+    {
+      model: AI_CONFIG.model,
+      messages: [{ role: "user", content: prompt }],
+      temperature: AI_CONFIG.temperature,
+      response_format: { type: "json_object" }
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('openai_key') || 'your-api-key'}` // Never hardcode in production
+      }
+    }
+  );
+
+  return JSON.parse(response.data.choices[0].message.content);
+}
+
+async function fallbackValidation(userAnswer, questionType) {
+  const normalizedUser = userAnswer.toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/;/g, '')
+    .trim();
+  
+  const correctAnswers = correctAnswersMap[questionType] || [];
+  const normalizedCorrect = correctAnswers.map(ans => 
+    ans.toLowerCase().replace(/\s+/g, ' ').replace(/;/g, '').trim()
+  );
+
+  const isCorrect = normalizedCorrect.includes(normalizedUser);
+  
+  return {
+    isCorrect,
+    feedback: isCorrect ? '' : 'Your answer doesn\'t match the expected solution.',
+    hint: isCorrect ? '' : `Try: ${correctAnswers[0]}`,
+    explanation: isCorrect ? 'Your SQL syntax looks correct!' : ''
+  };
+}
+
+// Toggle hints
+document.addEventListener('DOMContentLoaded', () => {
+  const collabs = document.querySelectorAll(".collapsible");
+  collabs.forEach(btn => {
+    btn.addEventListener("click", function() {
+      this.classList.toggle("active");
+      const content = this.nextElementSibling;
+      content.style.display = content.style.display === "block" ? "none" : "block";
+    });
+  });
+
+  // Load API key from storage (demo only - not secure for production)
+  if (!localStorage.getItem('openai_key')) {
+    const key = prompt("Enter your OpenAI API key (demo only - will be stored locally)");
+    if (key) localStorage.setItem('openai_key', key);
+  }
+});
+</script>
+</body>
+</html>
