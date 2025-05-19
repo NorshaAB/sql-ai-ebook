@@ -124,19 +124,17 @@ function checkAnswer(button, correctAnswers) {
 
 <!-- QUESTIONS -->
 <ol>
-  <li>
+   <li>
     <p><b>Type SQL command to create table CUSTOMER.</b></p>
-    <p>Details are as follow :</p>
-    <p>CUSTID VARCHAR(5) PRIMARY KEY, CUSTNAME VARCHAR(100), CAR_NUMBER VARCHAR(10), PHONE_NUMBER VARCHAR(15), REGISTER_DATE DATE</p>
-   <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-<div class="button-row">
-  <button class="collapsible">💡 Show Hint</button>
-  <button onclick="checkAnswer(this, ['your sql here'])">Check Answer</button>
-</div
-<p class="feedback"></p>
-<div class="hint-content">
-  Use <code>CREATE TABLE</code> with the correct table name and define each column with its type like <code>TEXT</code> or <code>DATE</code>.
-</div>
+    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
+    <div class="button-row">
+      <button class="collapsible">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'])">Check Answer</button>
+    </div>
+    <p class="feedback"></p>
+    <div class="hint-content">
+      Use <code>CREATE TABLE</code> with correct syntax for column names and types.
+    </div>
   </li>
 
   <li>
@@ -281,8 +279,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const collabs = document.querySelectorAll(".collapsible");
   collabs.forEach(btn => {
     btn.addEventListener("click", function () {
-      const content = this.parentElement.nextElementSibling.nextElementSibling;
-      if (content && content.classList.contains("hint-content")) {
+      const content = this.closest('li').querySelector(".hint-content");
+      if (content) {
         content.style.display = content.style.display === "block" ? "none" : "block";
       }
     });
