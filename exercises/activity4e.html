@@ -100,12 +100,12 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
 
 <script>
 function checkAnswer(button, correctAnswers) {
-  const container = button.parentElement;
+  const container = button.closest('.button-row').parentElement;
   const textarea = container.querySelector("textarea");
   const feedback = container.querySelector(".feedback");
   const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
 
-  // Normalize answers
+  // Normalize answers (remove semicolons and extra spaces)
   const normalizedCorrect = correctAnswers.map(answer =>
     answer.toLowerCase().replace(/\s+/g, " ").replace(/;/g, "").trim()
   );
@@ -114,9 +114,13 @@ function checkAnswer(button, correctAnswers) {
   if (normalizedCorrect.includes(normalizedUser)) {
     feedback.innerHTML = "✅ Correct!";
     feedback.style.color = "green";
+    feedback.style.fontWeight = "bold";
+    feedback.style.margin = "5px 0";
   } else {
-    feedback.innerHTML = "❌ Try again. Example: " + correctAnswers[0];
+    feedback.innerHTML = "❌ Try again. Example: <code>" + correctAnswers[0] + "</code>";
     feedback.style.color = "red";
+    feedback.style.fontWeight = "bold";
+    feedback.style.margin = "5px 0";
   }
 }
 </script>
