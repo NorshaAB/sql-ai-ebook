@@ -183,19 +183,15 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
 <ol>
   <li>
   <p><b>Type SQL command to create table CUSTOMER.</b></p>
-    <p>The details of data type are as follow:</p>
-    <p>custid varchar(5), custname varchar(100), car_number varchar(10), phone_number varchar(15),
-and register_date date</p>
     <textarea rows="3" placeholder="Write your SQL here..."></textarea>
     <div class="button-row">
       <button class="collapsible">💡 Show Hint</button>
       <button onclick="checkAnswer(this, 'CREATE TABLE statement for CUSTOMER', ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'])">Check Answer</button>
     </div>
     <div class="hint-content">
-      Use <span class="sql-keyword">CREATE TABLE</span> with correct syntax for column names and types.
-      <br><br>Example:
-      <pre><code>CREATE TABLE</code> table_name (column_name types)</pre>
-    </div>
+    <strong>💡 AI Hint:</strong> Use <code>CREATE TABLE</code> with correct syntax for column names and types.
+   </div>
+
     <div class="feedback"></div>
   </li>
 
