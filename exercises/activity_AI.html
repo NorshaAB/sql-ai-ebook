@@ -204,7 +204,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
     </div>
     <div class="feedback"></div>
     <div class="hint-content">
-      Use the <span class="sql-keyword">INSERT INTO table_name data VALUES (...)</span> syntax and follow the column order exactly as defined in the schema.
+      <strong>💡 AI Hint:</strong>Use the <span class="sql-keyword">INSERT INTO table_name data VALUES (...)</span> syntax and follow the column order exactly as defined in the schema.
     </div>
   </li>
 
@@ -217,7 +217,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>SELECT column_name FROM table_name;</code>. In this case, select only the <code>custname</code> column from <code>customer</code>.
+    <strong>💡 AI Hint:</strong>Use <code>SELECT column_name FROM table_name;</code>. In this case, select only the <code>custname</code> column from <code>customer</code>.
   </div>
   </li>
 
@@ -230,7 +230,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>WHERE price BETWEEN 200 AND 400</code> to filter the rows based on price range.
+    <strong>💡 AI Hint:</strong>Use <code>WHERE price BETWEEN 200 AND 400</code> to filter the rows based on price range.
   </div>
   </li>
 
@@ -243,7 +243,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>LIKE 'J%'</code> to match car numbers that start with 'J'.
+    <strong>💡 AI Hint:</strong>Use <code>LIKE 'J%'</code> to match car numbers that start with 'J'.
   </div>
   </li>
 
@@ -257,7 +257,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>WHERE claimid IN (...)</code> to match multiple values.
+    <strong>💡 AI Hint:</strong>Use <code>WHERE claimid IN (...)</code> to match multiple values.
   </div>
   </li>
 
@@ -271,7 +271,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>MIN(column_name)</code> to get the lowest value in a column.
+    <strong>💡 AI Hint:</strong>Use <code>MIN(column_name)</code> to get the lowest value in a column.
   </div>
   </li>
 
@@ -285,7 +285,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>MAX(column_name)</code> to get the highest value in a column.
+    <strong>💡 AI Hint:</strong>Use <code>MAX(column_name)</code> to get the highest value in a column.
   </div>
   </li>
 
@@ -299,7 +299,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>AVG(column_name)</code> to calculate the average.
+    <strong>💡 AI Hint:</strong>Use <code>AVG(column_name)</code> to calculate the average.
   </div>
   </li>
 
@@ -313,7 +313,7 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>SUM(column_name)</code> to get the total.
+    <strong>💡 AI Hint:</strong>Use <code>SUM(column_name)</code> to get the total.
   </div>
   </li>
 
@@ -327,11 +327,16 @@ COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
   </div>
   <p class="feedback"></p>
   <div class="hint-content">
-    Use <code>COUNT(*)</code> to count the total number of rows in the table.
+    <strong>💡 AI Hint:</strong>Use <code>COUNT(*)</code> to count the total number of rows in the table.
   </div>
   </li>
 </ol>
 
+  <head>
+  <meta charset="UTF-8">
+  <title>SQL AI Tutor</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
 <script>
 // Configuration
 const CONFIG = {
