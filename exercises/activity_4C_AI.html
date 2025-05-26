@@ -27,7 +27,6 @@
       border: 1px solid #ddd; padding: 15px; margin-bottom: 25px;
       border-radius: 5px; background-color: #fcfcfc;
     }
-    .icon { font-weight: bold; }
     .tick { color: green; }
     .info { color: #007BFF; }
     .error { color: red; }
@@ -51,36 +50,12 @@
 
 <script>
 const tables = [
-  {
-    name: "Branch ",
-    id: "branch",
-    hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields."
-  },
-  {
-    name: "Staff",
-    id: "staff",
-    hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo)."
-  },
-  {
-    name: "PropertyForRent",
-    id: "property",
-    hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo."
-  },
-  {
-    name: "Client",
-    id: "client",
-    hint: "Use clientNo as PRIMARY KEY. No foreign keys needed."
-  },
-  {
-    name: "PrivateOwner",
-    id: "owner",
-    hint: "Use ownerNo as PRIMARY KEY. Include personal contact details."
-  },
-  {
-    name: "Viewing",
-    id: "viewing",
-    hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent."
-  }
+  { name: "Branch", id: "branch", hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields." },
+  { name: "Staff", id: "staff", hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo)." },
+  { name: "PropertyForRent", id: "property", hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo." },
+  { name: "Client", id: "client", hint: "Use clientNo as PRIMARY KEY. No foreign keys needed." },
+  { name: "PrivateOwner", id: "owner", hint: "Use ownerNo as PRIMARY KEY. Include personal contact details." },
+  { name: "Viewing", id: "viewing", hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent." }
 ];
 
 function generateSection(table) {
@@ -102,7 +77,7 @@ function check(id, name) {
   const answer = document.getElementById(id).value.trim().toLowerCase();
   let fb = "";
 
-  // Check for CREATE TABLE
+  // 1. CREATE TABLE detection
   const createTableRegex = /create\s+table\s+\w+\s*\([\s\S]*\)/;
   if (createTableRegex.test(answer)) {
     fb += `✅ <span class="tick">Your answer includes a CREATE TABLE statement.</span>\n`;
@@ -110,15 +85,15 @@ function check(id, name) {
     fb += `❌ <span class="error">Missing or malformed CREATE TABLE syntax.</span>\n`;
   }
 
-  // Check for PRIMARY KEY inside parentheses
-  const pkRegexInline = /[\s\S]*\([\s\S]*primary\s+key\s*\(\s*\w+(\s*,\s*\w+)*\s*\)[\s\S]*\)/;
-  if (pkRegexInline.test(answer)) {
+  // 2. PRIMARY KEY must be in correct position and syntax
+  const pkCorrectSyntax = /[\s\S]*\([\s\S]*primary\s+key\s*\(\s*\w+(\s*,\s*\w+)*\s*\)[\s\S]*\)/;
+  if (pkCorrectSyntax.test(answer)) {
     fb += `✅ <span class="tick">Primary key correctly declared.</span>\n`;
   } else {
     fb += `❌ <span class="error">Primary key is missing or incorrectly formatted.</span>\n`;
   }
 
-  // Check for FOREIGN KEY declaration (not mandatory)
+  // 3. FOREIGN KEY structure validation
   const fkRegex = /foreign\s+key\s*\(\s*\w+\s*\)\s+references\s+\w+\s*\(\s*\w+\s*\)/;
   if (fkRegex.test(answer)) {
     fb += `✅ <span class="tick">Foreign key correctly declared.</span>\n`;
