@@ -148,4 +148,61 @@
 <script>
   function loadConfig() {
     const savedKey = localStorage.getItem('openrouter_key');
-    const savedModel = localStorage.getItem
+    const savedModel = localStorage.getItem('ai_model');
+
+    if (savedKey) {
+      document.querySelector('.api-key-input').value = savedKey;
+    }
+    if (savedModel) {
+      document.querySelector('.model-selector').value = savedModel;
+    }
+  }
+
+  function saveConfig() {
+    const apiKey = document.querySelector('.api-key-input').value.trim();
+    const model = document.querySelector('.model-selector').value;
+
+    if (apiKey) {
+      localStorage.setItem('openrouter_key', apiKey);
+      localStorage.setItem('ai_model', model);
+      alert('Configuration saved successfully!');
+    } else {
+      alert('Please enter your OpenRouter API key');
+    }
+  }
+
+  async function submitSQL(id) {
+    const input = document.getElementById(`sql-input-${id}`).value;
+    const responseBox = document.getElementById(`sql-response-${id}`);
+    responseBox.textContent = "Thinking...";
+
+    const apiKey = localStorage.getItem('openrouter_key');
+    const model = localStorage.getItem('ai_model') || 'openai/gpt-3.5-turbo';
+
+    if (!apiKey) {
+      responseBox.textContent = "Error: API key not found. Please configure it above.";
+      return;
+    }
+
+    const prompt = `You are a SQL tutor. Evaluate the following CREATE TABLE statement for syntax, logic, keys, and give feedback if any improvements are needed:\n\n${input}`;
+
+    try {
+      const res = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
+        model: model,
+        messages: [{ role: "user", content: prompt }],
+        temperature: 0.3
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`,
+          'HTTP-Referer': window.location.href,
+          'X-Title': 'SQL AI Tutor - Activity 4C'
+        }
+      });
+
+      const responseText = res.data.choices[0].message.content;
+      responseBox.textContent = responseText;
+
+    } catch (error) {
+      console.error(error);
+      responseBox.text
