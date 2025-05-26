@@ -4,63 +4,161 @@
   <meta charset="UTF-8" />
   <title>Activity 4C - SQL Table Creation</title>
   <style>
-    body { font-family: Arial; margin: 30px; }
-    textarea { width: 100%; height: 250px; font-family: monospace; }
-    .feedback { padding: 10px; background: #f0f0f0; border-left: 5px solid #333; margin-top: 10px; white-space: pre-wrap; }
-    button { margin-top: 10px; padding: 10px 20px; }
+    body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
+    textarea { width: 100%; height: 160px; margin-bottom: 10px; font-family: monospace; }
+    .feedback, .hint, .sample { background: #f0f0f0; padding: 10px; border-left: 5px solid #444; white-space: pre-wrap; margin-bottom: 15px; }
+    button { padding: 8px 16px; margin: 5px 0; }
+    h3 { margin-top: 40px; }
+    details { margin-bottom: 10px; }
   </style>
 </head>
 <body>
 
 <h2>Activity 4C: Create Tables for SweetHome Database</h2>
+<p><strong>Instructions:</strong> Write <code>CREATE TABLE</code> SQL statements for each of the six tables. Include <strong>PRIMARY KEY</strong> and <strong>FOREIGN KEY</strong> constraints where applicable.</p>
 
-<p><strong>Instructions:</strong> Write SQL <code>CREATE TABLE</code> statements for the following tables using suitable data types and constraints. Include primary and foreign keys.</p>
-
-<pre>
-Branch (branchNo, street, city, postcode) 
-Staff (staffNo, fName, lName, position, gender, DOB, salary, branchNo) 
-PropertyForRent (propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo) 
-Client (clientNo, fName, lName, telNo, prefType, maxRent, email) 
-PrivateOwner (ownerNo, fName, lName, address, telNo, email, password) 
-Viewing (clientNo, propertyNo, viewDate, comments) 
-</pre>
-
-<textarea id="userSQL" placeholder="Write your SQL CREATE TABLE statements here..."></textarea>
-<br>
-<button onclick="checkSQL()">Check Answer</button>
-
-<div class="feedback" id="feedbackArea"></div>
+<hr>
 
 <script>
-function checkSQL() {
-  const answer = document.getElementById("userSQL").value.toLowerCase();
-  let feedback = "";
+const tables = [
+  {
+    name: "Branch",
+    id: "branch",
+    hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields.",
+    sample: `CREATE TABLE Branch (
+  branchNo VARCHAR(5) PRIMARY KEY,
+  street VARCHAR(50),
+  city VARCHAR(30),
+  postcode VARCHAR(10)
+);`
+  },
+  {
+    name: "Staff",
+    id: "staff",
+    hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo).",
+    sample: `CREATE TABLE Staff (
+  staffNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(30),
+  lName VARCHAR(30),
+  position VARCHAR(30),
+  gender CHAR(1),
+  DOB DATE,
+  salary DECIMAL(10,2),
+  branchNo VARCHAR(5),
+  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
+);`
+  },
+  {
+    name: "PropertyForRent",
+    id: "property",
+    hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo.",
+    sample: `CREATE TABLE PropertyForRent (
+  propertyNo VARCHAR(5) PRIMARY KEY,
+  type VARCHAR(30),
+  rooms INT,
+  rent DECIMAL(10,2),
+  ownerNo VARCHAR(5),
+  staffNo VARCHAR(5),
+  branchNo VARCHAR(5),
+  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),
+  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),
+  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
+);`
+  },
+  {
+    name: "Client",
+    id: "client",
+    hint: "Use clientNo as PRIMARY KEY. No foreign keys needed.",
+    sample: `CREATE TABLE Client (
+  clientNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(30),
+  lName VARCHAR(30),
+  telNo VARCHAR(15),
+  prefType VARCHAR(30),
+  maxRent DECIMAL(10,2),
+  email VARCHAR(50)
+);`
+  },
+  {
+    name: "PrivateOwner",
+    id: "owner",
+    hint: "Use ownerNo as PRIMARY KEY. Include personal contact details.",
+    sample: `CREATE TABLE PrivateOwner (
+  ownerNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(30),
+  lName VARCHAR(30),
+  address VARCHAR(100),
+  telNo VARCHAR(15),
+  email VARCHAR(50),
+  password VARCHAR(20)
+);`
+  },
+  {
+    name: "Viewing",
+    id: "viewing",
+    hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent.",
+    sample: `CREATE TABLE Viewing (
+  clientNo VARCHAR(5),
+  propertyNo VARCHAR(5),
+  viewDate DATE,
+  comments TEXT,
+  PRIMARY KEY (clientNo, propertyNo, viewDate),
+  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),
+  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)
+);`
+  }
+];
 
-  const checks = [
-    { keyword: "create table branch", msg: "✅ Branch table detected." },
-    { keyword: "branchno", msg: "✅ branchNo column detected." },
-    { keyword: "primary key", msg: "✅ Primary key included." },
-    { keyword: "foreign key", msg: "✅ Foreign key constraint found." },
-    { keyword: "create table staff", msg: "✅ Staff table created." },
-    { keyword: "create table propertyforrent", msg: "✅ PropertyForRent table created." },
-    { keyword: "create table client", msg: "✅ Client table created." },
-    { keyword: "create table privateowner", msg: "✅ PrivateOwner table created." },
-    { keyword: "create table viewing", msg: "✅ Viewing table created." },
-  ];
+function generateSection(table) {
+  return `
+<h3>${table.name} Table</h3>
 
-  checks.forEach(check => {
-    if (answer.includes(check.keyword)) {
-      feedback += check.msg + "\n";
-    }
-  });
+<details><summary><strong>💡 Hint</strong></summary>
+  <div class="hint">${table.hint}</div>
+</details>
 
-  if (feedback === "") {
-    feedback = "❌ Hmm... Your SQL doesn't seem to include recognizable CREATE TABLE statements.";
+<details><summary><strong>👀 Show Sample Answer</strong></summary>
+  <div class="sample">${table.sample}</div>
+</details>
+
+<textarea id="${table.id}" placeholder="Write your CREATE TABLE statement for ${table.name}..."></textarea>
+<button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
+
+<div id="feedback_${table.id}" class="feedback"></div>
+`;
+}
+
+function check(id, name) {
+  const answer = document.getElementById(id).value.toLowerCase();
+  let fb = "";
+
+  if (answer.includes("create table")) {
+    fb += `✅ Your answer includes a CREATE TABLE statement.\n`;
+  } else {
+    fb += `❌ Missing CREATE TABLE keyword.\n`;
   }
 
-  document.getElementById("feedbackArea").textContent = feedback;
+  if (answer.includes("primary key")) {
+    fb += `✅ Primary key included.\n`;
+  } else {
+    fb += `⚠️ Consider including a PRIMARY KEY.\n`;
+  }
+
+  if (answer.includes("foreign key")) {
+    fb += `✅ Foreign key(s) detected.\n`;
+  } else {
+    fb += `ℹ️ If applicable, add FOREIGN KEY constraints.\n`;
+  }
+
+  document.getElementById(`feedback_${id}`).textContent = fb;
 }
 </script>
+
+<div id="exerciseContainer">
+  <script>
+    document.getElementById("exerciseContainer").innerHTML = tables.map(generateSection).join('');
+  </script>
+</div>
 
 </body>
 </html>
