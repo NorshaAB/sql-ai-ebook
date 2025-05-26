@@ -41,13 +41,18 @@
 
 <h2>Activity 4C: Create Tables for SweetHome Database</h2>
 <p><strong>Instructions:</strong> Write <code>CREATE TABLE</code> SQL statements for each of the six tables. Include <strong>PRIMARY KEY</strong> and <strong>FOREIGN KEY</strong> constraints where applicable.</p>
-
+<p>a. Branch (branchNo, street, city, postcode);</p>
+<p>b. Staff (staffNo, fName, lName, position, gender, DOB, salary, branchNo);</p>
+<p>c. PropertyForRent (propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo);</p>
+<p>d. Client (clientNo, fName, lName, telNo, prefType, maxRent, email);</p>
+<p>e. PrivateOwner (ownerNo, fName, lName, address, telNo, email, password);</p>
+<p>f. Viewing (clientNo, propertyNo, viewDate, comments);</p>
 <hr>
 
 <script>
 const tables = [
   {
-    name: "Branch (branchNo, street, city, postcode); | Branch ",
+    name: "Branch ",
     id: "branch",
     hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields."
   },
