@@ -9,7 +9,7 @@
       width: 100%; height: 160px; font-family: monospace;
       border: 1px solid #ccc; padding: 10px; box-sizing: border-box;
     }
-    .feedback, .hint, .sample {
+    .feedback, .hint {
       background: #f9f9f9; padding: 10px;
       border-left: 4px solid #007BFF; margin-top: 10px; white-space: pre-wrap;
     }
@@ -21,16 +21,19 @@
     button:hover {
       background-color: #0056b3;
     }
-    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-    .button-group { margin-top: 5px; }
+    .row { display: flex; gap: 10px; margin-bottom: 5px; }
     h3 { margin-top: 40px; }
-    details summary {
-      cursor: pointer;
-      font-weight: bold;
-    }
     .section-block {
       border: 1px solid #ddd; padding: 15px; margin-bottom: 25px;
       border-radius: 5px; background-color: #fcfcfc;
+    }
+    .icon { font-weight: bold; }
+    .tick { color: green; }
+    .info { color: #007BFF; }
+    .error { color: red; }
+    details summary {
+      cursor: pointer;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -46,88 +49,32 @@ const tables = [
   {
     name: "Branch",
     id: "branch",
-    hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields.",
-    sample: `CREATE TABLE Branch (
-  branchNo VARCHAR(5) PRIMARY KEY,
-  street VARCHAR(50),
-  city VARCHAR(30),
-  postcode VARCHAR(10)
-);`
+    hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields."
   },
   {
     name: "Staff",
     id: "staff",
-    hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo).",
-    sample: `CREATE TABLE Staff (
-  staffNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(30),
-  lName VARCHAR(30),
-  position VARCHAR(30),
-  gender CHAR(1),
-  DOB DATE,
-  salary DECIMAL(10,2),
-  branchNo VARCHAR(5),
-  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
-);`
+    hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo)."
   },
   {
     name: "PropertyForRent",
     id: "property",
-    hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo.",
-    sample: `CREATE TABLE PropertyForRent (
-  propertyNo VARCHAR(5) PRIMARY KEY,
-  type VARCHAR(30),
-  rooms INT,
-  rent DECIMAL(10,2),
-  ownerNo VARCHAR(5),
-  staffNo VARCHAR(5),
-  branchNo VARCHAR(5),
-  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),
-  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),
-  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
-);`
+    hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo."
   },
   {
     name: "Client",
     id: "client",
-    hint: "Use clientNo as PRIMARY KEY. No foreign keys needed.",
-    sample: `CREATE TABLE Client (
-  clientNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(30),
-  lName VARCHAR(30),
-  telNo VARCHAR(15),
-  prefType VARCHAR(30),
-  maxRent DECIMAL(10,2),
-  email VARCHAR(50)
-);`
+    hint: "Use clientNo as PRIMARY KEY. No foreign keys needed."
   },
   {
     name: "PrivateOwner",
     id: "owner",
-    hint: "Use ownerNo as PRIMARY KEY. Include personal contact details.",
-    sample: `CREATE TABLE PrivateOwner (
-  ownerNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(30),
-  lName VARCHAR(30),
-  address VARCHAR(100),
-  telNo VARCHAR(15),
-  email VARCHAR(50),
-  password VARCHAR(20)
-);`
+    hint: "Use ownerNo as PRIMARY KEY. Include personal contact details."
   },
   {
     name: "Viewing",
     id: "viewing",
-    hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent.",
-    sample: `CREATE TABLE Viewing (
-  clientNo VARCHAR(5),
-  propertyNo VARCHAR(5),
-  viewDate DATE,
-  comments TEXT,
-  PRIMARY KEY (clientNo, propertyNo, viewDate),
-  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),
-  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)
-);`
+    hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent."
   }
 ];
 
@@ -137,15 +84,11 @@ function generateSection(table) {
   <h3>${table.name} Table</h3>
   <textarea id="${table.id}" placeholder="Write your CREATE TABLE statement for ${table.name}..."></textarea>
   <div class="row">
-    <div class="button-group">
-      <button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
-      <button onclick="toggleDetails('hint_${table.id}')">💡 Hint</button>
-      <button onclick="toggleDetails('sample_${table.id}')">👀 Sample</button>
-    </div>
+    <button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
+    <button onclick="toggleDetails('hint_${table.id}')">💡 Hint</button>
   </div>
   <div class="feedback" id="feedback_${table.id}"></div>
   <details id="hint_${table.id}" style="display:none;"><summary>Hint</summary><div class="hint">${table.hint}</div></details>
-  <details id="sample_${table.id}" style="display:none;"><summary>Sample Answer</summary><div class="sample">${table.sample}</div></details>
 </div>
 `;
 }
@@ -155,24 +98,24 @@ function check(id, name) {
   let fb = "";
 
   if (answer.includes("create table")) {
-    fb += `✅ Your answer includes a CREATE TABLE statement.\n`;
+    fb += `✅ <span class="tick">Your answer includes a CREATE TABLE statement.</span>\n`;
   } else {
-    fb += `❌ Missing CREATE TABLE keyword.\n`;
+    fb += `❌ <span class="error">Missing CREATE TABLE keyword.</span>\n`;
   }
 
   if (answer.includes("primary key")) {
-    fb += `✅ Primary key included.\n`;
+    fb += `✅ <span class="tick">Primary key included.</span>\n`;
   } else {
-    fb += `⚠️ Consider including a PRIMARY KEY.\n`;
+    fb += `⚠️ <span class="error">Consider including a PRIMARY KEY.</span>\n`;
   }
 
   if (answer.includes("foreign key")) {
-    fb += `✅ Foreign key(s) detected.\n`;
+    fb += `ℹ️ <span class="info">Foreign key(s) detected.</span>\n`;
   } else {
-    fb += `ℹ️ If applicable, add FOREIGN KEY constraints.\n`;
+    fb += `ℹ️ <span class="info">If applicable, add FOREIGN KEY constraints.</span>\n`;
   }
 
-  document.getElementById(`feedback_${id}`).textContent = fb;
+  document.getElementById(`feedback_${id}`).innerHTML = fb;
 }
 
 function toggleDetails(id) {
