@@ -5,11 +5,33 @@
   <title>Activity 4C - SQL Table Creation</title>
   <style>
     body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
-    textarea { width: 100%; height: 160px; margin-bottom: 10px; font-family: monospace; }
-    .feedback, .hint, .sample { background: #f0f0f0; padding: 10px; border-left: 5px solid #444; white-space: pre-wrap; margin-bottom: 15px; }
-    button { padding: 8px 16px; margin: 5px 0; }
+    textarea {
+      width: 100%; height: 160px; font-family: monospace;
+      border: 1px solid #ccc; padding: 10px; box-sizing: border-box;
+    }
+    .feedback, .hint, .sample {
+      background: #f9f9f9; padding: 10px;
+      border-left: 4px solid #007BFF; margin-top: 10px; white-space: pre-wrap;
+    }
+    button {
+      padding: 6px 12px; margin: 5px 5px 5px 0;
+      border: none; cursor: pointer; font-size: 14px;
+      background-color: #007BFF; color: white; border-radius: 4px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+    .button-group { margin-top: 5px; }
     h3 { margin-top: 40px; }
-    details { margin-bottom: 10px; }
+    details summary {
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .section-block {
+      border: 1px solid #ddd; padding: 15px; margin-bottom: 25px;
+      border-radius: 5px; background-color: #fcfcfc;
+    }
   </style>
 </head>
 <body>
@@ -111,20 +133,20 @@ const tables = [
 
 function generateSection(table) {
   return `
-<h3>${table.name} Table</h3>
-
-<details><summary><strong>💡 Hint</strong></summary>
-  <div class="hint">${table.hint}</div>
-</details>
-
-<details><summary><strong>👀 Show Sample Answer</strong></summary>
-  <div class="sample">${table.sample}</div>
-</details>
-
-<textarea id="${table.id}" placeholder="Write your CREATE TABLE statement for ${table.name}..."></textarea>
-<button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
-
-<div id="feedback_${table.id}" class="feedback"></div>
+<div class="section-block">
+  <h3>${table.name} Table</h3>
+  <textarea id="${table.id}" placeholder="Write your CREATE TABLE statement for ${table.name}..."></textarea>
+  <div class="row">
+    <div class="button-group">
+      <button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
+      <button onclick="toggleDetails('hint_${table.id}')">💡 Hint</button>
+      <button onclick="toggleDetails('sample_${table.id}')">👀 Sample</button>
+    </div>
+  </div>
+  <div class="feedback" id="feedback_${table.id}"></div>
+  <details id="hint_${table.id}" style="display:none;"><summary>Hint</summary><div class="hint">${table.hint}</div></details>
+  <details id="sample_${table.id}" style="display:none;"><summary>Sample Answer</summary><div class="sample">${table.sample}</div></details>
+</div>
 `;
 }
 
@@ -151,6 +173,11 @@ function check(id, name) {
   }
 
   document.getElementById(`feedback_${id}`).textContent = fb;
+}
+
+function toggleDetails(id) {
+  const el = document.getElementById(id);
+  el.style.display = el.style.display === "none" ? "block" : "none";
 }
 </script>
 
