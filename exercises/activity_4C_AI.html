@@ -187,18 +187,23 @@
     const prompt = `You are a SQL tutor. Evaluate the following CREATE TABLE statement for syntax, logic, keys, and give feedback if any improvements are needed:\n\n${input}`;
 
     try {
-      const res = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
-        model: model,
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.3
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-          'HTTP-Referer': window.location.href,
-          'X-Title': 'SQL AI Tutor - Activity 4C'
-        }
-      });
+      const res = await axios.post(
+  'https://openrouter.ai/api/v1/chat/completions',
+  {
+    model: 'openai/gpt-3.5-turbo',
+    messages: [{ role: 'user', content: 'Hello!' }],
+  },
+  {
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    }
+  }
+).then(response => {
+  console.log(response.data);
+}).catch(error => {
+  console.error('Error:', error.response ? error.response.data : error.message);
+});
 
       const responseText = res.data.choices[0].message.content;
       responseBox.textContent = responseText;
