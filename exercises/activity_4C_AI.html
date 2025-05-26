@@ -99,23 +99,29 @@ function generateSection(table) {
 }
 
 function check(id, name) {
-  const answer = document.getElementById(id).value.toLowerCase();
+  const answer = document.getElementById(id).value.trim().toLowerCase();
   let fb = "";
 
-  if (answer.includes("create table")) {
+  // Check for CREATE TABLE
+  const createTableRegex = /create\s+table\s+\w+\s*\([\s\S]*\)/;
+  if (createTableRegex.test(answer)) {
     fb += `✅ <span class="tick">Your answer includes a CREATE TABLE statement.</span>\n`;
   } else {
-    fb += `❌ <span class="error">Missing CREATE TABLE keyword.</span>\n`;
+    fb += `❌ <span class="error">Missing or malformed CREATE TABLE syntax.</span>\n`;
   }
 
-  if (answer.includes("primary key")) {
-    fb += `✅ <span class="tick">Primary key included.</span>\n`;
+  // Check for PRIMARY KEY inside parentheses
+  const pkRegexInline = /[\s\S]*\([\s\S]*primary\s+key\s*\(\s*\w+(\s*,\s*\w+)*\s*\)[\s\S]*\)/;
+  if (pkRegexInline.test(answer)) {
+    fb += `✅ <span class="tick">Primary key correctly declared.</span>\n`;
   } else {
-    fb += `⚠️ <span class="error">Consider including a PRIMARY KEY.</span>\n`;
+    fb += `❌ <span class="error">Primary key is missing or incorrectly formatted.</span>\n`;
   }
 
-  if (answer.includes("foreign key")) {
-    fb += `ℹ️ <span class="info">Foreign key(s) detected.</span>\n`;
+  // Check for FOREIGN KEY declaration (not mandatory)
+  const fkRegex = /foreign\s+key\s*\(\s*\w+\s*\)\s+references\s+\w+\s*\(\s*\w+\s*\)/;
+  if (fkRegex.test(answer)) {
+    fb += `✅ <span class="tick">Foreign key correctly declared.</span>\n`;
   } else {
     fb += `ℹ️ <span class="info">If applicable, add FOREIGN KEY constraints.</span>\n`;
   }
