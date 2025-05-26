@@ -22,6 +22,25 @@
       margin: auto;
       border-left: 6px solid #0d6efd;
     }
+    .api-key-container {
+      margin-bottom: 2rem;
+      padding: 1rem;
+      background-color: #f5f5f5;
+      border-radius: 6px;
+    }
+    .api-key-input {
+      width: 300px;
+      padding: 8px;
+      margin-right: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .model-selector {
+      padding: 8px;
+      margin-left: 10px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
     h2, h4 {
       color: #0d6efd;
     }
@@ -67,6 +86,19 @@
 <body>
 
 <div class="activity-section" id="activity-4c">
+  <div class="api-key-container">
+    <h3>OpenRouter Configuration</h3>
+    <input type="password" class="api-key-input" placeholder="Enter OpenRouter API Key">
+    <select class="model-selector">
+      <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo</option>
+      <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
+      <option value="google/gemini-pro">Gemini Pro</option>
+      <option value="mistralai/mistral-7b-instruct">Mistral 7B</option>
+    </select>
+    <button onclick="saveConfig()">Save Settings</button>
+    <p><small>Your API key is stored locally in your browser only.</small></p>
+  </div>
+
   <h2>Activity 4C – SQL CREATE TABLE for SweetHome Case</h2>
   <p><strong>Instructions:</strong> Write one <code>CREATE TABLE</code> statement at a time and click submit to get feedback. Repeat for each table:</p>
 
@@ -114,41 +146,6 @@
 </div>
 
 <script>
-  async function submitSQL(id) {
-    const input = document.getElementById(`sql-input-${id}`).value;
-    const responseBox = document.getElementById(`sql-response-${id}`);
-    responseBox.textContent = "Thinking...";
-
-    const apiKey = localStorage.getItem('openrouter_key');
-    const model = localStorage.getItem('ai_model') || 'openai/gpt-3.5-turbo';
-
-    if (!apiKey) {
-      responseBox.textContent = "Error: API key not found. Please configure it in Activity 4E.";
-      return;
-    }
-
-    const prompt = `You are a SQL tutor. Evaluate the following CREATE TABLE statement for syntax, logic, keys, and give feedback if any improvements are needed:\n\n${input}`;
-
-    try {
-      const res = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
-        model: model,
-        messages: [{ role: "user", content: prompt }],
-        temperature: 0.3
-      }, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${apiKey}`,
-          'HTTP-Referer': window.location.href,
-          'X-Title': 'SQL AI Tutor - Activity 4C'
-        }
-      });
-
-      const responseText = res.data.choices[0].message.content;
-      responseBox.textContent = responseText;
-
-    } catch (error) {
-      console.error(error);
-      responseBox.textContent = "Error: " + (error.response?.data?.error?.message || error.message);
-    }
-  }
-<
+  function loadConfig() {
+    const savedKey = localStorage.getItem('openrouter_key');
+    const savedModel = localStorage.getItem
