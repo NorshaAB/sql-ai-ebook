@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 4C – GenAI SQL Tutor</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 2rem;
+    }
+    .activity-section {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 800px;
+      margin: auto;
+    }
+    textarea {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .response-box {
+      margin-top: 1rem;
+      background: #eef;
+      padding: 1rem;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+
+<div class="activity-section" id="activity-4c">
+  <h2>Activity 4C – SQL CREATE TABLE for SweetHome Case</h2>
+  <p><strong>Instructions:</strong> Write SQL <code>CREATE TABLE</code> statements for the following entities based on the SweetHome case:</p>
+  <ul>
+    <li><code>Branch(branchNo, street, city, postcode)</code></li>
+    <li><code>Staff(staffNo, fName, lName, position, gender, DOB, salary, branchNo)</code></li>
+    <li><code>PropertyForRent(propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo)</code></li>
+    <li><code>Client(clientNo, fName, lName, telNo, prefType, maxRent, email)</code></li>
+    <li><code>PrivateOwner(ownerNo, fName, lName, address, telNo, email, password)</code></li>
+    <li><code>Viewing(clientNo, propertyNo, viewDate, comments)</code></li>
+  </ul>
+  <textarea id="sql-input-4c" rows="12" placeholder="Write your SQL CREATE TABLE statements here..."></textarea>
+  <button onclick="submitSQL('4c')">Submit to AI Tutor</button>
+  <pre id="sql-response-4c" class="response-box"></pre>
+</div>
+
+<script>
+  async function submitSQL(activityId) {
+    const input = document.getElementById(`sql-input-${activityId}`).value;
+    const responseBox = document.getElementById(`sql-response-${activityId}`);
+    responseBox.textContent = "Thinking...";
+
+    const prompt = `You are an AI SQL tutor. Evaluate the following SQL code written by a student for Activity ${activityId}, which requires creating tables for the SweetHome case. Give feedback on syntax, logic, foreign keys, and data types:\n\n${input}`;
+
+    try {
+      const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer YOUR_API_KEY",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          model: "openai/gpt-4",
+          messages: [{ role: "user", content: prompt }]
+        })
+      });
+
+      const data = await res.json();
+      responseBox.textContent = data.choices[0].message.content;
+    } catch (error) {
+      responseBox.textContent = "Error: " + error.message;
+    }
+  }
+</script>
+
+</body>
+</html>
