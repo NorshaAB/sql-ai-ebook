@@ -1,214 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Activity 4C – GenAI SQL Tutor</title>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <title>Activity 4C - SQL Table Creation</title>
   <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 2rem;
-    }
-    .activity-section {
-      background: #ffffff;
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      max-width: 900px;
-      margin: auto;
-      border-left: 6px solid #0d6efd;
-    }
-    .api-key-container {
-      margin-bottom: 2rem;
-      padding: 1rem;
-      background-color: #f5f5f5;
-      border-radius: 6px;
-    }
-    .api-key-input {
-      width: 300px;
-      padding: 8px;
-      margin-right: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-    }
-    .model-selector {
-      padding: 8px;
-      margin-left: 10px;
-      border-radius: 4px;
-      border: 1px solid #ddd;
-    }
-    h2, h4 {
-      color: #0d6efd;
-    }
-    textarea {
-      width: 100%;
-      margin-top: 0.5rem;
-      padding: 1rem;
-      font-family: monospace;
-      font-size: 0.95rem;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      resize: vertical;
-    }
-    button {
-      margin-top: 0.5rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 1rem;
-      background-color: #0d6efd;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #0b5ed7;
-    }
-    .response-box {
-      margin-top: 0.5rem;
-      background: #f8f9fa;
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 5px;
-      font-size: 0.95rem;
-      white-space: pre-wrap;
-      color: #333;
-    }
-    .exercise {
-      margin-bottom: 2rem;
-    }
+    body { font-family: Arial; margin: 30px; }
+    textarea { width: 100%; height: 250px; font-family: monospace; }
+    .feedback { padding: 10px; background: #f0f0f0; border-left: 5px solid #333; margin-top: 10px; white-space: pre-wrap; }
+    button { margin-top: 10px; padding: 10px 20px; }
   </style>
 </head>
 <body>
 
-<div class="activity-section" id="activity-4c">
-  <div class="api-key-container">
-    <h3>OpenRouter Configuration</h3>
-    <input type="password" class="api-key-input" placeholder="Enter OpenRouter API Key">
-    <select class="model-selector">
-      <option value="openai/gpt-3.5-turbo">GPT-3.5 Turbo</option>
-      <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
-      <option value="google/gemini-pro">Gemini Pro</option>
-      <option value="mistralai/mistral-7b-instruct">Mistral 7B</option>
-    </select>
-    <button onclick="saveConfig()">Save Settings</button>
-    <p><small>Your API key is stored locally in your browser only.</small></p>
-  </div>
+<h2>Activity 4C: Create Tables for SweetHome Database</h2>
 
-  <h2>Activity 4C – SQL CREATE TABLE for SweetHome Case</h2>
-  <p><strong>Instructions:</strong> Write one <code>CREATE TABLE</code> statement at a time and click submit to get feedback. Repeat for each table:</p>
+<p><strong>Instructions:</strong> Write SQL <code>CREATE TABLE</code> statements for the following tables using suitable data types and constraints. Include primary and foreign keys.</p>
 
-  <div class="exercise">
-    <h4>1. Branch Table</h4>
-    <textarea id="sql-input-branch" rows="6" placeholder="Write CREATE TABLE for Branch..."></textarea>
-    <button onclick="submitSQL('branch')">Submit Branch</button>
-    <pre id="sql-response-branch" class="response-box"></pre>
-  </div>
+<pre>
+Branch (branchNo, street, city, postcode) 
+Staff (staffNo, fName, lName, position, gender, DOB, salary, branchNo) 
+PropertyForRent (propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo) 
+Client (clientNo, fName, lName, telNo, prefType, maxRent, email) 
+PrivateOwner (ownerNo, fName, lName, address, telNo, email, password) 
+Viewing (clientNo, propertyNo, viewDate, comments) 
+</pre>
 
-  <div class="exercise">
-    <h4>2. Staff Table</h4>
-    <textarea id="sql-input-staff" rows="6" placeholder="Write CREATE TABLE for Staff..."></textarea>
-    <button onclick="submitSQL('staff')">Submit Staff</button>
-    <pre id="sql-response-staff" class="response-box"></pre>
-  </div>
+<textarea id="userSQL" placeholder="Write your SQL CREATE TABLE statements here..."></textarea>
+<br>
+<button onclick="checkSQL()">Check Answer</button>
 
-  <div class="exercise">
-    <h4>3. PropertyForRent Table</h4>
-    <textarea id="sql-input-property" rows="6" placeholder="Write CREATE TABLE for PropertyForRent..."></textarea>
-    <button onclick="submitSQL('property')">Submit PropertyForRent</button>
-    <pre id="sql-response-property" class="response-box"></pre>
-  </div>
-
-  <div class="exercise">
-    <h4>4. Client Table</h4>
-    <textarea id="sql-input-client" rows="6" placeholder="Write CREATE TABLE for Client..."></textarea>
-    <button onclick="submitSQL('client')">Submit Client</button>
-    <pre id="sql-response-client" class="response-box"></pre>
-  </div>
-
-  <div class="exercise">
-    <h4>5. PrivateOwner Table</h4>
-    <textarea id="sql-input-owner" rows="6" placeholder="Write CREATE TABLE for PrivateOwner..."></textarea>
-    <button onclick="submitSQL('owner')">Submit PrivateOwner</button>
-    <pre id="sql-response-owner" class="response-box"></pre>
-  </div>
-
-  <div class="exercise">
-    <h4>6. Viewing Table</h4>
-    <textarea id="sql-input-viewing" rows="6" placeholder="Write CREATE TABLE for Viewing..."></textarea>
-    <button onclick="submitSQL('viewing')">Submit Viewing</button>
-    <pre id="sql-response-viewing" class="response-box"></pre>
-  </div>
-</div>
+<div class="feedback" id="feedbackArea"></div>
 
 <script>
-  function loadConfig() {
-    const savedKey = localStorage.getItem('openrouter_key');
-    const savedModel = localStorage.getItem('ai_model');
+function checkSQL() {
+  const answer = document.getElementById("userSQL").value.toLowerCase();
+  let feedback = "";
 
-    if (savedKey) {
-      document.querySelector('.api-key-input').value = savedKey;
+  const checks = [
+    { keyword: "create table branch", msg: "✅ Branch table detected." },
+    { keyword: "branchno", msg: "✅ branchNo column detected." },
+    { keyword: "primary key", msg: "✅ Primary key included." },
+    { keyword: "foreign key", msg: "✅ Foreign key constraint found." },
+    { keyword: "create table staff", msg: "✅ Staff table created." },
+    { keyword: "create table propertyforrent", msg: "✅ PropertyForRent table created." },
+    { keyword: "create table client", msg: "✅ Client table created." },
+    { keyword: "create table privateowner", msg: "✅ PrivateOwner table created." },
+    { keyword: "create table viewing", msg: "✅ Viewing table created." },
+  ];
+
+  checks.forEach(check => {
+    if (answer.includes(check.keyword)) {
+      feedback += check.msg + "\n";
     }
-    if (savedModel) {
-      document.querySelector('.model-selector').value = savedModel;
-    }
+  });
+
+  if (feedback === "") {
+    feedback = "❌ Hmm... Your SQL doesn't seem to include recognizable CREATE TABLE statements.";
   }
 
-  function saveConfig() {
-    const apiKey = document.querySelector('.api-key-input').value.trim();
-    const model = document.querySelector('.model-selector').value;
-
-    if (apiKey) {
-      localStorage.setItem('openrouter_key', apiKey);
-      localStorage.setItem('ai_model', model);
-      alert('Configuration saved successfully!');
-    } else {
-      alert('Please enter your OpenRouter API key');
-    }
-  }
-
-  async function submitSQL(id) {
-    const input = document.getElementById(`sql-input-${id}`).value;
-    const responseBox = document.getElementById(`sql-response-${id}`);
-    responseBox.textContent = "Thinking...";
-
-    const apiKey = localStorage.getItem('openrouter_key');
-    const model = localStorage.getItem('ai_model') || 'openai/gpt-3.5-turbo';
-
-    if (!apiKey) {
-      responseBox.textContent = "Error: API key not found. Please configure it above.";
-      return;
-    }
-
-    const prompt = `You are a SQL tutor. Evaluate the following CREATE TABLE statement for syntax, logic, keys, and give feedback if any improvements are needed:\n\n${input}`;
-
-    try {
-      const res = await axios.post(
-  'https://openrouter.ai/api/v1/chat/completions',
-  {
-    model: 'openai/gpt-3.5-turbo',
-    messages: [{ role: 'user', content: 'Hello!' }],
-  },
-  {
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-    }
-  }
-).then(response => {
-  console.log(response.data);
-}).catch(error => {
-  console.error('Error:', error.response ? error.response.data : error.message);
-});
-
-      const responseText = res.data.choices[0].message.content;
-      responseBox.textContent = responseText;
-
-    } catch (error) {
-  console.error(error);
-  responseBox.textContent = "An error occurred while processing your request.";
+  document.getElementById("feedbackArea").textContent = feedback;
 }
+</script>
+
+</body>
+</html>
