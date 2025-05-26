@@ -66,46 +66,46 @@
 <body>
 
 <div class="activity-section" id="activity-4c">
-  <h2>Activity 4C – SQL CREATE TABLE for SweetHome Case</h2>
-  <p><strong>Instructions:</strong> Write one <code>CREATE TABLE</code> statement at a time and click submit to get feedback. Repeat for each table:</p>
+  <h2>Activity 4C: SweetHome Case Database</h2>
+  <p><strong>Instructions:</strong> Write SQL code statements on <code>CREATE TABLE</code> for each given database statement :</p>
 
   <div class="exercise">
-    <h4>1. Branch Table</h4>
+    <h4>1. Branch Table | Branch (branchNo, street, city, postcode); Primary Key - branchNo</h4>
     <textarea id="sql-input-branch" rows="6" placeholder="Write CREATE TABLE for Branch..."></textarea>
     <button onclick="submitSQL('branch')">Submit Branch</button>
     <pre id="sql-response-branch" class="response-box"></pre>
   </div>
 
   <div class="exercise">
-    <h4>2. Staff Table</h4>
+    <h4>2. Staff Table | Staff (staffNo, fName, lName, position, gender, DOB, salary, branchNo); Primary Key - staffNo, Foreign Key - branchNo </h4>
     <textarea id="sql-input-staff" rows="6" placeholder="Write CREATE TABLE for Staff..."></textarea>
     <button onclick="submitSQL('staff')">Submit Staff</button>
     <pre id="sql-response-staff" class="response-box"></pre>
   </div>
 
   <div class="exercise">
-    <h4>3. PropertyForRent Table</h4>
+    <h4>3. PropertyForRent Table | PropertyForRent (propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo); Primary Key - propertyNo, Foreign Key - branchNo, ownerNo, staffNo</h4>
     <textarea id="sql-input-property" rows="6" placeholder="Write CREATE TABLE for PropertyForRent..."></textarea>
     <button onclick="submitSQL('property')">Submit PropertyForRent</button>
     <pre id="sql-response-property" class="response-box"></pre>
   </div>
 
   <div class="exercise">
-    <h4>4. Client Table</h4>
+    <h4>4. Client Table | Client (clientNo, fName, lName, telNo, prefType, maxRent, email); Primary Key - clientNo</h4>
     <textarea id="sql-input-client" rows="6" placeholder="Write CREATE TABLE for Client..."></textarea>
     <button onclick="submitSQL('client')">Submit Client</button>
     <pre id="sql-response-client" class="response-box"></pre>
   </div>
 
   <div class="exercise">
-    <h4>5. PrivateOwner Table</h4>
+    <h4>5. PrivateOwner Table | PrivateOwner (ownerNo, fName, lName, address, telNo, email, password); Primary Key - ownerNo</h4>
     <textarea id="sql-input-owner" rows="6" placeholder="Write CREATE TABLE for PrivateOwner..."></textarea>
     <button onclick="submitSQL('owner')">Submit PrivateOwner</button>
     <pre id="sql-response-owner" class="response-box"></pre>
   </div>
 
   <div class="exercise">
-    <h4>6. Viewing Table</h4>
+    <h4>6. Viewing Table | Viewing (clientNo, propertyNo, viewDate, comments); Foreign Key - clientNo, propertyNo</h4>
     <textarea id="sql-input-viewing" rows="6" placeholder="Write CREATE TABLE for Viewing..."></textarea>
     <button onclick="submitSQL('viewing')">Submit Viewing</button>
     <pre id="sql-response-viewing" class="response-box"></pre>
