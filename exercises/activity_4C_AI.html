@@ -2,38 +2,26 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Activity 4C - SQL Table Creation</title>
+  <title>Activity 4C: AI SQL Checker</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; line-height: 1.6; }
+    body { font-family: Arial, sans-serif; margin: 30px; }
     textarea {
-      width: 100%; height: 160px; font-family: monospace;
-      border: 1px solid #ccc; padding: 10px; box-sizing: border-box;
+      width: 100%; height: 180px; font-family: monospace;
+      border: 1px solid #ccc; padding: 10px;
     }
-    .feedback, .hint {
-      background: #f9f9f9; padding: 10px;
-      border-left: 4px solid #007BFF; margin-top: 10px; white-space: pre-wrap;
+    .feedback {
+      margin-top: 10px; padding: 10px;
+      background: #f9f9f9; border-left: 4px solid #007BFF; white-space: pre-wrap;
     }
     button {
-      padding: 6px 12px; margin: 5px 5px 5px 0;
-      border: none; cursor: pointer; font-size: 14px;
-      background-color: #007BFF; color: white; border-radius: 4px;
+      margin-top: 10px; margin-right: 8px;
+      padding: 8px 16px; border: none; border-radius: 4px;
+      background: #007BFF; color: white; cursor: pointer;
     }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .row { display: flex; gap: 10px; margin-bottom: 5px; }
-    h3 { margin-top: 40px; }
-    .section-block {
-      border: 1px solid #ddd; padding: 15px; margin-bottom: 25px;
-      border-radius: 5px; background-color: #fcfcfc;
-    }
+    button:hover { background: #0056b3; }
     .tick { color: green; }
-    .info { color: #007BFF; }
     .error { color: red; }
-    details summary {
-      cursor: pointer;
-      font-weight: bold;
-    }
+    .info { color: #007BFF; }
   </style>
 </head>
 <body>
@@ -46,75 +34,75 @@
 <p>d. Client (clientNo, fName, lName, telNo, prefType, maxRent, email);</p>
 <p>e. PrivateOwner (ownerNo, fName, lName, address, telNo, email, password);</p>
 <p>f. Viewing (clientNo, propertyNo, viewDate, comments);</p>
-<hr>
+
+<textarea id="userSQL" placeholder="Write your CREATE TABLE statement here..."></textarea><br>
+
+<button onclick="checkRegex()">Check Answer</button>
+<button onclick="checkWithAI()">💬 Check with AI</button>
+<button onclick="toggleHint()">💡 Hint</button>
+
+<div class="feedback" id="feedback"></div>
+<div class="feedback" id="aiFeedback" style="display:none;"></div>
+<div class="feedback" id="hint" style="display:none;">
+Use branchNo as PRIMARY KEY.<br/>
+Include street, city, and postcode with VARCHAR type.
+</div>
 
 <script>
-const tables = [
-  { name: "Branch", id: "branch", hint: "Use branchNo as PRIMARY KEY. Include street, city, postcode as VARCHAR fields." },
-  { name: "Staff", id: "staff", hint: "Use staffNo as PRIMARY KEY. Include foreign key branchNo referencing Branch(branchNo)." },
-  { name: "PropertyForRent", id: "property", hint: "Use propertyNo as PRIMARY KEY. Use foreign keys: ownerNo, staffNo, branchNo." },
-  { name: "Client", id: "client", hint: "Use clientNo as PRIMARY KEY. No foreign keys needed." },
-  { name: "PrivateOwner", id: "owner", hint: "Use ownerNo as PRIMARY KEY. Include personal contact details." },
-  { name: "Viewing", id: "viewing", hint: "Composite PRIMARY KEY (clientNo, propertyNo, viewDate). Foreign keys to Client and PropertyForRent." }
-];
-
-function generateSection(table) {
-  return `
-<div class="section-block">
-  <h3>${table.name} Table</h3>
-  <textarea id="${table.id}" placeholder="Write your CREATE TABLE statement for ${table.name}..."></textarea>
-  <div class="row">
-    <button onclick="check('${table.id}', '${table.name}')">Check Answer</button>
-    <button onclick="toggleDetails('hint_${table.id}')">💡 Hint</button>
-  </div>
-  <div class="feedback" id="feedback_${table.id}"></div>
-  <details id="hint_${table.id}" style="display:none;"><summary>Hint</summary><div class="hint">${table.hint}</div></details>
-</div>
-`;
+function toggleHint() {
+  const hintBox = document.getElementById("hint");
+  hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
 }
 
-function check(id, name) {
-  const answer = document.getElementById(id).value.trim().toLowerCase();
+function checkRegex() {
+  const answer = document.getElementById("userSQL").value.toLowerCase();
   let fb = "";
 
-  // 1. CREATE TABLE detection
-  const createTableRegex = /create\s+table\s+\w+\s*\([\s\S]*\)/;
-  if (createTableRegex.test(answer)) {
-    fb += `✅ <span class="tick">Your answer includes a CREATE TABLE statement.</span>\n`;
-  } else {
-    fb += `❌ <span class="error">Missing or malformed CREATE TABLE syntax.</span>\n`;
-  }
+  const createTable = /create\s+table\s+\w+\s*\([\s\S]*\)/;
+  const primaryKey = /\([\s\S]*primary\s+key\s*\(\s*\w+(\s*,\s*\w+)*\s*\)[\s\S]*\)/;
+  const foreignKey = /foreign\s+key\s*\(\s*\w+\s*\)\s+references\s+\w+\s*\(\s*\w+\s*\)/;
 
-  // 2. PRIMARY KEY must be in correct position and syntax
-  const pkCorrectSyntax = /[\s\S]*\([\s\S]*primary\s+key\s*\(\s*\w+(\s*,\s*\w+)*\s*\)[\s\S]*\)/;
-  if (pkCorrectSyntax.test(answer)) {
-    fb += `✅ <span class="tick">Primary key correctly declared.</span>\n`;
-  } else {
-    fb += `❌ <span class="error">Primary key is missing or incorrectly formatted.</span>\n`;
-  }
+  fb += createTable.test(answer) ? "✅ <span class='tick'>Valid CREATE TABLE syntax.</span>\n"
+                                 : "❌ <span class='error'>Missing or incorrect CREATE TABLE syntax.</span>\n";
+  fb += primaryKey.test(answer) ? "✅ <span class='tick'>PRIMARY KEY correctly formatted.</span>\n"
+                                : "❌ <span class='error'>Missing or malformed PRIMARY KEY.</span>\n";
+  fb += foreignKey.test(answer) ? "✅ <span class='tick'>FOREIGN KEY detected.</span>\n"
+                                : "ℹ️ <span class='info'>If applicable, add FOREIGN KEY constraints.</span>\n";
 
-  // 3. FOREIGN KEY structure validation
-  const fkRegex = /foreign\s+key\s*\(\s*\w+\s*\)\s+references\s+\w+\s*\(\s*\w+\s*\)/;
-  if (fkRegex.test(answer)) {
-    fb += `✅ <span class="tick">Foreign key correctly declared.</span>\n`;
-  } else {
-    fb += `ℹ️ <span class="info">If applicable, add FOREIGN KEY constraints.</span>\n`;
-  }
-
-  document.getElementById(`feedback_${id}`).innerHTML = fb;
+  document.getElementById("feedback").innerHTML = fb;
 }
 
-function toggleDetails(id) {
-  const el = document.getElementById(id);
-  el.style.display = el.style.display === "none" ? "block" : "none";
+async function checkWithAI() {
+  const userSQL = document.getElementById("userSQL").value;
+  const feedbackBox = document.getElementById("aiFeedback");
+  feedbackBox.style.display = "block";
+  feedbackBox.innerHTML = "⏳ Asking AI for feedback...";
+
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer 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",  // 🔁 Replace this with your own key
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-4",  // you may change to "google/gemini-pro" or others
+      messages: [
+        {
+          role: "system",
+          content: "You are a strict but helpful SQL tutor. Check the student's SQL statement for syntax, logic, and structure. Offer improvements and corrections."
+        },
+        {
+          role: "user",
+          content: `Please review this SQL:\n\n${userSQL}`
+        }
+      ]
+    })
+  });
+
+  const data = await response.json();
+  feedbackBox.innerHTML = data?.choices?.[0]?.message?.content || "⚠️ No response from AI.";
 }
 </script>
-
-<div id="exerciseContainer">
-  <script>
-    document.getElementById("exerciseContainer").innerHTML = tables.map(generateSection).join('');
-  </script>
-</div>
 
 </body>
 </html>
