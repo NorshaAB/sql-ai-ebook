@@ -62,7 +62,7 @@ async function checkWithAI() {
       console.warn("Response received but no usable AI reply:", data); // More debug info
     }
   } catch (error) {
-    feedbackBox.innerHTML = `❌ Error: ${error.message}`;  // ✅ Show detailed error
+    feedbackBox.innerHTML = `❌ Error: ${error.message}`; // ✅ Show detailed error
     console.error("Fetch failed:", error);  // 🔍 This will print the real issue in browser console
   }
 }
