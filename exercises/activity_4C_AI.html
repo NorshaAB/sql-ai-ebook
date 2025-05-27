@@ -23,8 +23,8 @@
 <p>f. Viewing (clientNo, propertyNo, viewDate, comments);</p>
 
 <textarea id="userSQL" placeholder="Write your SQL here..."></textarea><br>
-<button id="checkBtn">💬 Check with AI</button>
-<button id="hintBtn">💡 Hint</button>
+<button onclick="checkWithAI()">💬 Check with AI</button>
+<button onclick="toggleHint()">💡 Hint</button>
 
 <div class="feedback" id="aiFeedback">AI feedback will appear here...</div>
 <div class="feedback" id="hintBox" style="display:none;">
@@ -33,44 +33,42 @@ Include <code>street</code>, <code>city</code>, and <code>postcode</code> as VAR
 </div>
 
 <script>
-document.getElementById("hintBtn").addEventListener("click", () => {
-  const hint = document.getElementById("hintBox");
-  hint.style.display = hint.style.display === "none" ? "block" : "none";
-});
+function toggleHint() {
+  const hintBox = document.getElementById("hintBox");
+  hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
+}
 
-document.getElementById("checkBtn").addEventListener("click", async () => {
+async function checkWithAI() {
   const userSQL = document.getElementById("userSQL").value;
-  const feedback = document.getElementById("aiFeedback");
-  feedback.innerHTML = "⏳ Checking with AI...";
+  const feedbackBox = document.getElementById("aiFeedback");
+  feedbackBox.innerHTML = "⏳ Checking with AI...";
 
   try {
-    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    const res = await fetch("https://openrouter-proxy-norshaab.onrender.com/ai", {
       method: "POST",
-      headers: {
-        "Authorization": "Bearer 
-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", // INSERT YOUR KEY HERE
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "openai/gpt-4",
         messages: [
-          { role: "system", content: "You are a strict SQL tutor. Analyze the SQL and provide corrections or feedback." },
-          { role: "user", content: `Check this SQL and give feedback:\n\n${userSQL}` }
+          { role: "system", content: "You are a helpful SQL tutor..." },
+          { role: "user", content: `Check this SQL:\n\n${userSQL}` }
         ]
       })
     });
 
     const data = await res.json();
     if (data.choices && data.choices[0]) {
-      feedback.innerHTML = data.choices[0].message.content;
+      feedbackBox.innerHTML = data.choices[0].message.content;
     } else {
-      feedback.innerHTML = "⚠️ No response from AI.<br><pre>" + JSON.stringify(data, null, 2) + "</pre>";
+      feedbackBox.innerHTML = "⚠️ No response from AI.";
     }
   } catch (error) {
-    feedback.innerHTML = `❌ Error: ${error.message}`;
+    feedbackBox.innerHTML = `❌ Error: ${error.message}`;
   }
-});
+}
 </script>
 
 </body>
 </html>
+
+Add AI-enhanced SQL checker for Activity 4C
