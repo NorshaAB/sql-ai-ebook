@@ -42,6 +42,8 @@ button.collapsible.active + .hint-content {
 
   </style>
 </head>
+
+  
 <body>
 
 <h1>Activity 4E: CAR Database</h1>
@@ -282,17 +284,17 @@ and register_date date</p>
 </ol>
   
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const collabs = document.querySelectorAll(".collapsible");
-  collabs.forEach(btn => {
-    btn.addEventListener("click", function () {
-      const content = this.closest('li').querySelector(".hint-content");
-      if (content) {
-        content.style.display = content.style.display === "block" ? "none" : "block";
-      }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll(".collapsible").forEach(button => {
+      button.addEventListener("click", function () {
+        this.classList.toggle("active");
+        const content = this.nextElementSibling;
+        if (content && content.classList.contains("hint-content")) {
+          content.style.display = content.style.display === "block" ? "none" : "block";
+        }
+      });
     });
   });
-});
 </script>
   
 </body>
