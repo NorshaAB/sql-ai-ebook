@@ -34,18 +34,13 @@ Include <code>street</code>, <code>city</code>, and <code>postcode</code> as VAR
 </div>
 
 <script>
-function toggleHint() {
-  const hintBox = document.getElementById("hintBox");
-  hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
-}
-
 async function checkWithAI() {
   const userSQL = document.getElementById("userSQL").value;
   const feedbackBox = document.getElementById("aiFeedback");
   feedbackBox.innerHTML = "⏳ Checking with AI...";
 
   try {
-    const res = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+    const res = await fetch("https://openrouter-proxy-norshaab.onrender.com/ai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -58,7 +53,8 @@ async function checkWithAI() {
     });
 
     const data = await res.json();
-    if (data.choices && data.choices[0]) {
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
       feedbackBox.innerHTML = data.choices[0].message.content;
     } else {
       feedbackBox.innerHTML = "⚠️ No response from AI.";
@@ -68,8 +64,3 @@ async function checkWithAI() {
   }
 }
 </script>
-
-</body>
-</html>
-
-Add AI-enhanced SQL checker for Activity 4C
