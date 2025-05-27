@@ -39,6 +39,8 @@ async function checkWithAI() {
   const feedbackBox = document.getElementById("aiFeedback");
   feedbackBox.innerHTML = "⏳ Checking with AI...";
 
+  console.log("Sending to AI:", userSQL); // 🔍 This line helps you debug
+
   try {
     const res = await fetch("https://openrouter-proxy-norshaab.onrender.com/ai", {
       method: "POST",
@@ -47,20 +49,22 @@ async function checkWithAI() {
         model: "openai/gpt-4",
         messages: [
           { role: "system", content: "You are a helpful SQL tutor..." },
-          { role: "user", content: `Check this SQL:\n\n${userSQL}` }
+          { role: "user", content: `Check this SQL:\n\n${userSQL}` }  // ✅ backticks here!
         ]
       })
     });
 
     const data = await res.json();
-
-    if (data.choices && data.choices[0] && data.choices[0].message) {
+    if (data.choices && data.choices[0]) {
       feedbackBox.innerHTML = data.choices[0].message.content;
     } else {
       feedbackBox.innerHTML = "⚠️ No response from AI.";
+      console.warn("Response received but no usable AI reply:", data); // More debug info
     }
   } catch (error) {
-    feedbackBox.innerHTML = `❌ Error: ${error.message}`;
+    feedbackBox.innerHTML = `❌ Error: ${error.message}`;  // ✅ Show detailed error
+    console.error("Fetch failed:", error);  // 🔍 This will print the real issue in browser console
   }
 }
 </script>
+
