@@ -284,17 +284,39 @@ and register_date date</p>
 </ol>
   
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll(".collapsible").forEach(button => {
-      button.addEventListener("click", function () {
-        this.classList.toggle("active");
-        const content = this.nextElementSibling;
-        if (content && content.classList.contains("hint-content")) {
-          content.style.display = content.style.display === "block" ? "none" : "block";
-        }
-      });
+function toggleHint() {
+  const hintBox = document.getElementById("hintBox");
+  hintBox.style.display = hintBox.style.display === "none" ? "block" : "none";
+}
+
+async function checkWithAI() {
+  const userSQL = document.getElementById("userSQL").value;
+  const feedbackBox = document.getElementById("aiFeedback");
+  feedbackBox.innerHTML = "⏳ Checking with AI...";
+
+  try {
+    const res = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "openai/gpt-4",
+        messages: [
+          { role: "system", content: "You are a helpful SQL tutor..." },
+          { role: "user", content: `Check this SQL:\n\n${userSQL}` }
+        ]
+      })
     });
-  });
+
+    const data = await res.json();
+    if (data.choices && data.choices[0]) {
+      feedbackBox.innerHTML = data.choices[0].message.content;
+    } else {
+      feedbackBox.innerHTML = "⚠️ No response from AI.";
+    }
+  } catch (error) {
+    feedbackBox.innerHTML = `❌ Error: ${error.message}`;
+  }
+}
 </script>
   
 </body>
