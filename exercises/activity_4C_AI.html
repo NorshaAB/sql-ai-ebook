@@ -78,30 +78,34 @@ async function checkWithAI() {
   feedbackBox.style.display = "block";
   feedbackBox.innerHTML = "⏳ Asking AI for feedback...";
 
-  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Authorization": "Bearer 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",  // 🔁 Replace this with your own key
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model: "openai/gpt-4",  // you may change to "google/gemini-pro" or others
-      messages: [
-        {
-          role: "system",
-          content: "You are a strict but helpful SQL tutor. Check the student's SQL statement for syntax, logic, and structure. Offer improvements and corrections."
-        },
-        {
-          role: "user",
-          content: `Please review this SQL:\n\n${userSQL}`
-        }
-      ]
-    })
-  });
+  try {
+    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Authorization": "Bearer YOUR_OPENROUTER_API_KEY",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "openai/gpt-4",  // or "google/gemini-pro", etc.
+        messages: [
+          { role: "system", content: "You are a helpful SQL tutor..." },
+          { role: "user", content: `Please review this SQL:\n\n${userSQL}` }
+        ]
+      })
+    });
 
-  const data = await response.json();
-  feedbackBox.innerHTML = data?.choices?.[0]?.message?.content || "⚠️ No response from AI.";
+    const data = await response.json();
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
+      feedbackBox.innerHTML = `<div class="feedback">${data.choices[0].message.content}</div>`;
+    } else {
+      feedbackBox.innerHTML = `⚠️ No response from AI.<br/><pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+  } catch (err) {
+    feedbackBox.innerHTML = `❌ Request failed: ${err.message}`;
+  }
 }
+
 </script>
 
 </body>
