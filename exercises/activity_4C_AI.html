@@ -38,32 +38,33 @@ async function checkWithAI() {
   const userSQL = document.getElementById("userSQL").value;
   const feedbackBox = document.getElementById("aiFeedback");
   feedbackBox.innerHTML = "⏳ Checking with AI...";
-
-  console.log("Sending to AI:", userSQL); // 🔍 This line helps you debug
+  console.log("Sending to AI:", userSQL);
 
   try {
-    const res = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+    const res = await fetch("https://openrouter-proxy-norshaab.onrender.com/ai", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "openai/gpt-4",
         messages: [
-          { role: "system", content: "You are a helpful SQL tutor..." },
-          { role: "user", content: `Check this SQL:\n\n${userSQL}` }  // ✅ backticks here!
+          { role: "system", content: "You are a helpful SQL tutor." },
+          { role: "user", content: `Please check this SQL:\n\n${userSQL}` }
         ]
       })
     });
 
     const data = await res.json();
-    if (data.choices && data.choices[0]) {
+    console.log("AI Response:", data); // 💥 This helps you debug
+
+    if (data.choices && data.choices[0] && data.choices[0].message) {
       feedbackBox.innerHTML = data.choices[0].message.content;
+    } else if (data.error) {
+      feedbackBox.innerHTML = `❌ AI error: ${data.error.message}`;
     } else {
-      feedbackBox.innerHTML = "⚠️ No response from AI.";
-      console.warn("Response received but no usable AI reply:", data); // More debug info
+      feedbackBox.innerHTML = "⚠️ No usable AI response.";
     }
   } catch (error) {
-    feedbackBox.innerHTML = `❌ Error: ${error.message}`; // ✅ Show detailed error
-    console.error("Fetch failed:", error);  // 🔍 This will print the real issue in browser console
+    feedbackBox.innerHTML = `❌ Fetch error: ${error.message}`;
   }
 }
 </script>
