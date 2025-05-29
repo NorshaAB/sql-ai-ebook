@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- (Keep existing head content) -->
+ <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activity 4C - AI SQL Checker</title>
   <style>
     /* Add to your existing CSS */
     .feedback-card {
@@ -57,7 +59,83 @@
   </style>
 </head>
 <body>
-  <!-- (Keep existing body content) -->
+  <h1>SweetHome Database Design</h1>
+  <h2>Activity 4C: CREATE TABLE Statements</h2>
+  
+  <!-- Branch Table -->
+  <div class="table-card">
+    <div class="table-header">a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</div>
+    <textarea id="sqlBranch" placeholder="CREATE TABLE Branch (
+  branchNo VARCHAR(5) PRIMARY KEY,
+  street VARCHAR(100) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  postcode VARCHAR(10) NOT NULL
+);"></textarea>
+    <button onclick="checkSQL('sqlBranch', 'feedbackBranch')">Check Branch</button>
+    <button class="solution-btn" onclick="showSolution('branch')">Show Solution</button>
+    <div id="feedbackBranch" class="feedback"></div>
+  </div>
+
+  <!-- Staff Table -->
+  <div class="table-card">
+    <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
+    <textarea id="sqlStaff" placeholder="CREATE TABLE Staff (
+  staffNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(50) NOT NULL,
+  lName VARCHAR(50) NOT NULL,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlStaff', 'feedbackStaff')">Check Staff</button>
+    <button class="solution-btn" onclick="showSolution('staff')">Show Solution</button>
+    <div id="feedbackStaff" class="feedback"></div>
+  </div>
+
+  <!-- PropertyForRent Table -->
+  <div class="table-card">
+    <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
+    <textarea id="sqlProperty" placeholder="CREATE TABLE PropertyForRent (
+  propertyNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlProperty', 'feedbackProperty')">Check Property</button>
+    <button class="solution-btn" onclick="showSolution('property')">Show Solution</button>
+    <div id="feedbackProperty" class="feedback"></div>
+  </div>
+
+  <!-- Client Table -->
+  <div class="table-card">
+    <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
+    <textarea id="sqlClient" placeholder="CREATE TABLE Client (
+  clientNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlClient', 'feedbackClient')">Check Client</button>
+    <button class="solution-btn" onclick="showSolution('client')">Show Solution</button>
+    <div id="feedbackClient" class="feedback"></div>
+  </div>
+
+  <!-- PrivateOwner Table -->
+  <div class="table-card">
+    <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
+    <textarea id="sqlOwner" placeholder="CREATE TABLE PrivateOwner (
+  ownerNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlOwner', 'feedbackOwner')">Check Owner</button>
+    <button class="solution-btn" onclick="showSolution('owner')">Show Solution</button>
+    <div id="feedbackOwner" class="feedback"></div>
+  </div>
+
+  <!-- Viewing Table -->
+  <div class="table-card">
+    <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
+    <textarea id="sqlViewing" placeholder="CREATE TABLE Viewing (
+  /* Composite key? Foreign keys? */
+);"></textarea>
+    <button onclick="checkSQL('sqlViewing', 'feedbackViewing')">Check Viewing</button>
+    <button class="solution-btn" onclick="showSolution('viewing')">Show Solution</button>
+    <div id="feedbackViewing" class="feedback"></div>
+  </div>
   <script>
     async function checkSQL(textareaId, feedbackId) {
       const sql = document.getElementById(textareaId).value.trim();
