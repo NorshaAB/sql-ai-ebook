@@ -66,9 +66,7 @@
       background: #f8f9fa;
       border-left: 4px solid #3498db;
       border-radius: 0 4px 4px 0;
-      white-space: pre-wrap;
-      font-family: 'Consolas', 'Monaco', monospace;
-      font-size: 14px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .feedback.error {
       border-left-color: #e74c3c;
@@ -88,6 +86,38 @@
     }
     .solution-btn {
       background-color: #7f8c8d;
+    }
+    .grade {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .grade-A { color: #2ecc71; }
+    .grade-B { color: #27ae60; }
+    .grade-C { color: #f39c12; }
+    .grade-D { color: #e67e22; }
+    .grade-F { color: #e74c3c; }
+    .feedback-item {
+      margin-bottom: 8px;
+      padding-left: 24px;
+      position: relative;
+    }
+    .feedback-item:before {
+      position: absolute;
+      left: 0;
+      top: 2px;
+    }
+    .correct:before {
+      content: "✅";
+    }
+    .warning:before {
+      content: "⚠️";
+    }
+    .error:before {
+      content: "❌";
+    }
+    .suggestion:before {
+      content: "💡";
     }
   </style>
 </head>
@@ -187,26 +217,41 @@
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            prompt: `Analyze this SQL CREATE TABLE statement for correctness:
-            
-${sql}
+            prompt: `Analyze this SQL CREATE TABLE statement in MAX 5 bullet points. For each point use EMOJI + 1 sentence. End with letter grade (A-F). Format exactly like this example:
 
-Check for:
-1. Proper PRIMARY KEY
-2. Correct FOREIGN KEY constraints if needed
-3. Appropriate data types
-4. NOT NULL where required
+✅ Primary key correctly defined
+⚠️ Missing foreign key to staff table
+❌ Phone number should be VARCHAR(15)
+✅ Good NOT NULL constraints
+💡 Add branch_manager column
 
-Provide specific feedback and corrections if needed.`
+Grade: B
+
+Here's the SQL to analyze:
+${sql}`
           })
         });
 
         const data = await response.json();
         let aiResponse = data.choices?.[0]?.message?.content || data.message || data;
         
-        feedbackBox.innerHTML = `<div class='success'>${aiResponse}</div>`;
+        // Format the response
+        const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
+        const grade = gradeMatch ? gradeMatch[1] : '?';
+        const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
+        
+        feedbackBox.innerHTML = `
+          <div class="grade grade-${grade}">Grade: ${grade}</div>
+          ${feedbackContent.split('\n').map(line => {
+            if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
+            if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
+            if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
+            if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
+            return `<div>${line}</div>`;
+          }).join('')}
+        `;
       } catch (error) {
-        feedbackBox.innerHTML = `<div class='error'>❌ Error: ${error.message || "Failed to get AI response"}</div>`;
+        feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
       }
     }
 
