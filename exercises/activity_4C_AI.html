@@ -23,56 +23,52 @@
       padding-bottom: 8px;
       margin-top: 30px;
     }
-    .container {
+    .table-card {
       background: white;
-      padding: 25px;
+      padding: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       margin-bottom: 20px;
+    }
+    .table-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #2c3e50;
     }
     textarea {
       width: 100%;
-      height: 200px;
+      height: 120px;
       font-family: 'Consolas', 'Monaco', monospace;
-      padding: 12px;
+      padding: 10px;
       border: 2px solid #ddd;
       border-radius: 4px;
       resize: vertical;
       font-size: 14px;
-      margin: 10px 0;
-    }
-    textarea:focus {
-      border-color: #3498db;
-      outline: none;
+      margin-bottom: 10px;
     }
     button {
       background-color: #3498db;
       color: white;
       border: none;
-      padding: 10px 20px;
-      margin: 5px 5px 5px 0;
+      padding: 8px 16px;
+      margin-right: 10px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       transition: background-color 0.3s;
     }
     button:hover {
       background-color: #2980b9;
     }
-    button.secondary {
-      background-color: #7f8c8d;
-    }
-    button.secondary:hover {
-      background-color: #95a5a6;
-    }
     .feedback {
-      margin-top: 20px;
-      padding: 15px;
+      margin-top: 15px;
+      padding: 12px;
       background: #f8f9fa;
       border-left: 4px solid #3498db;
       border-radius: 0 4px 4px 0;
       white-space: pre-wrap;
       font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 14px;
     }
     .feedback.error {
       border-left-color: #e74c3c;
@@ -82,19 +78,6 @@
       border-left-color: #2ecc71;
       background: #e8f8f0;
     }
-    .table-list {
-      background: #f8f9fa;
-      padding: 15px;
-      border-radius: 4px;
-      margin-bottom: 20px;
-    }
-    .table-list p {
-      margin: 5px 0;
-      font-family: 'Consolas', 'Monaco', monospace;
-    }
-    .hidden {
-      display: none;
-    }
     .loading {
       color: #7f8c8d;
       font-style: italic;
@@ -103,139 +86,142 @@
       color: #d03b3b;
       font-weight: bold;
     }
+    .solution-btn {
+      background-color: #7f8c8d;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>SweetHome Database Design</h1>
-    <h2>Activity 4C: CREATE TABLE Statements</h2>
-    
-    <div class="table-list">
-      <p><strong>Tables to implement:</strong></p>
-      <p>a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</p>
-      <p>b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</p>
-      <p>c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</p>
-      <p>d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</p>
-      <p>e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</p>
-      <p>f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</p>
-      <p><em>Note: Highlighted columns should be primary or foreign keys.</em></p>
-    </div>
-
-    <textarea id="userSQL" placeholder="Write your CREATE TABLE statements here...
-Example:
-CREATE TABLE Branch (
+  <h1>SweetHome Database Design</h1>
+  <h2>Activity 4C: CREATE TABLE Statements</h2>
+  
+  <!-- Branch Table -->
+  <div class="table-card">
+    <div class="table-header">a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</div>
+    <textarea id="sqlBranch" placeholder="CREATE TABLE Branch (
   branchNo VARCHAR(5) PRIMARY KEY,
   street VARCHAR(100) NOT NULL,
   city VARCHAR(50) NOT NULL,
   postcode VARCHAR(10) NOT NULL
 );"></textarea>
+    <button onclick="checkSQL('sqlBranch', 'feedbackBranch')">Check Branch</button>
+    <button class="solution-btn" onclick="showSolution('branch')">Show Solution</button>
+    <div id="feedbackBranch" class="feedback"></div>
+  </div>
 
-    <div>
-      <button onclick="checkWithAI()">✅ Check with AI</button>
-      <button onclick="showSolution()" class="secondary">📋 Show Solution</button>
-      <button onclick="clearSQL()" class="secondary">🗑️ Clear</button>
-    </div>
+  <!-- Staff Table -->
+  <div class="table-card">
+    <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
+    <textarea id="sqlStaff" placeholder="CREATE TABLE Staff (
+  staffNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(50) NOT NULL,
+  lName VARCHAR(50) NOT NULL,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlStaff', 'feedbackStaff')">Check Staff</button>
+    <button class="solution-btn" onclick="showSolution('staff')">Show Solution</button>
+    <div id="feedbackStaff" class="feedback"></div>
+  </div>
 
-    <div id="aiFeedback" class="feedback"></div>
-    <div id="solutionBox" class="feedback hidden"></div>
+  <!-- PropertyForRent Table -->
+  <div class="table-card">
+    <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
+    <textarea id="sqlProperty" placeholder="CREATE TABLE PropertyForRent (
+  propertyNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlProperty', 'feedbackProperty')">Check Property</button>
+    <button class="solution-btn" onclick="showSolution('property')">Show Solution</button>
+    <div id="feedbackProperty" class="feedback"></div>
+  </div>
+
+  <!-- Client Table -->
+  <div class="table-card">
+    <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
+    <textarea id="sqlClient" placeholder="CREATE TABLE Client (
+  clientNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlClient', 'feedbackClient')">Check Client</button>
+    <button class="solution-btn" onclick="showSolution('client')">Show Solution</button>
+    <div id="feedbackClient" class="feedback"></div>
+  </div>
+
+  <!-- PrivateOwner Table -->
+  <div class="table-card">
+    <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
+    <textarea id="sqlOwner" placeholder="CREATE TABLE PrivateOwner (
+  ownerNo VARCHAR(5) PRIMARY KEY,
+  /* ... */
+);"></textarea>
+    <button onclick="checkSQL('sqlOwner', 'feedbackOwner')">Check Owner</button>
+    <button class="solution-btn" onclick="showSolution('owner')">Show Solution</button>
+    <div id="feedbackOwner" class="feedback"></div>
+  </div>
+
+  <!-- Viewing Table -->
+  <div class="table-card">
+    <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
+    <textarea id="sqlViewing" placeholder="CREATE TABLE Viewing (
+  /* Composite key? Foreign keys? */
+);"></textarea>
+    <button onclick="checkSQL('sqlViewing', 'feedbackViewing')">Check Viewing</button>
+    <button class="solution-btn" onclick="showSolution('viewing')">Show Solution</button>
+    <div id="feedbackViewing" class="feedback"></div>
   </div>
 
   <script>
-    async function checkWithAI() {
-      const userSQL = document.getElementById("userSQL").value.trim();
-      const feedbackBox = document.getElementById("aiFeedback");
+    async function checkSQL(textareaId, feedbackId) {
+      const sql = document.getElementById(textareaId).value.trim();
+      const feedbackBox = document.getElementById(feedbackId);
       
-      if (!userSQL) {
-        feedbackBox.innerHTML = "<span class='error'>❌ Please enter some SQL code first.</span>";
+      if (!sql) {
+        feedbackBox.innerHTML = "<span class='error'>❌ Please enter SQL first</span>";
         return;
       }
 
-      feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing your SQL with AI... This may take 10-20 seconds.</span>";
+      feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
       
       try {
         const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
           method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            prompt: `You are an SQL expert grading a student's CREATE TABLE statements. Analyze this SQL for the SweetHome database:
-
-${userSQL}
-
-Provide:
-1. Validation of syntax and constraints
-2. Missing primary/foreign keys
-3. Data type suggestions
-4. A letter grade (A-F) with explanation
+            prompt: `Analyze this SQL CREATE TABLE statement for correctness:
             
-Format your response in HTML with headings.`
+${sql}
+
+Check for:
+1. Proper PRIMARY KEY
+2. Correct FOREIGN KEY constraints if needed
+3. Appropriate data types
+4. NOT NULL where required
+
+Provide specific feedback and corrections if needed.`
           })
         });
 
         const data = await response.json();
-        
-        if (data.error) {
-          throw new Error(data.error);
-        }
-
-        // Handle both direct responses and OpenAI-style responses
         let aiResponse = data.choices?.[0]?.message?.content || data.message || data;
         
         feedbackBox.innerHTML = `<div class='success'>${aiResponse}</div>`;
-        
       } catch (error) {
-        console.error("AI Error:", error);
-        feedbackBox.innerHTML = `<div class='error'>❌ AI Error: ${error.message || "Failed to get AI response"}</div>`;
+        feedbackBox.innerHTML = `<div class='error'>❌ Error: ${error.message || "Failed to get AI response"}</div>`;
       }
     }
 
-    async function showSolution() {
-      const solutionBox = document.getElementById("solutionBox");
-      solutionBox.innerHTML = "<span class='loading'>⏳ Generating model solution...</span>";
-      solutionBox.classList.remove("hidden");
+    async function showSolution(tableType) {
+      const solutions = {
+        branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
+        staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+        property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+        client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
+        owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
+        viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
+      };
 
-      try {
-        const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prompt: `Provide complete CREATE TABLE statements for the SweetHome database tables with all constraints:
-            
-1. Branch (branchNo, street, city, postcode)
-2. Staff (staffNo, fName, lName, position, gender, DOB, salary, branchNo)
-3. PropertyForRent (propertyNo, type, rooms, rent, ownerNo, staffNo, branchNo)
-4. Client (clientNo, fName, lName, telNo, prefType, maxRent, email)
-5. PrivateOwner (ownerNo, fName, lName, address, telNo, email, password)
-6. Viewing (clientNo, propertyNo, viewDate, comments)
-            
-Include:
-- PRIMARY KEY constraints
-- FOREIGN KEY constraints
-- Appropriate data types
-- NOT NULL where needed
-            
-Format the response in SQL code blocks.`
-          })
-        });
-
-        const data = await response.json();
-        let solution = data.choices?.[0]?.message?.content || data.message || data;
-        
-        solutionBox.innerHTML = `<div><strong>Model Solution:</strong><pre>${solution}</pre></div>`;
-        
-      } catch (error) {
-        solutionBox.innerHTML = `<div class='error'>❌ Failed to load solution: ${error.message}</div>`;
-      }
-    }
-
-    function clearSQL() {
-      document.getElementById("userSQL").value = "";
-      document.getElementById("aiFeedback").innerHTML = "";
-      document.getElementById("solutionBox").innerHTML = "";
-      document.getElementById("solutionBox").classList.add("hidden");
+      const feedbackId = `feedback${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`;
+      document.getElementById(feedbackId).innerHTML = `<div class='success'><strong>Solution:</strong><pre>${solutions[tableType]}</pre></div>`;
     }
   </script>
 </body>
