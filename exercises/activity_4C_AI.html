@@ -201,72 +201,79 @@
   </div>
 
   <script>
-    async function checkSQL(textareaId, feedbackId) {
-      const sql = document.getElementById(textareaId).value.trim();
-      const feedbackBox = document.getElementById(feedbackId);
-      
-      if (!sql) {
-        feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
-        return;
-      }
-
-      feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
-      
-      try {
-const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    model: "gpt-3.5-turbo", // or any supported OpenRouter model
-    messages: [
-      {
-        role: "system",
-        content: "You are an expert SQL tutor. Respond in 5 bullet points (each with 1 emoji + 1 sentence). Then give a letter grade from A–F. Be helpful and concise."
-      },
-      {
-        role: "user",
-        content: `Here's the SQL to analyze:\n${sql}`
-      }
-    ]
-  })
-});
-
-        const data = await response.json();
-        let aiResponse = data.choices?.[0]?.message?.content || data.message || data;
-        
-        // Format the response
-        const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
-        const grade = gradeMatch ? gradeMatch[1] : '?';
-        const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
-        
-        feedbackBox.innerHTML = `
-          <div class="grade grade-${grade}">Grade: ${grade}</div>
-          ${feedbackContent.split('\n').map(line => {
-            if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
-            if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
-            if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
-            if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
-            return `<div>${line}</div>`;
-          }).join('')}
-        `;
-      } catch (error) {
-        feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
-      }
+  async function checkSQL(textareaId, feedbackId) {
+    const sql = document.getElementById(textareaId).value.trim();
+    const feedbackBox = document.getElementById(feedbackId);
+    
+    if (!sql) {
+      feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
+      return;
     }
 
-    async function showSolution(tableType) {
-      const solutions = {
-        branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
-        staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-        property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-        client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
-        owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
-        viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
-      };
+    feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
+    
+    try {
+      const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo", // or any other model available in OpenRouter
+          messages: [
+            {
+              role: "user",
+              content: `Analyze this SQL CREATE TABLE statement in MAX 5 bullet points. For each point use EMOJI + 1 sentence. End with letter grade (A-F). Format exactly like this example:
 
-      const feedbackId = `feedback${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`;
-      document.getElementById(feedbackId).innerHTML = `<div class='success'><strong>Solution:</strong><pre>${solutions[tableType]}</pre></div>`;
+✅ Primary key correctly defined
+⚠️ Missing foreign key to staff table
+❌ Phone number should be VARCHAR(15)
+✅ Good NOT NULL constraints
+💡 Add branch_manager column
+
+Grade: B
+
+Here's the SQL to analyze:
+${sql}`
+            }
+          ]
+        })
+      });
+
+      const data = await response.json();
+      let aiResponse = data.choices?.[0]?.message?.content || data.message || data;
+      
+      // Format the response
+      const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
+      const grade = gradeMatch ? gradeMatch[1] : '?';
+      const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
+      
+      feedbackBox.innerHTML = `
+        <div class="grade grade-${grade}">Grade: ${grade}</div>
+        ${feedbackContent.split('\n').map(line => {
+          if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
+          if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
+          if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
+          if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
+          return `<div>${line}</div>`;
+        }).join('')}
+      `;
+    } catch (error) {
+      feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
     }
-  </script>
+  }
+
+  async function showSolution(tableType) {
+    const solutions = {
+      branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
+      staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+      property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+      client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
+      owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
+      viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
+    };
+
+    const feedbackId = `feedback${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`;
+    document.getElementById(feedbackId).innerHTML = `<div class='success'><strong>Solution:</strong><pre>${solutions[tableType]}</pre></div>`;
+  }
+</script>
 </body>
 </html>
