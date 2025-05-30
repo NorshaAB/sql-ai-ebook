@@ -201,23 +201,26 @@
   </div>
 
   <script>
-    async function checkSQL(textareaId, feedbackId) {
-      const sql = document.getElementById(textareaId).value.trim();
-      const feedbackBox = document.getElementById(feedbackId);
-      
-      if (!sql) {
-        feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
-        return;
-      }
+  async function checkSQL(textareaId, feedbackId) {
+    const sql = document.getElementById(textareaId).value.trim();
+    const feedbackBox = document.getElementById(feedbackId);
+    
+    if (!sql) {
+      feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
+      return;
+    }
 
-      feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
-      
-      try {
-        const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt: `Analyze this SQL CREATE TABLE statement in MAX 5 bullet points. For each point use EMOJI + 1 sentence. End with letter grade (A-F). Format exactly like this example:
+    feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
+    
+    try {
+      const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "user",
+              content: `Analyze this SQL CREATE TABLE statement in MAX 5 bullet points. For each point use EMOJI + 1 sentence. End with letter grade (A-F). Format exactly like this example:
 
 ✅ Primary key correctly defined
 ⚠️ Missing foreign key to staff table
@@ -229,31 +232,37 @@ Grade: B
 
 Here's the SQL to analyze:
 ${sql}`
-          })
-        });
+            }
+          ]
+        })
+      });
 
-        const data = await response.json();
-        let aiResponse = data.choices?.[0]?.message?.content || data.message || data;
-        
-        // Format the response
-        const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
-        const grade = gradeMatch ? gradeMatch[1] : '?';
-        const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
-        
-        feedbackBox.innerHTML = `
-          <div class="grade grade-${grade}">Grade: ${grade}</div>
-          ${feedbackContent.split('\n').map(line => {
-            if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
-            if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
-            if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
-            if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
-            return `<div>${line}</div>`;
-          }).join('')}
-        `;
-      } catch (error) {
-        feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status}`);
       }
+
+      const data = await response.json();
+      const aiResponse = data.choices?.[0]?.message?.content || "No analysis available";
+      
+      // Format the response
+      const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
+      const grade = gradeMatch ? gradeMatch[1] : '?';
+      const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
+      
+      feedbackBox.innerHTML = `
+        <div class="grade grade-${grade}">Grade: ${grade}</div>
+        ${feedbackContent.split('\n').map(line => {
+          if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
+          if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
+          if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
+          if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
+          return `<div>${line}</div>`;
+        }).join('')}
+      `;
+    } catch (error) {
+      feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
     }
+  }
 
     async function showSolution(tableType) {
       const solutions = {
