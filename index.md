@@ -21,17 +21,13 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
 - **Progress Tracking**: (Coming soon) Track your learning journey
 
 ## 🔍 Exercises
-<div class="exercise-grid" style="
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
-">
 
-[![Exercise 4C](https://img.shields.io/badge/📝_Exercise_4C-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_4C_AI.html)  
+<div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+
+[![Exercise 4C](https://img.shields.io/badge/📌_Exercise_4C-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_4C_AI.html)  
 *CREATE TABLE statements practice*
 
-[![Exercise 4E](https://img.shields.io/badge/📝_Exercise_4E-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_AI.html)  
+[![Exercise 4C](https://img.shields.io/badge/📌_Exercise_4E-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_AI.html)  
 *CAR database queries practice*
 
 </div>
