@@ -28,10 +28,10 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
   margin: 1.5rem 0;
 ">
 
-[![Exercise 4C](https://img.shields.io/badge/📝_Exercise_4C-Click_Here-blue?style=for-the-badge)](exercises/activity_4C_AI.html)  
+[![Exercise 4C](https://img.shields.io/badge/📝_Exercise_4C-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_4C_AI.html)  
 *CREATE TABLE statements practice*
 
-[![Exercise 4E](https://img.shields.io/badge/📝_Exercise_4E-Click_Here-blue?style=for-the-badge)](exercises/activity_AI.html)  
+[![Exercise 4E](https://img.shields.io/badge/📝_Exercise_4E-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_AI.html)  
 *CAR database queries practice*
 
 </div>
