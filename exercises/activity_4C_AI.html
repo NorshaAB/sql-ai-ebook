@@ -108,16 +108,16 @@
       top: 2px;
     }
     .correct:before {
-      content: " ";
+      content: "✅";
     }
     .warning:before {
-      content: " ";
+      content: "⚠️";
     }
     .error:before {
-      content: " ";
+      content: "❌";
     }
     .suggestion:before {
-      content: " ";
+      content: "💡";
     }
   </style>
 </head>
@@ -204,6 +204,7 @@
   async function checkSQL(textareaId, feedbackId) {
     const sql = document.getElementById(textareaId).value.trim();
     const feedbackBox = document.getElementById(feedbackId);
+    const tableHeader = document.querySelector(`#${textareaId}`).previousElementSibling.textContent;
     
     if (!sql) {
       feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
@@ -220,13 +221,16 @@
           messages: [
             {
               role: "user",
-              content: `Analyze this SQL CREATE TABLE statement in MAX 5 bullet points. For each point use EMOJI + 1 sentence. End with letter grade (A-F). Format exactly like this example:
+              content: `Analyze this SQL CREATE TABLE statement against these exact requirements: ${tableHeader}. 
+              Focus ONLY on whether it matches the required structure. 
+              Give MAX 5 bullet points. For each point use EMOJI + 1 sentence. 
+              End with letter grade (A-F). Format exactly like this example:
 
-✅ Primary key correctly defined
-⚠️ Missing foreign key to staff table
-❌ Phone number should be VARCHAR(15)
-✅ Good NOT NULL constraints
-💡 Add branch_manager column
+✅ Correctly implements all required columns
+✅ Proper PRIMARY KEY definition
+⚠️ Missing NOT NULL constraint on city
+❌ Incorrect data type for postcode
+💡 Consider adding an index for postcode searches
 
 Grade: B
 
@@ -264,29 +268,29 @@ ${sql}`
     }
   }
 
-    async function showSolution(tableType) {
-      const solutions = {
-        branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
-        staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-        property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-        client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
-        owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
-        viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
-      };
+  async function showSolution(tableType) {
+    const solutions = {
+      branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
+      staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+      property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
+      client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
+      owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
+      viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
+    };
 
-       const textareaId = {
-    branch: "sqlBranch",
-    staff: "sqlStaff",
-    property: "sqlProperty",
-    client: "sqlClient",
-    owner: "sqlOwner",
-    viewing: "sqlViewing"
-  }[tableType];
+    const textareaId = {
+      branch: "sqlBranch",
+      staff: "sqlStaff",
+      property: "sqlProperty",
+      client: "sqlClient",
+      owner: "sqlOwner",
+      viewing: "sqlViewing"
+    }[tableType];
 
-  if (textareaId && solutions[tableType]) {
-    document.getElementById(textareaId).value = solutions[tableType];
+    if (textareaId && solutions[tableType]) {
+      document.getElementById(textareaId).value = solutions[tableType];
     }
-    }
+  }
   </script>
 </body>
 </html>
