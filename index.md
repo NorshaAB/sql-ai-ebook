@@ -1,9 +1,3 @@
-<style>
-.footer, .octocat {
-  display: none !important;
-}
-</style>
-
 # 📘 AI-Augmented SQL eBook
 
 <div class="intro-card" style="
