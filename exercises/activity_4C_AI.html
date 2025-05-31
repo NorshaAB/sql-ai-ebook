@@ -274,8 +274,18 @@ ${sql}`
         viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
       };
 
-      const feedbackId = `feedback${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`;
-      document.getElementById(feedbackId).innerHTML = `<div class='success'><strong>Solution:</strong><pre>${solutions[tableType]}</pre></div>`;
+       const textareaId = {
+    branch: "sqlBranch",
+    staff: "sqlStaff",
+    property: "sqlProperty",
+    client: "sqlClient",
+    owner: "sqlOwner",
+    viewing: "sqlViewing"
+  }[tableType];
+
+  if (textareaId && solutions[tableType]) {
+    document.getElementById(textareaId).value = solutions[tableType];
+    }
     }
   </script>
 </body>
