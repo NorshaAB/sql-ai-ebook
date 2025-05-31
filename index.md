@@ -22,13 +22,23 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
 
 ## 🔍 Exercises
 
-<div style="display: flex; flex-wrap: wrap; gap: 1rem; margin: 1.5rem 0;">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
 
-[![Exercise 4C](https://img.shields.io/badge/📌_Exercise_4C-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_4C_AI.html)  
-*CREATE TABLE statements practice*
+<a href="exercises/activity_4C_AI.html" style="text-decoration: none;">
+  <div style="background: #2188ff; color: white; padding: 1rem; border-radius: 6px; text-align: center; transition: transform 0.2s;">
+    <div style="font-size: 1.5rem;">📌</div>
+    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div>
+    <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE statements practice</div>
+  </div>
+</a>
 
-[![Exercise 4C](https://img.shields.io/badge/📌_Exercise_4E-Click_Here-blue?style=for-the-badge&logo=sqlite)](exercises/activity_AI.html)  
-*CAR database queries practice*
+<a href="exercises/activity_AI.html" style="text-decoration: none;">
+  <div style="background: #2188ff; color: white; padding: 1rem; border-radius: 6px; text-align: center; transition: transform 0.2s;">
+    <div style="font-size: 1.5rem;">📌</div>
+    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div>
+    <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries practice</div>
+  </div>
+</a>
 
 </div>
 
