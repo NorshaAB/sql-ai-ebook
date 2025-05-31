@@ -201,72 +201,95 @@
   </div>
 
   <script>
-  async function checkSQL(textareaId, feedbackId) {
-    const sql = document.getElementById(textareaId).value.trim();
-    const feedbackBox = document.getElementById(feedbackId);
-    const tableHeader = document.querySelector(`#${textareaId}`).previousElementSibling.textContent;
-    
-    if (!sql) {
-      feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
-      return;
-    }
-
-    feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
-    
-    try {
-      const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: "user",
-              content: `Analyze this SQL CREATE TABLE statement against these exact requirements: ${tableHeader}. 
-              Focus ONLY on whether it matches the required structure. 
-              Give MAX 5 bullet points. For each point use EMOJI + 1 sentence. 
-              End with letter grade (A-F). Format exactly like this example:
-
-✅ Correctly implements all required columns
-✅ Proper PRIMARY KEY definition
-⚠️ Missing NOT NULL constraint on city
-❌ Incorrect data type for postcode
-💡 Consider adding an index for postcode searches
-
-Grade: B
-
-Here's the SQL to analyze:
-${sql}`
-            }
-          ]
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
-
-      const data = await response.json();
-      const aiResponse = data.choices?.[0]?.message?.content || "No analysis available";
-      
-      // Format the response
-      const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
-      const grade = gradeMatch ? gradeMatch[1] : '?';
-      const feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
-      
-      feedbackBox.innerHTML = `
-        <div class="grade grade-${grade}">Grade: ${grade}</div>
-        ${feedbackContent.split('\n').map(line => {
-          if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
-          if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
-          if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
-          if (line.includes('💡')) return `<div class="feedback-item suggestion">${line}</div>`;
-          return `<div>${line}</div>`;
-        }).join('')}
-      `;
-    } catch (error) {
-      feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
-    }
+async function checkSQL(textareaId, feedbackId) {
+  const sql = document.getElementById(textareaId).value.trim();
+  const feedbackBox = document.getElementById(feedbackId);
+  const tableHeader = document.querySelector(`#${textareaId}`).previousElementSibling.textContent;
+  
+  if (!sql) {
+    feedbackBox.innerHTML = "<span class='error'>Please enter SQL first</span>";
+    return;
   }
+
+  feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
+  
+  try {
+    const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "user",
+            content: `Analyze this SQL CREATE TABLE statement against these exact requirements: ${tableHeader}. 
+            Focus STRICTLY on whether it matches the required structure - don't suggest adding columns not in requirements.
+            Check for:
+            1. All required columns present
+            2. Correct data types
+            3. Proper PRIMARY KEY definition
+            4. Appropriate constraints
+            5. Correct syntax
+            
+            If everything matches requirements perfectly, give Grade A.
+            If minor issues, give Grade B.
+            If major issues, give Grade C or below.
+            
+            Format response with MAX 5 bullet points (EMOJI + brief comment).
+            End with Grade: X.
+            
+            Example perfect response:
+            ✅ All required columns present
+            ✅ Correct data types used
+            ✅ Proper PRIMARY KEY definition
+            ✅ Appropriate NOT NULL constraints
+            ✅ Syntax is correct
+            
+            Grade: A
+            
+            SQL to analyze:
+            ${sql}`
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    let aiResponse = data.choices?.[0]?.message?.content || "No analysis available";
+    
+    // Post-process the AI response to remove unwanted suggestions
+    aiResponse = aiResponse.replace(/💡.*(add|consider).*(column|index|field).*/gi, '');
+    aiResponse = aiResponse.replace(/\n\s*\n/g, '\n'); // Remove empty lines
+    
+    // Format the response
+    const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
+    const grade = gradeMatch ? gradeMatch[1] : '?';
+    let feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
+    
+    // Ensure we don't show empty suggestions
+    feedbackContent = feedbackContent.split('\n')
+      .filter(line => line.trim().length > 0)
+      .join('\n');
+    
+    feedbackBox.innerHTML = `
+      <div class="grade grade-${grade}">Grade: ${grade}</div>
+      ${feedbackContent.split('\n').map(line => {
+        if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
+        if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
+        if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
+        if (line.includes('💡') && !line.toLowerCase().includes('add') && !line.toLowerCase().includes('consider')) {
+          return `<div class="feedback-item suggestion">${line}</div>`;
+        }
+        return line.trim() ? `<div>${line}</div>` : '';
+      }).join('')}
+    `;
+  } catch (error) {
+    feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
+  }
+}
 
   async function showSolution(tableType) {
     const solutions = {
