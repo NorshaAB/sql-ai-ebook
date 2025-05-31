@@ -52,5 +52,5 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
 ---
 
 <div style="text-align: center; margin-top: 2rem;">
-  <small>Made with ❤️ for better SQL understanding | © 2023</small>
+  <small>Made with ❤️ for better SQL understanding | © 2025</small>
 </div>
