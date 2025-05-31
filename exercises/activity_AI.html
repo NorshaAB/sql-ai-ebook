@@ -1,53 +1,154 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <title>Activity 4E: CAR Database</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
- .button-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 10px;
-}
-
-textarea {
-  width: 100%;
-  margin-top: 5px;
-  font-family: monospace;
-  font-size: 1rem;
-  padding: 8px;
-}
-
-.collapsible {
-  background-color: #f1f1f1;
-  color: #000;
-  cursor: pointer;
-  padding: 6px 12px;
-  border: none;
-  border-radius: 4px;
-}
-
-.hint-content {
-  display: none;
-  padding: 10px;
-  margin-top: 5px;
-  background-color: #e8f4ff;
-  border-left: 4px solid #2196F3;
-}
-    
-button.collapsible.active + .hint-content {
-  display: block;
-}
-
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #333;
+      background-color: #f5f7fa;
+    }
+    h1, h2, h3 {
+      color: #2c3e50;
+    }
+    h2 {
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 8px;
+      margin-top: 30px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      border-left: 4px solid #3498db;
+      overflow-x: auto;
+    }
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 20px 0;
+    }
+    .question-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      padding: 10px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      resize: vertical;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-right: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .feedback {
+      margin-top: 15px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-left: 4px solid #3498db;
+      border-radius: 0 4px 4px 0;
+    }
+    .feedback.success {
+      border-left-color: #2ecc71;
+      background: #e8f8f0;
+    }
+    .feedback.error {
+      border-left-color: #e74c3c;
+      background: #fdedec;
+    }
+    .button-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .hint-btn {
+      background-color: #7f8c8d;
+    }
+    .hint-content {
+      display: none;
+      padding: 12px;
+      margin-top: 10px;
+      background: #e8f4ff;
+      border-left: 4px solid #2196F3;
+      border-radius: 0 4px 4px 0;
+    }
+    .sql-keyword {
+      color: #d03b3b;
+      font-weight: bold;
+    }
+    ol {
+      counter-reset: item;
+      padding-left: 0;
+    }
+    ol li {
+      list-style-type: none;
+      counter-increment: item;
+      margin-bottom: 20px;
+    }
+    ol li:before {
+      content: counter(item) ".";
+      font-weight: bold;
+      margin-right: 10px;
+      color: #3498db;
+    }
   </style>
 </head>
 <body>
 
 <h1>Activity 4E: CAR Database</h1>
 
-  <h3>CUSTOMER</h3>
-<table border="1">
+<h2>Database Tables</h2>
+
+<h3>CUSTOMER</h3>
+<table>
   <tr><th>CUSTID</th><th>CUSTNAME</th><th>CAR_NUMBER</th><th>PHONE_NUMBER</th><th>REGISTER_DATE</th></tr>
   <tr><td>C0001</td><td>David Teo</td><td>WUV2318</td><td>81691</td><td>2014-01-09</td></tr>
   <tr><td>C0002</td><td>Sulaiman Ali</td><td>JKJ9782</td><td>61291</td><td>2011-05-07</td></tr>
@@ -57,7 +158,7 @@ button.collapsible.active + .hint-content {
 </table>
 
 <h3>CAR_COMPONENT</h3>
-<table border="1">
+<table>
   <tr><th>COMPID</th><th>COMPNAME</th><th>PRICE</th></tr>
   <tr><td>KK001</td><td>ISWARA Rear Lamp</td><td>100</td></tr>
   <tr><td>KK002</td><td>WIRA Front Bumper</td><td>450</td></tr>
@@ -67,7 +168,7 @@ button.collapsible.active + .hint-content {
 </table>
 
 <h3>CLAIM</h3>
-<table border="1">
+<table>
   <tr><th>CLAIMID</th><th>CLAIM_DATE</th><th>CUSTID</th></tr>
   <tr><td>CL001</td><td>2014-04-19</td><td>C0005</td></tr>
   <tr><td>CL002</td><td>2014-01-28</td><td>C0001</td></tr>
@@ -77,7 +178,7 @@ button.collapsible.active + .hint-content {
 </table>
 
 <h3>COMPONENT_CLAIM</h3>
-<table border="1">
+<table>
   <tr><th>CLAIMID</th><th>COMPID</th><th>QUANTITY</th></tr>
   <tr><td>CL001</td><td>KK001</td><td>1</td></tr>
   <tr><td>CL003</td><td>KK003</td><td>2</td></tr>
@@ -90,210 +191,205 @@ button.collapsible.active + .hint-content {
 
 <h2>Database Schema</h2>
 <pre>
-CUSTOMER(CUSTID, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
-CAR_COMPONENT(COMPID, COMPNAME, PRICE)
-CLAIM(CLAIMID, CLAIM_DATE, CUSTID)
-COMPONENT_CLAIM(CLAIMID, COMPID, QUANTITY)
+CUSTOMER(<span class="sql-keyword">CUSTID</span>, CUSTNAME, CAR_NUMBER, PHONE_NUMBER, REGISTER_DATE)
+CAR_COMPONENT(<span class="sql-keyword">COMPID</span>, COMPNAME, PRICE)
+CLAIM(<span class="sql-keyword">CLAIMID</span>, CLAIM_DATE, <span class="sql-keyword">CUSTID</span>)
+COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keyword">COMPID</span>, QUANTITY)
 </pre>
 
 <hr>
 
+<h2>SQL Questions</h2>
+
+<ol>
+  <li class="question-card">
+    <p><b>Type SQL command to create table CUSTOMER.</b></p>
+    <p>The details of data type are as follow:</p>
+    <p>custid varchar(5), custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date</p>
+    <textarea rows="3" placeholder="CREATE TABLE CUSTOMER (
+  custid VARCHAR(5) PRIMARY KEY,
+  custname VARCHAR(100),
+  /* ... */
+);"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date)']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>CREATE TABLE</code> with correct syntax for column names and types. Remember to specify the primary key.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <li class="question-card">
+    <p><b>Type SQL command to insert first row of customer data into CUSTOMER table.</b></p>
+    <textarea rows="3" placeholder="INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\')']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use the <code>INSERT INTO table_name VALUES (...)</code> syntax and follow the column order exactly as defined in the schema. String values should be enclosed in single quotes.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Additional questions follow the same pattern -->
+  <!-- Question 3 -->
+  <li class="question-card">
+    <p><b>Type SQL command to find customer name from CUSTOMER table.</b></p>
+    <textarea rows="3" placeholder="SELECT custname FROM CUSTOMER;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select custname from customer']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>SELECT column_name FROM table_name;</code>. In this case, select only the <code>custname</code> column from <code>customer</code>.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 4 -->
+  <li class="question-card">
+    <p><b>Type SQL command to display component ID, component name and price is between 200 and 400.</b></p>
+    <textarea rows="3" placeholder="SELECT compid, compname, price FROM CAR_COMPONENT WHERE price BETWEEN 200 AND 400;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>WHERE price BETWEEN 200 AND 400</code> to filter the rows based on price range.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 5 -->
+  <li class="question-card">
+    <p><b>Type SQL command to display car number begin with J.</b></p>
+    <textarea rows="3" placeholder="SELECT car_number FROM CUSTOMER WHERE car_number LIKE 'J%';"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select car_number from customer where car_number like \'j%\']');">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>LIKE 'J%'</code> to match car numbers that start with 'J'. The percent sign (%) is a wildcard that matches any sequence of characters.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 6 -->
+  <li class="question-card">
+    <p><b>Type SQL command to display claimID and quantity where claim number is CL001 and CL004.</b></p>
+    <textarea rows="3" placeholder="SELECT claimid, quantity FROM COMPONENT_CLAIM WHERE claimid IN ('CL001', 'CL004');"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\')']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>WHERE claimid IN (...)</code> to match multiple values. List the values in parentheses separated by commas.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 7 -->
+  <li class="question-card">
+    <p><b>Type SQL command to find the minimum value for price in the CAR_COMPONENT table.</b></p>
+    <textarea rows="3" placeholder="SELECT MIN(price) FROM CAR_COMPONENT;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select min(price) from car_component']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>MIN(column_name)</code> to get the lowest value in a column. This is an aggregate function.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 8 -->
+  <li class="question-card">
+    <p><b>Type SQL command to find the maximum value for price in the CAR_COMPONENT table.</b></p>
+    <textarea rows="3" placeholder="SELECT MAX(price) FROM CAR_COMPONENT;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select max(price) from car_component']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>MAX(column_name)</code> to get the highest value in a column. This is an aggregate function.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 9 -->
+  <li class="question-card">
+    <p><b>Type SQL command to find the average value for price in the CAR_COMPONENT table.</b></p>
+    <textarea rows="3" placeholder="SELECT AVG(price) FROM CAR_COMPONENT;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select avg(price) from car_component']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>AVG(column_name)</code> to calculate the average. This is an aggregate function.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 10 -->
+  <li class="question-card">
+    <p><b>Type SQL command to find the sum of price in the CAR_COMPONENT table.</b></p>
+    <textarea rows="3" placeholder="SELECT SUM(price) FROM CAR_COMPONENT;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select sum(price) from car_component']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>SUM(column_name)</code> to get the total. This is an aggregate function.
+    </div>
+    <div class="feedback"></div>
+  </li>
+
+  <!-- Question 11 -->
+  <li class="question-card">
+    <p><b>Type SQL command to count the number of customers.</b></p>
+    <textarea rows="3" placeholder="SELECT COUNT(*) FROM CUSTOMER;"></textarea>
+    <div class="button-row">
+      <button class="hint-btn" onclick="toggleHint(this)">💡 Show Hint</button>
+      <button onclick="checkAnswer(this, ['select count(*) from customer']);">Check Answer</button>
+    </div>
+    <div class="hint-content">
+      Use <code>COUNT(*)</code> to count the total number of rows in the table. This is an aggregate function.
+    </div>
+    <div class="feedback"></div>
+  </li>
+</ol>
+
 <script>
+function toggleHint(button) {
+  const card = button.closest('.question-card');
+  const hintContent = card.querySelector('.hint-content');
+  hintContent.style.display = hintContent.style.display === 'block' ? 'none' : 'block';
+}
+
 function checkAnswer(button, correctAnswers) {
-  const container = button.closest('.button-row').parentElement;
-  const textarea = container.querySelector("textarea");
-  const feedback = container.querySelector(".feedback");
-  const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, " ");
+  const card = button.closest('.question-card');
+  const textarea = card.querySelector('textarea');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = textarea.value.trim().toLowerCase().replace(/\s+/g, ' ');
 
   // Normalize answers (remove semicolons and extra spaces)
   const normalizedCorrect = correctAnswers.map(answer =>
-    answer.toLowerCase().replace(/\s+/g, " ").replace(/;/g, "").trim()
+    answer.toLowerCase().replace(/\s+/g, ' ').replace(/;/g, '').trim()
   );
-  const normalizedUser = userAnswer.replace(/;/g, "").trim();
+  const normalizedUser = userAnswer.replace(/;/g, '').trim();
 
   if (normalizedCorrect.includes(normalizedUser)) {
-    feedback.innerHTML = "✅ Correct!";
-    feedback.style.color = "green";
-    feedback.style.fontWeight = "bold";
-    feedback.style.margin = "5px 0";
+    feedback.innerHTML = "<span style='color: #2ecc71; font-weight: bold;'>✅ Correct!</span>";
+    feedback.className = "feedback success";
   } else {
-    feedback.innerHTML = "❌ Try again. Example: <code>" + correctAnswers[0] + "</code>";
-    feedback.style.color = "red";
-    feedback.style.fontWeight = "bold";
-    feedback.style.margin = "5px 0";
+    feedback.innerHTML = `<span style='color: #e74c3c; font-weight: bold;'>❌ Try again. Example: <code>${correctAnswers[0]}</code></span>`;
+    feedback.className = "feedback error";
   }
 }
 </script>
-
-
-<!-- QUESTIONS -->
-<ol>
-   <li>
-    <p><b>Type SQL command to create table CUSTOMER.</b></p>
-    <p>The details of data type are as follow :</p>
-    <p>custid varchar(5), custname varchar(100), car_number varchar(10), phone_number varchar(15),
-and register_date date</p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-    <div class="button-row">
-      <button class="collapsible">💡 Show Hint</button>
-      <button onclick="checkAnswer(this, ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date);'])">Check Answer</button>
-    </div>
-    <p class="feedback"></p>
-    <div class="hint-content">
-      Use <code>CREATE TABLE</code> with correct syntax for column names and types.
-    </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to insert first row of customer data into CUSTOMER table.</b></p>
-    <textarea rows="6" placeholder="Write your SQL here..."></textarea>
-   <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\');'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use the <code>INSERT INTO table_name VALUES (...)</code> syntax and follow the column order exactly as defined in the schema.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to find customer name from CUSTOMER table.</b></p>
-   <textarea rows="3" placeholder="Write your SQL here..."></textarea>
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select custname from customer;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>SELECT column_name FROM table_name;</code>. In this case, select only the <code>custname</code> column from <code>customer</code>.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to display component ID, component name and price is between 200 and 400.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select compid, compname, price from car_component where price between 200 and 400;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>WHERE price BETWEEN 200 AND 400</code> to filter the rows based on price range.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to display car number begin with J.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select car_number from customer where car_number like \'j%\';'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>LIKE 'J%'</code> to match car numbers that start with 'J'.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to display claimID and quantity where claim number is CL001 and CL004.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  
-  <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\');'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>WHERE claimid IN (...)</code> to match multiple values.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to find the minimum value for price in the CAR_COMPONENT table.</b></p>
-   <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select min(price) from car_component;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>MIN(column_name)</code> to get the lowest value in a column.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to find the maximum value for price in the CAR_COMPONENT table.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select max(price) from car_component;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>MAX(column_name)</code> to get the highest value in a column.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to find the average value for price in the CAR_COMPONENT table.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  
-  <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select avg(price) from car_component;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>AVG(column_name)</code> to calculate the average.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to find the sum of price in the CAR_COMPONENT table.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
- 
-  <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select sum(price) from car_component;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>SUM(column_name)</code> to get the total.
-  </div>
-  </li>
-
-  <li>
-    <p><b>Type SQL command to count the number of customers.</b></p>
-    <textarea rows="3" placeholder="Write your SQL here..."></textarea>
-  
- <div class="button-row">
-    <button class="collapsible">💡 Show Hint</button>
-    <button onclick="checkAnswer(this, ['select count(*) from customer;'])">Check Answer</button>
-  </div>
-  <p class="feedback"></p>
-  <div class="hint-content">
-    Use <code>COUNT(*)</code> to count the total number of rows in the table.
-  </div>
-  </li>
-</ol>
-  
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const collabs = document.querySelectorAll(".collapsible");
-  collabs.forEach(btn => {
-    btn.addEventListener("click", function () {
-      const content = this.closest('li').querySelector(".hint-content");
-      if (content) {
-        content.style.display = content.style.display === "block" ? "none" : "block";
-      }
-    });
-  });
-});
-</script>
   
 </body>
-</html>"
+</html>
