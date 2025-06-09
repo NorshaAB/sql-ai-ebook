@@ -23,8 +23,6 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
 ## 🚀 Features
 - **AI-Powered Feedback**: Get instant analysis of your SQL queries
 - **Interactive Exercises**: Learn by doing with hands-on activities
-- **Real-world Examples**: Practice with authentic database scenarios
-- **Progress Tracking**: (Coming soon) Track your learning journey
 
 ## 🔍 Exercises
 
