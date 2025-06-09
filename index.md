@@ -15,7 +15,7 @@
   margin-bottom: 2rem;
 ">
 
-Welcome to the **Interactive SQL Learning Platform**!  
+Welcome to the Interactive SQL Learning Platform!  
 This prototype showcases SQL exercises enhanced with AI assistance to help you master database concepts.
 
 </div>
