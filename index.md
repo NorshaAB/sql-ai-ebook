@@ -36,7 +36,7 @@ This prototype showcases SQL exercises enhanced with AI assistance to help you m
   </div>
 </a>
 
-<a href="exercises/activity_AI.html" style="text-decoration: none;">
+<a href="exercises/4E_AI_TRY.html" style="text-decoration: none;">
   <div style="background: #2188ff; color: white; padding: 1rem; border-radius: 6px; text-align: center; transition: transform 0.2s;">
     <div style="font-size: 1.5rem;">📌</div>
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div>
