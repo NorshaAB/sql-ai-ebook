@@ -363,129 +363,71 @@
   </div>
 
   <script>
-  async function checkSQL(textareaId, feedbackId) {
-    const sql = document.getElementById(textareaId).value.trim();
-    const feedbackBox = document.getElementById(feedbackId);
-    const tableHeader = document.querySelector(`#${textareaId}`).previousElementSibling.textContent;
-    
-    if (!sql) {
-      feedbackBox.innerHTML = "<span class='error'>❌ Please enter SQL first</span>";
-      feedbackBox.className = "feedback feedback-error";
-      return;
-    }
+async function checkSQL(textareaId, feedbackId) {
+  const sql = document.getElementById(textareaId).value.trim();
+  const feedbackBox = document.getElementById(feedbackId);
+  const tableHeader = document.querySelector(`#${textareaId}`).previousElementSibling.textContent;
 
-    feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
-    feedbackBox.className = "feedback";
-    
-    try {
-      const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          messages: [
-            {
-              role: "user",
-              content: `Analyze this SQL CREATE TABLE statement against these exact requirements: ${tableHeader}. 
-              Focus STRICTLY on whether it matches the required structure - don't suggest adding columns not in requirements.
-              Check for:
-              1. All required columns present
-              2. Correct data types
-              3. Proper PRIMARY KEY definition
-              4. Appropriate constraints
-              5. Correct syntax
-              
-              If everything matches requirements perfectly, give Grade A.
-              If minor issues, give Grade B.
-              If major issues, give Grade C or below.
-              
-              Format response with MAX 5 bullet points (EMOJI + brief comment).
-              End with Grade: X.
-              
-              Example perfect response:
-              ✅ All required columns present
-              ✅ Correct data types used
-              ✅ Proper PRIMARY KEY definition
-              ✅ Appropriate NOT NULL constraints
-              ✅ Syntax is correct
-              
-              Grade: A
-              
-              SQL to analyze:
-              ${sql}`
-            }
-          ]
-        })
-      });
+  if (!sql) {
+    feedbackBox.innerHTML = "<span class='error'>❌ Please enter SQL first</span>";
+    feedbackBox.className = "feedback feedback-error";
+    return;
+  }
 
-      if (!response.ok) {
-        throw new Error(`Server error: ${response.status}`);
-      }
+  feedbackBox.innerHTML = "<span class='loading'>⏳ Analyzing with AI...</span>";
+  feedbackBox.className = "feedback";
 
-      const data = await response.json();
-      let aiResponse = data.choices?.[0]?.message?.content || "No analysis available";
-      
-      // Post-process the AI response to remove unwanted suggestions
-      aiResponse = aiResponse.replace(/💡.*(add|consider).*(column|index|field).*/gi, '');
-      aiResponse = aiResponse.replace(/\n\s*\n/g, '\n'); // Remove empty lines
-      
-      // Format the response
-      const gradeMatch = aiResponse.match(/Grade: ([A-F])/i);
-      const grade = gradeMatch ? gradeMatch[1] : '?';
-      let feedbackContent = aiResponse.replace(/Grade: [A-F]/i, '').trim();
-      
-      // Ensure we don't show empty suggestions
-      feedbackContent = feedbackContent.split('\n')
-        .filter(line => line.trim().length > 0)
-        .join('\n');
-      
-      feedbackBox.innerHTML = `
-        <div class="grade grade-${grade}">Grade: ${grade}</div>
-        ${feedbackContent.split('\n').map(line => {
-          if (line.includes('✅')) return `<div class="feedback-item correct">${line}</div>`;
-          if (line.includes('⚠️')) return `<div class="feedback-item warning">${line}</div>`;
-          if (line.includes('❌')) return `<div class="feedback-item error">${line}</div>`;
-          if (line.includes('💡') && !line.toLowerCase().includes('add') && !line.toLowerCase().includes('consider')) {
-            return `<div class="feedback-item suggestion">${line}</div>`;
+  try {
+    const response = await fetch("https://openrouter-proxy-k2ca.onrender.com/ai", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "user",
+            content: `You are an SQL teaching assistant helping a student.
+They submitted this SQL statement:
+-----
+${sql}
+-----
+
+Evaluate it based on this task:
+-----
+${tableHeader}
+-----
+
+Strictly follow this checklist:
+1. ✅ All required columns included
+2. ✅ Correct data types
+3. ✅ Proper PRIMARY KEY
+4. ✅ Needed FOREIGN KEYs (if relevant)
+5. ✅ Syntax correctness
+
+Respond like this:
+1. Summary: pass/fail with reason
+2. Grade: A (perfect), B (minor), C (moderate), D (major), F (unusable)
+3. Specific feedback per issue (✓ or ✗)
+4. DO NOT suggest extra columns or restructure the table unless required`
           }
-          return line.trim() ? `<div>${line}</div>` : '';
-        }).join('')}
-      `;
-      feedbackBox.className = "feedback";
-    } catch (error) {
-      feedbackBox.innerHTML = `<div class="error">❌ Error: ${error.message || "Failed to get AI response"}</div>`;
-      feedbackBox.className = "feedback feedback-error";
-    }
+        ]
+      })
+    });
+
+    const data = await response.json();
+    const aiReply = data.choices?.[0]?.message?.content || "No feedback received.";
+    
+    const gradeMatch = aiReply.match(/Grade: ([ABCDF])/i);
+    const grade = gradeMatch ? gradeMatch[1].toUpperCase() : "N/A";
+    const gradeClass = `grade-${grade}`;
+
+    feedbackBox.innerHTML = `<div class="grade ${gradeClass}">Grade: ${grade}</div><pre>${aiReply}</pre>`;
+    feedbackBox.className = grade === 'A' ? "feedback feedback-success" : "feedback feedback-error";
+  } catch (err) {
+    feedbackBox.innerHTML = "⚠️ Error contacting AI service.";
+    feedbackBox.className = "feedback feedback-error";
   }
+}
+</script>
 
-  async function showSolution(tableType) {
-    const solutions = {
-      branch: "CREATE TABLE Branch (\n  branchNo VARCHAR(5) PRIMARY KEY,\n  street VARCHAR(100) NOT NULL,\n  city VARCHAR(50) NOT NULL,\n  postcode VARCHAR(10) NOT NULL\n);",
-      staff: "CREATE TABLE Staff (\n  staffNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  position VARCHAR(20) NOT NULL,\n  gender CHAR(1) CHECK (gender IN ('M', 'F')),\n  DOB DATE NOT NULL,\n  salary DECIMAL(10,2) NOT NULL,\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-      property: "CREATE TABLE PropertyForRent (\n  propertyNo VARCHAR(5) PRIMARY KEY,\n  type VARCHAR(20) NOT NULL,\n  rooms INT NOT NULL,\n  rent DECIMAL(10,2) NOT NULL,\n  ownerNo VARCHAR(5) NOT NULL,\n  staffNo VARCHAR(5),\n  branchNo VARCHAR(5) NOT NULL,\n  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),\n  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),\n  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)\n);",
-      client: "CREATE TABLE Client (\n  clientNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  prefType VARCHAR(20),\n  maxRent DECIMAL(10,2),\n  email VARCHAR(100)\n);",
-      owner: "CREATE TABLE PrivateOwner (\n  ownerNo VARCHAR(5) PRIMARY KEY,\n  fName VARCHAR(50) NOT NULL,\n  lName VARCHAR(50) NOT NULL,\n  address VARCHAR(100) NOT NULL,\n  telNo VARCHAR(15) NOT NULL,\n  email VARCHAR(100),\n  password VARCHAR(50) NOT NULL\n);",
-      viewing: "CREATE TABLE Viewing (\n  clientNo VARCHAR(5) NOT NULL,\n  propertyNo VARCHAR(5) NOT NULL,\n  viewDate DATE NOT NULL,\n  comments TEXT,\n  PRIMARY KEY (clientNo, propertyNo, viewDate),\n  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),\n  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)\n);"
-    };
-
-    const textareaId = {
-      branch: "sqlBranch",
-      staff: "sqlStaff",
-      property: "sqlProperty",
-      client: "sqlClient",
-      owner: "sqlOwner",
-      viewing: "sqlViewing"
-    }[tableType];
-
-    if (textareaId && solutions[tableType]) {
-      document.getElementById(textareaId).value = solutions[tableType];
-      // Add animation to show the solution was loaded
-      const textarea = document.getElementById(textareaId);
-      textarea.style.borderColor = "#2ecc71";
-      setTimeout(() => {
-        textarea.style.borderColor = "#ddd";
-      }, 1000);
-    }
-  }
-  </script>
 </body>
 </html>
