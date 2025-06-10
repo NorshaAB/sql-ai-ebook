@@ -459,59 +459,69 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
       }
     }
 
-    // Get AI feedback on the answer
-    async function getAIFeedback(button, question) {
-      const card = button.closest('.question-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
-      
-      if (!userAnswer) {
-        feedback.textContent = 'Please write your SQL query first before requesting AI feedback.';
-        feedback.className = 'feedback feedback-error';
-        return;
-      }
-      
-      // Show loading state
-      const originalText = button.innerHTML;
-      button.innerHTML = '<span class="loading"></span> Analyzing...';
-      button.disabled = true;
-      
-      try {
-        // In a production environment, you would call your proxy server here
-        // For demonstration, we'll simulate a response
-        const aiResponse = await simulateAIRequest(question, userAnswer);
-        
-        feedback.innerHTML = `<strong>AI Feedback:</strong> ${aiResponse}`;
-        feedback.className = 'feedback feedback-success';
-      } catch (error) {
-        console.error('Error getting AI feedback:', error);
-        feedback.textContent = 'Failed to get AI feedback. Please try again later.';
-        feedback.className = 'feedback feedback-error';
-      } finally {
-        // Restore button state
-        button.innerHTML = originalText;
-        button.disabled = false;
-      }
+// Get AI feedback on the answer
+async function getAIFeedback(button, question) {
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim();
+  
+  if (!userAnswer) {
+    feedback.textContent = 'Please write your SQL query first before requesting AI feedback.';
+    feedback.className = 'feedback feedback-error';
+    return;
+  }
+  
+  // Show loading state
+  const originalText = button.innerHTML;
+  button.innerHTML = '<span class="loading"></span> Analyzing...';
+  button.disabled = true;
+  
+  try {
+    const response = await fetch('https://openrouter-proxy-k2ca.onrender.com/api/ai-feedback', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        question: question,
+        answer: userAnswer,
+        context: "You are a SQL instructor helping a student learn database concepts. Provide constructive feedback on their SQL query, pointing out any errors and explaining how to improve it. Keep your response concise and educational."
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-
+    
+    const data = await response.json();
+    feedback.innerHTML = `<strong>AI Feedback:</strong> ${data.feedback}`;
+    feedback.className = 'feedback feedback-success';
+  } catch (error) {
+    console.error('Error getting AI feedback:', error);
+    feedback.textContent = 'Failed to get AI feedback. Please try again later.';
+    feedback.className = 'feedback feedback-error';
+  } finally {
+    button.innerHTML = originalText;
+    button.disabled = false;
+  }
+}
     // Simulate AI request (replace with actual API call in production)
     async function simulateAIRequest(question, userAnswer) {
       // In a real implementation, you would make a fetch request to your proxy server
       // which would then call the OpenRouter API
       /*
-      const response = await fetch(`${API_BASE_URL}/api/ai-feedback`, {
+      const response = await fetch('https://openrouter-proxy-k2ca.onrender.com/api/ai-feedback', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${OPENROUTER_API_KEY}`
-        },
-        body: JSON.stringify({
-          question: question,
-          answer: userAnswer,
-          context: "You are a SQL instructor helping a student learn database concepts. Provide constructive feedback on their SQL query, pointing out any errors and explaining how to improve it. Keep your response concise and educational."
-        })
-      });
+           'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    question: question,
+    answer: userAnswer,
+    context: "You are a SQL instructor helping a student learn database concepts..."
+  })
+});
       
       if (!response.ok) {
         throw new Error('Failed to get AI feedback');
