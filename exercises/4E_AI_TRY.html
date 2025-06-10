@@ -382,7 +382,7 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn" onclick="checkAnswer(this, ['create table customer (custid varchar(5) primary key, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date)'])">
+          <button class="btn" onclick="checkAnswer(this, ['create table customer (custid varchar(5) primary key NOT NULL, custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date)'])">
             <span>🔍</span> Check Answer
           </button>
           <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to create table CUSTOMER with the following details: custid varchar(5), custname varchar(100), car_number varchar(10), phone_number varchar(15), register_date date')">
