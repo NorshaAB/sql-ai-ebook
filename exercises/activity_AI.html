@@ -370,6 +370,7 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
         </div>
         <div class="hint-content">
           Use <code>CREATE TABLE</code> with correct syntax for column names and types. Remember to specify the primary key.
+          Example: <code>CREATE TABLE CUSTOMER (custid VARCHAR(5) PRIMARY KEY, custname VARCHAR(100), ...);</code>
         </div>
         <div class="feedback"></div>
       </li>
@@ -381,4 +382,54 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318
+          <button onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\')']);">
+            <span>🔍</span> Check Answer
+          </button>
+        </div>
+        <div class="hint-content">
+          Use <code>INSERT INTO</code> statement with the correct table name and values in the proper order.
+          Example: <code>INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+    </ol>
+  </div>
+
+  <script>
+    // Toggle hint visibility
+    function toggleHint(button) {
+      const card = button.closest('.question-card');
+      const hint = card.querySelector('.hint-content');
+      hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Check answer against expected patterns
+    function checkAnswer(button, expectedAnswers) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim().toLowerCase();
+      
+      // Remove extra whitespace for comparison
+      const normalizedUserAnswer = userAnswer.replace(/\s+/g, ' ').replace(/;/g, '').trim();
+      
+      let isCorrect = false;
+      for (const expected of expectedAnswers) {
+        const normalizedExpected = expected.toLowerCase().replace(/\s+/g, ' ').replace(/;/g, '').trim();
+        if (normalizedUserAnswer === normalizedExpected) {
+          isCorrect = true;
+          break;
+        }
+      }
+      
+      if (isCorrect) {
+        feedback.textContent = '✅ Correct! Well done!';
+        feedback.className = 'feedback feedback-success';
+      } else {
+        feedback.textContent = '❌ Not quite right. Try again or check the hint.';
+        feedback.className = 'feedback feedback-error';
+      }
+    }
+  </script>
+</body>
+</html>
