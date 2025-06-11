@@ -460,8 +460,43 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
       feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
     }
 
-    // Get AI feedback on the answer
-// Get AI feedback on the answer - Improved Version
+// Add these helper functions at the top of your script section
+function toggleButtonState(button, isLoading) {
+  if (isLoading) {
+    button.innerHTML = '<span class="loading"></span> Analyzing...';
+    button.disabled = true;
+  } else {
+    button.innerHTML = '<span>🤖</span> Get AI Feedback';
+    button.disabled = false;
+  }
+}
+
+function showFeedback(element, message, isSuccess) {
+  element.innerHTML = isSuccess 
+    ? `<div class="feedback-content">
+         <strong>AI Feedback:</strong>
+         <div class="feedback-bullets">${message}</div>
+       </div>`
+    : message;
+  element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
+}
+
+function formatAIResponse(text) {
+  // Remove grade references
+  text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
+  
+  // Convert to proper HTML bullet points
+  return text
+    .split('\n')
+    .map(line => {
+      line = line.replace(/^[\s*\-•]+/, '').trim();
+      return line ? `• ${line}` : '';
+    })
+    .filter(line => line)
+    .join('<br>');
+}
+
+// Updated getAIFeedback function with better error handling
 async function getAIFeedback(button, question) {
   const card = button.closest('.question-card');
   const editor = card.querySelector('.sql-editor');
@@ -473,79 +508,50 @@ async function getAIFeedback(button, question) {
     return;
   }
   
-  // Show loading state
   toggleButtonState(button, true);
   
   try {
     const response = await fetch(`${API_BASE_URL}/ai`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
       body: JSON.stringify({
         messages: [
           {
             role: "system",
-            content: `You are a SQL instructor helping students learn database concepts. 
-                      Provide clear, concise feedback on their SQL query. Focus on:
-                      - Syntax correctness
-                      - Best practices
-                      - Potential improvements
-                      Format your response as bullet points without emojis.
-                      Do not include a grade or rating.`
+            content: `You are a SQL instructor. Provide specific feedback on:
+                     - Syntax errors
+                     - Best practices
+                     - Optimization suggestions
+                     Format as clean bullet points`
           },
           {
             role: "user",
-            content: `Question: ${question}\n\nSQL Query: ${userAnswer}`
+            content: `Question: ${question}\nSQL Query: ${userAnswer}`
           }
         ]
       })
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error?.message || `Server error: ${response.status}`);
+      throw new Error(`Server responded with ${response.status}`);
     }
 
     const data = await response.json();
-    const rawResponse = data.choices?.[0]?.message?.content || "No feedback available";
+    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
     
-    // Clean up the response
-    const cleanResponse = formatAIResponse(rawResponse);
-    showFeedback(feedback, cleanResponse, true);
+    // Clean and format the response
+    aiResponse = formatAIResponse(aiResponse);
+    showFeedback(feedback, aiResponse, true);
     
   } catch (error) {
-    console.error("AI Feedback Error:", error);
-    showFeedback(feedback, `Error: ${error.message}`, false);
+    console.error("Error:", error);
+    showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
   } finally {
     toggleButtonState(button, false);
   }
-}
-
-// New helper function to format AI response
-function formatAIResponse(text) {
-  // Remove grade references
-  text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
-  
-  // Convert to proper HTML bullet points
-  return text
-    .split('\n')
-    .map(line => {
-      // Handle bullet points (both * and -)
-      line = line.replace(/^[\s*\-•]+/, '').trim();
-      return line ? `• ${line}` : '';
-    })
-    .filter(line => line)
-    .join('<br>');
-}
-
-// Updated showFeedback helper
-function showFeedback(element, message, isSuccess) {
-  element.innerHTML = isSuccess 
-    ? `<div class="feedback-content">
-         <strong>AI Feedback:</strong>
-         <div class="feedback-bullets">${message}</div>
-       </div>`
-    : message;
-  element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
 }
   </script>
 </body>
