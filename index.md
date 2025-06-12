@@ -97,13 +97,14 @@ FROM employees
 GROUP BY department 
 HAVING AVG(salary) > 5000;
 
-</details> </div><div class="quick-note"> <details> <summary><strong>🔗 JOIN Types</strong></summary>
+</details> </div>
+<div class="quick-note"> <details> <summary><strong>🔗 JOIN Types</strong></summary>
 SELECT * FROM orders
 INNER JOIN customers ON orders.cust_id = customers.id;
 
 -- LEFT: All rows from left table + matches
 SELECT * FROM products
 LEFT JOIN inventory ON products.id = inventory.product_id;
-
+</details> </div>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
