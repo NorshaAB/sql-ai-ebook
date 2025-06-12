@@ -109,4 +109,4 @@ SELECT * FROM products
 LEFT JOIN inventory ON products.id = inventory.product_id;
 
 
-<div style="text-align: center; margin-top: 2rem;"> <small>Made with ❤️ | © 2025 | <a href="https://github.com/norshaab/sql-ai-ebook">View on GitHub</a></small> </div>
+<div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
