@@ -59,11 +59,6 @@
   flex-wrap: wrap;
 }
 
-  .sql-playground {
-  min-height: 100px; /* Ensures section is always visible */
-  padding: 1rem;
-  background: #f5f5f5;
-}
 </style>
 
 <div class="intro-card">
@@ -83,11 +78,6 @@ Practice with live exercises and AI-powered feedback.
 <div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
 "The more you know, the more you realize you don't know."
 — Aristotle (perfect for SQL learning!)
-
-## 🛠️ Practice Now
-<div class="sql-playground">
-  <p>Live editor unavailable in GitHub preview. <a href="https://sqliteonline.com/" target="_blank">Open SQLite Online ↗</a></p>
-</div>
 
 ## 📚 Quick Notes
 <div class="quick-note">
