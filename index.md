@@ -70,6 +70,14 @@ Practice with live exercises and AI-powered feedback.
 - **Quick Reference** - Expandable syntax examples
 - **Progress Tracking** - Visualize your learning journey
 
+## 📝 Your Exercises
+<div class="exercise-grid"> <a href="exercises/activity_4C_AI.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div> <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> </a> <a href="exercises/4E_AI_TRY.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div> <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> </a> </div>
+
+## 🏆 Your Progress
+<div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
+"The more you know, the more you realize you don't know."
+— Aristotle (perfect for SQL learning!)
+
 ## 🛠️ Practice Now
 <iframe src="https://sqliteonline.com/" class="sql-playground" title="SQL Practice"></iframe>
 <small>Pro Tip: Try recreating exercises from this platform here!</small>
@@ -100,12 +108,5 @@ INNER JOIN customers ON orders.cust_id = customers.id;
 SELECT * FROM products
 LEFT JOIN inventory ON products.id = inventory.product_id;
 
-## 📝 Your Exercises
-<div class="exercise-grid"> <a href="exercises/activity_4C_AI.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div> <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> </a> <a href="exercises/4E_AI_TRY.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div> <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> </a> </div>
-
-## 🏆 Your Progress
-<div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
-"The more you know, the more you realize you don't know."
-— Aristotle (perfect for SQL learning!)
 
 <div style="text-align: center; margin-top: 2rem;"> <small>Made with ❤️ | © 2025 | <a href="https://github.com/norshaab/sql-ai-ebook">View on GitHub</a></small> </div>
