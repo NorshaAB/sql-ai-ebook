@@ -456,6 +456,214 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
     </ol>
   </div>
 
+        <li class="question-card">
+        <p><b>3. Type SQL command to find customer name from CUSTOMER table.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT custname FROM CUSTOMER;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, ['select custname from customer'])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to find customer name from CUSTOMER table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use a simple <code>SELECT</code> statement with just the customer name column.
+          Example: <code>SELECT custname FROM CUSTOMER;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>4. Type SQL command to display component ID, component name and price is between 200 and 400.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT COMPID, COMPNAME, PRICE FROM CAR_COMPONENT WHERE PRICE BETWEEN 200 AND 400;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select compid, compname, price from car_component where price between 200 and 400',
+            'select compid, compname, price from car_component where price >= 200 and price <= 400'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to display component ID, component name and price between 200 and 400 from CAR_COMPONENT table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use <code>BETWEEN</code> operator or combine <code>>=</code> and <code><=</code> conditions.
+          Example: <code>SELECT COMPID, COMPNAME, PRICE FROM CAR_COMPONENT WHERE PRICE BETWEEN 200 AND 400;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>5. Type SQL command to display car number begin with J.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT CAR_NUMBER FROM CUSTOMER WHERE CAR_NUMBER LIKE 'J%';"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select car_number from customer where car_number like \'j%\'',
+            'select car_number from customer where left(car_number, 1) = \'j\''
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to display car numbers that begin with J from CUSTOMER table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>LIKE</code> operator with wildcard <code>%</code>.
+          Example: <code>SELECT CAR_NUMBER FROM CUSTOMER WHERE CAR_NUMBER LIKE 'J%';</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>6. Type SQL command to display claimID and quantity where claim number is CL001 and CL004.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT CLAIMID, QUANTITY FROM COMPONENT_CLAIM WHERE CLAIMID IN ('CL001', 'CL004');"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select claimid, quantity from component_claim where claimid in (\'cl001\', \'cl004\')',
+            'select claimid, quantity from component_claim where claimid = \'cl001\' or claimid = \'cl004\''
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to display claimID and quantity for claims CL001 and CL004 from COMPONENT_CLAIM table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use <code>IN</code> operator or combine conditions with <code>OR</code>.
+          Example: <code>SELECT CLAIMID, QUANTITY FROM COMPONENT_CLAIM WHERE CLAIMID IN ('CL001', 'CL004');</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>7. Type SQL command to find the minimum value for price in the CAR_COMPONENT table.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT MIN(PRICE) FROM CAR_COMPONENT;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select min(price) from car_component'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to find the minimum price value in CAR_COMPONENT table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>MIN()</code> aggregate function.
+          Example: <code>SELECT MIN(PRICE) FROM CAR_COMPONENT;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>8. Type SQL command to find the maximum value for price in the CAR_COMPONENT table.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT MAX(PRICE) FROM CAR_COMPONENT;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select max(price) from car_component'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to find the maximum price value in CAR_COMPONENT table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>MAX()</code> aggregate function.
+          Example: <code>SELECT MAX(PRICE) FROM CAR_COMPONENT;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>9. Type SQL command to find the average value for price in the CAR_COMPONENT table.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT AVG(PRICE) FROM CAR_COMPONENT;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select avg(price) from car_component'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to find the average price value in CAR_COMPONENT table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>AVG()</code> aggregate function.
+          Example: <code>SELECT AVG(PRICE) FROM CAR_COMPONENT;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>10. Type SQL command to find the sum of price in the CAR_COMPONENT table.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT SUM(PRICE) FROM CAR_COMPONENT;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select sum(price) from car_component'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to find the sum of all prices in CAR_COMPONENT table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>SUM()</code> aggregate function.
+          Example: <code>SELECT SUM(PRICE) FROM CAR_COMPONENT;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <li class="question-card">
+        <p><b>11. Type SQL command to count the number of customers.</b></p>
+        <textarea class="sql-editor" placeholder="SELECT COUNT(*) FROM CUSTOMER;"></textarea>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'select count(*) from customer',
+            'select count(custid) from customer'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to count the number of customers in CUSTOMER table')">
+            <span>🤖</span> Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Use the <code>COUNT()</code> aggregate function.
+          Example: <code>SELECT COUNT(*) FROM CUSTOMER;</code>
+        </div>
+        <div class="feedback"></div>
+      </li>
   <script>
     // Configuration
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
