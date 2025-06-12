@@ -59,6 +59,14 @@
   flex-wrap: wrap;
 }
 
+  .notes-image {
+  width: 100%;
+  max-width: 800px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 1.5rem auto;
+  display: block;
+}
 </style>
 
 <div class="intro-card">
@@ -79,32 +87,8 @@ Practice with live exercises and AI-powered feedback.
 "The more you know, the more you realize you don't know."
 — Aristotle (perfect for SQL learning!)
 
-## 📚 Quick Notes
-<div class="quick-note">
-<details>
-<summary><strong>🔍 WHERE vs. HAVING</strong></summary>
-
-```sql
--- Filters individual rows BEFORE grouping
-SELECT department, COUNT(*) 
-FROM employees 
-WHERE salary > 5000 
-GROUP BY department;
-
--- Filters groups AFTER aggregation
-SELECT department, AVG(salary) 
-FROM employees 
-GROUP BY department 
-HAVING AVG(salary) > 5000;
-
-</details> </div>
-<div class="quick-note"> <details> <summary><strong>🔗 JOIN Types</strong></summary>
-SELECT * FROM orders
-INNER JOIN customers ON orders.cust_id = customers.id;
-
--- LEFT: All rows from left table + matches
-SELECT * FROM products
-LEFT JOIN inventory ON products.id = inventory.product_id;
-</details> </div>
+## 📚 SQL Quick Reference
+![SQL Cheat Sheet](SQL_NOTES.JPG){: .notes-image}
+<small>Right-click → "Open image in new tab" to zoom</small>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
