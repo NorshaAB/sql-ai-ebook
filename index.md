@@ -16,7 +16,7 @@
   margin-bottom: 2rem;
 }
 
-/* Exercise grid (your original) */
+/* Exercise grid */
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -35,7 +35,7 @@
   display: block;
 }
 
-/* New interactive elements */
+/* Interactive elements */
 .sql-playground {
   width: 100%;
   height: 400px;
@@ -108,4 +108,4 @@ LEFT JOIN inventory ON products.id = inventory.product_id;
 "The more you know, the more you realize you don't know."
 — Aristotle (perfect for SQL learning!)
 
-<div style="text-align: center; margin-top: 2rem;"> <small>Made with ❤️ | © 2025 | <a href="https://github.com/your-repo">View on GitHub</a></small> </div> ```
+<div style="text-align: center; margin-top: 2rem;"> <small>Made with ❤️ | © 2025 | <a href="https://github.com/norshaab/sql-ai-ebook">View on GitHub</a></small> </div>
