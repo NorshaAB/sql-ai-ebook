@@ -88,5 +88,3 @@ HAVING AVG(salary) > 5000;
     <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries practice</div>
   </div>
 </a>
-
-</div>
