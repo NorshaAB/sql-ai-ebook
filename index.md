@@ -58,6 +58,12 @@
   margin: 1.5rem 0;
   flex-wrap: wrap;
 }
+
+  .sql-playground {
+  min-height: 100px; /* Ensures section is always visible */
+  padding: 1rem;
+  background: #f5f5f5;
+}
 </style>
 
 <div class="intro-card">
@@ -79,8 +85,9 @@ Practice with live exercises and AI-powered feedback.
 — Aristotle (perfect for SQL learning!)
 
 ## 🛠️ Practice Now
-<iframe src="https://sqliteonline.com/" class="sql-playground" title="SQL Practice"></iframe>
-<small>Pro Tip: Try recreating exercises from this platform here!</small>
+<div class="sql-playground">
+  <p>Live editor unavailable in GitHub preview. <a href="https://sqliteonline.com/" target="_blank">Open SQLite Online ↗</a></p>
+</div>
 
 ## 📚 Quick Notes
 <div class="quick-note">
