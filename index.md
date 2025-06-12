@@ -1,9 +1,41 @@
+---
+# 📘 AI-Augmented SQL eBook - Interactive Platform
+---
+
 <style>
-.footer, .octocat {
-  display: none !important;
+/* Hide GitHub elements */
+.footer, .octocat { display: none !important; }
+
+/* Modern card styling */
+.intro-card {
+  background: linear-gradient(135deg, #3498db, #2c3e50);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  margin-bottom: 2rem;
 }
 
-/* New styles for interactive elements */
+/* Exercise grid (your original) */
+.exercise-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.exercise-card {
+  background: #2188ff;
+  color: white;
+  padding: 1rem;
+  border-radius: 6px;
+  text-align: center;
+  transition: transform 0.2s;
+  text-decoration: none;
+  display: block;
+}
+
+/* New interactive elements */
 .sql-playground {
   width: 100%;
   height: 400px;
@@ -28,63 +60,52 @@
 }
 </style>
 
-# 📘 AI-Augmented SQL eBook
-
-<div class="intro-card" style="
-  background: linear-gradient(135deg, #3498db, #2c3e50);
-  color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-">
-Welcome to the Interactive SQL Learning Platform!<br>
-Now with <strong>live SQL exercises</strong> and <strong>AI-powered quick notes</strong>.
+<div class="intro-card">
+Welcome to the <strong>Interactive SQL Learning Platform</strong>!<br>
+Practice with live exercises and AI-powered feedback.
 </div>
 
-## 🚀 New Features
-- **Embedded SQL Playground** - Practice directly in your browser
-- **Expandable Quick Notes** - Key concepts at your fingertips
-- **Progress Tracking** - See your learning journey
+## 🚀 Key Features
+- **Live SQL Editor** - Try queries directly in your browser
+- **Quick Reference** - Expandable syntax examples
+- **Progress Tracking** - Visualize your learning journey
 
-## 🛠️ Live SQL Playground
-<iframe src="https://sqliteonline.com/" class="sql-playground"></iframe>
-<small>*Powered by SQLite Online - Works right in your browser!*</small>
+## 🛠️ Practice Now
+<iframe src="https://sqliteonline.com/" class="sql-playground" title="SQL Practice"></iframe>
+<small>Pro Tip: Try recreating exercises from this platform here!</small>
 
-## 📚 Quick Reference
+## 📚 Quick Notes
 <div class="quick-note">
 <details>
-<summary><strong>✨ WHERE vs. HAVING</strong> (Click to expand)</summary>
+<summary><strong>🔍 WHERE vs. HAVING</strong></summary>
 
 ```sql
--- WHERE filters rows BEFORE aggregation
+-- Filters individual rows BEFORE grouping
 SELECT department, COUNT(*) 
 FROM employees 
 WHERE salary > 5000 
 GROUP BY department;
 
--- HAVING filters AFTER aggregation
+-- Filters groups AFTER aggregation
 SELECT department, AVG(salary) 
 FROM employees 
 GROUP BY department 
 HAVING AVG(salary) > 5000;
 
-## 🔍 Exercises
+</details> </div><div class="quick-note"> <details> <summary><strong>🔗 JOIN Types</strong></summary>
+SELECT * FROM orders
+INNER JOIN customers ON orders.cust_id = customers.id;
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
+-- LEFT: All rows from left table + matches
+SELECT * FROM products
+LEFT JOIN inventory ON products.id = inventory.product_id;
 
-<a href="exercises/activity_4C_AI.html" style="text-decoration: none;">
-  <div style="background: #2188ff; color: white; padding: 1rem; border-radius: 6px; text-align: center; transition: transform 0.2s;">
-    <div style="font-size: 1.5rem;">📌</div>
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div>
-    <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE statements practice</div>
-  </div>
-</a>
+📝 Your Exercises
+<div class="exercise-grid"> <a href="exercises/activity_4C_AI.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div> <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> </a> <a href="exercises/4E_AI_TRY.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div> <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> </a> </div>
 
-<a href="exercises/4E_AI_TRY.html" style="text-decoration: none;">
-  <div style="background: #2188ff; color: white; padding: 1rem; border-radius: 6px; text-align: center; transition: transform 0.2s;">
-    <div style="font-size: 1.5rem;">📌</div>
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div>
-    <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries practice</div>
-  </div>
-</a>
+🏆 Your Progress
+<div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
+"The more you know, the more you realize you don't know."
+— Aristotle (perfect for SQL learning!)
+
+<div style="text-align: center; margin-top: 2rem;"> <small>Made with ❤️ | © 2025 | <a href="https://github.com/your-repo">View on GitHub</a></small> </div> ```
