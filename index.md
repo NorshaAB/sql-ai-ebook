@@ -89,6 +89,5 @@ Practice with live exercises and AI-powered feedback.
 
 ## 📚 SQL Quick Reference
 ![SQL Cheat Sheet](SQL NOTES.JPG){: .notes-image}
-<small>Right-click → "Open image in new tab" to zoom</small>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
