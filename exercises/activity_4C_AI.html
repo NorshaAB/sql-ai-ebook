@@ -111,14 +111,30 @@
       outline: none;
     }
 
-    .sql-editor::placeholder {
-  color: #999;
+    .sql-editor {
+  width: 100%;
+  min-height: 120px; /* Original height */
+  font-family: 'Courier New', monospace;
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  resize: vertical; /* Allows user to resize if needed */
+  font-size: 14px;
+  margin: 10px 0;
+  background: #f8f9fa;
+  transition: border-color 0.3s;
+}
+
+.sql-editor::placeholder {
+  color: #aaa;
   font-style: italic;
-  opacity: 1; /* Ensure full visibility */
+  font-family: 'Segoe UI', Tahoma, sans-serif; /* Different font for placeholder */
+  opacity: 1;
+  transition: opacity 0.2s;
 }
 
 .sql-editor:focus::placeholder {
-  color: #ccc; /* Lighten when focused */
+  opacity: 0.5;
 }
 
     /* Unified Button Styles */
