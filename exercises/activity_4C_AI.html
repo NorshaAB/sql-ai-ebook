@@ -321,12 +321,7 @@
 
     <div class="activity-card">
       <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
-      <textarea class="" id="sqlStaff" placeholder="CREATE TABLE Staff (
-  staffNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(50) NOT NULL,
-  lName VARCHAR(50) NOT NULL,
-  /* ... */
-);"></textarea>
+      <textarea class="sql-editor" placeholder="-- Write your CREATE TABLE statement here"></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlStaff', 'feedbackStaff')">
           <span>🔍</span> Check Answer
@@ -343,10 +338,7 @@
 
     <div class="activity-card">
       <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
-      <textarea class="" id="sqlProperty" placeholder="CREATE TABLE PropertyForRent (
-  propertyNo VARCHAR(5) PRIMARY KEY,
-  /* ... */
-);"></textarea>
+      <textarea class="sql-editor" placeholder="-- Write your statement here"></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlProperty', 'feedbackProperty')">
           <span>🔍</span> Check Answer
@@ -363,10 +355,7 @@
 
     <div class="activity-card">
       <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
-      <textarea class="" id="sqlClient" placeholder="CREATE TABLE Client (
-  clientNo VARCHAR(5) PRIMARY KEY,
-  /* ... */
-);"></textarea>
+     <textarea class="sql-editor" placeholder="-- Write your statement here"></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlClient', 'feedbackClient')">
           <span>🔍</span> Check Answer
@@ -383,10 +372,7 @@
 
     <div class="activity-card">
       <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
-      <textarea class="" id="sqlOwner" placeholder="CREATE TABLE PrivateOwner (
-  ownerNo VARCHAR(5) PRIMARY KEY,
-  /* ... */
-);"></textarea>
+      <textarea class="sql-editor" placeholder="-- Write your statement here"></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlOwner', 'feedbackOwner')">
           <span>🔍</span> Check Answer
@@ -403,9 +389,7 @@
 
     <div class="activity-card">
       <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
-      <textarea class="" id="sqlViewing" placeholder="CREATE TABLE Viewing (
-  /* Composite key? Foreign keys? */
-);"></textarea>
+      <textarea class="sql-editor" placeholder="-- Write your statement here"></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlViewing', 'feedbackViewing')">
           <span>🔍</span> Check Answer
