@@ -92,7 +92,7 @@
       color: var(--secondary);
     }
 
-    . {
+    .sql-editor {
       width: 100%;
       min-height: 120px;
       font-family: 'Courier New', monospace;
@@ -106,38 +106,23 @@
       transition: border-color 0.3s;
     }
 
-    .:focus {
+    .sql-editor::placeholder {
+      color: #aaa;
+      font-style: italic;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      opacity: 1;
+      transition: opacity 0.2s;
+    }
+
+    .sql-editor:focus::placeholder {
+      opacity: 0.5;
+    }
+
+    .sql-editor:focus {
       border-color: var(--primary);
       outline: none;
     }
 
-    .sql-editor {
-  width: 100%;
-  min-height: 120px; /* Original height */
-  font-family: 'Courier New', monospace;
-  padding: 12px;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  resize: vertical; /* Allows user to resize if needed */
-  font-size: 14px;
-  margin: 10px 0;
-  background: #f8f9fa;
-  transition: border-color 0.3s;
-}
-
-.sql-editor::placeholder {
-  color: #aaa;
-  font-style: italic;
-  font-family: 'Segoe UI', Tahoma, sans-serif; /* Different font for placeholder */
-  opacity: 1;
-  transition: opacity 0.2s;
-}
-
-.sql-editor:focus::placeholder {
-  opacity: 0.5;
-}
-
-    /* Unified Button Styles */
     .btn, .btn-secondary, .btn-success {
       padding: 10px 18px;
       border-radius: 4px;
@@ -152,23 +137,21 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    /* Specific Button Colors */
-    .btn { /* Check Answer - Blue */
+    .btn {
       background: var(--primary);
       color: white;
     }
 
-    .btn-secondary { /* Show Hint - Gray */
+    .btn-secondary {
       background: var(--gray);
       color: white;
     }
 
-    .btn-success { /* AI Feedback - Green */
+    .btn-success {
       background: var(--success);
       color: white;
     }
 
-    /* Hover States */
     .btn:hover {
       background: #2980b9;
       transform: translateY(-2px);
@@ -187,13 +170,11 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
 
-    /* Active States */
     .btn:active, .btn-secondary:active, .btn-success:active {
       transform: translateY(0);
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
 
-    /* Button Icons */
     .btn span, .btn-secondary span, .btn-success span {
       font-size: 16px;
     }
@@ -241,34 +222,34 @@
     }
 
     .hint-content {
-  background: #e8f4ff;
-  border-left: 4px solid var(--primary);
-  padding: 12px;
-  margin-top: 10px;
-  border-radius: 0 4px 4px 0;
-  animation: fadeIn 0.3s ease-in;
-}
+      background: #e8f4ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 0 4px 4px 0;
+      animation: fadeIn 0.3s ease-in;
+    }
 
-.hint-content ul {
-  margin: 8px 0 0 0;
-  padding-left: 20px;
-}
+    .hint-content ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
 
-.hint-content li {
-  margin-bottom: 6px;
-}
+    .hint-content li {
+      margin-bottom: 6px;
+    }
 
-.loading {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 3px solid rgba(255,255,255,.3);
-  border-radius: 50%;
-  border-top-color: #fff;
-  animation: spin 1s ease-in-out infinite;
-  vertical-align: middle;
-  margin-right: 8px;
-}
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
 
     .sql-keyword {
       color: #d03b3b;
@@ -322,119 +303,118 @@
     
     <div class="activity-card">
       <div class="table-header">a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</div>
-     <textarea class="sql-editor" placeholder="Write your statement here..."></textarea>
+      <textarea class="sql-editor" placeholder="Write your statement here..."></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlBranch', 'feedbackBranch')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('branch')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table Branch with columns: branchNo (PK), street, city, postcode')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackBranch" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
 
     <div class="activity-card">
       <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
       <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlStaff', 'feedbackStaff')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('staff')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table Staff with columns: staffNo (PK), fName, lName, position, gender, DOB, salary, branchNo (FK)')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackStaff" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
 
     <div class="activity-card">
       <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
       <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlProperty', 'feedbackProperty')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('property')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table PropertyForRent with columns: propertyNo (PK), type, rooms, rent, ownerNo (FK), staffNo (FK), branchNo (FK)')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackProperty" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
 
     <div class="activity-card">
       <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
-     <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlClient', 'feedbackClient')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('client')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table Client with columns: clientNo (PK), fName, lName, telNo, prefType, maxRent, email')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackClient" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
 
     <div class="activity-card">
       <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
       <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlOwner', 'feedbackOwner')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('owner')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table PrivateOwner with columns: ownerNo (PK), fName, lName, address, telNo, email, password')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackOwner" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
 
     <div class="activity-card">
       <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
       <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
       <div class="button-row">
-        <button class="btn" onclick="checkSQL('sqlViewing', 'feedbackViewing')">
+        <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
         </button>
-        <button class="btn-secondary" onclick="showSolution('viewing')">
+        <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
         <button class="btn-success" onclick="getAIFeedback(this, 'Create table Viewing with composite key: clientNo (FK), propertyNo (FK), viewDate, comments')">
           <span>🤖</span> Get AI Feedback
         </button>
       </div>
-      <div id="feedbackViewing" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
   </div>
 
 <script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
-    // Check SQL answers - UPDATED
-    function checkSQL(button, expectedAnswers) {
+    // Check answer function
+    function checkAnswer(button) {
       const card = button.closest('.activity-card');
       const editor = card.querySelector('.sql-editor');
       const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim().toLowerCase();
+      const sql = editor.value.trim().toLowerCase();
       
-      // Sample validation - adjust as needed
-      if (userAnswer.includes('create table') && userAnswer.includes('primary key')) {
+      if (sql.includes('create table') && sql.includes('primary key')) {
         feedback.innerHTML = '✅ Correct! Well done!';
         feedback.className = 'feedback feedback-success';
       } else {
@@ -443,10 +423,16 @@
       }
     }
 
-    // Show solution hints - UPDATED
-    function showSolution(button) {
+    // Show hint function
+    function showHint(button) {
       const card = button.closest('.activity-card');
-      const tableType = card.querySelector('.table-header').textContent.match(/[a-z]+/i)[0].toLowerCase();
+      const header = card.querySelector('.table-header').textContent;
+      let tableType = header.match(/[a-z]+/i)[0].toLowerCase();
+      
+      // Special case for "PropertyForRent"
+      if (header.includes('PropertyForRent')) {
+        tableType = 'property';
+      }
       
       const hints = {
         branch: `Structure your CREATE TABLE statement with:
@@ -506,17 +492,6 @@
       }, 10000);
     }
 
-    // Show feedback in consistent format
-    function showFeedback(element, message, isSuccess) {
-      element.innerHTML = isSuccess 
-        ? `<div class="feedback-content">
-             <strong>Feedback:</strong>
-             <div class="feedback-bullets">${message}</div>
-           </div>`
-        : message;
-      element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
-    }
-
     // Format AI response
     function formatAIResponse(text) {
       // Remove grade references
@@ -539,7 +514,8 @@
       const userAnswer = editor.value.trim();
       
       if (!userAnswer) {
-        showFeedback(feedback, 'Please write your SQL query first', false);
+        feedback.innerHTML = '❌ Please write your SQL query first';
+        feedback.className = 'feedback feedback-error';
         return;
       }
       
@@ -578,11 +554,17 @@
         const data = await response.json();
         let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
         aiResponse = formatAIResponse(aiResponse);
-        showFeedback(feedback, aiResponse, true);
+        
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>AI Feedback:</strong>
+          <div class="feedback-bullets">${aiResponse}</div>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
         
       } catch (error) {
         console.error("Error:", error);
-        showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
+        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+        feedback.className = 'feedback feedback-error';
       } finally {
         // Restore original button state
         button.innerHTML = originalBtnHTML;
