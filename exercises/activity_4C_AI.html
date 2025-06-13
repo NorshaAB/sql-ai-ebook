@@ -240,17 +240,35 @@
       background: #fdedec;
     }
 
-    .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 3px solid rgba(255,255,255,.3);
-      border-radius: 50%;
-      border-top-color: #fff;
-      animation: spin 1s ease-in-out infinite;
-      vertical-align: middle;
-      margin-right: 8px;
-    }
+    .hint-content {
+  background: #e8f4ff;
+  border-left: 4px solid var(--primary);
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 0 4px 4px 0;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.hint-content ul {
+  margin: 8px 0 0 0;
+  padding-left: 20px;
+}
+
+.hint-content li {
+  margin-bottom: 6px;
+}
+
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+  vertical-align: middle;
+  margin-right: 8px;
+}
 
     .sql-keyword {
       color: #d03b3b;
@@ -425,87 +443,73 @@
     }
 
     // Show solution hints
-// Replace the existing showSolution() function with this:
-function showSolution(tableType) {
-  const hints = {
-    branch: `Use <code>CREATE TABLE</code> with these columns:
-      <ul>
-        <li><code>branchNo VARCHAR(5) PRIMARY KEY</code></li>
-        <li><code>street VARCHAR(100) NOT NULL</code></li>
-        <li><code>city VARCHAR(50) NOT NULL</code></li>
-        <li><code>postcode VARCHAR(10) NOT NULL</code></li>
-      </ul>`,
-    staff: `Key points for Staff table:
-      <ul>
-        <li>Primary key: <code>staffNo</code></li>
-        <li>Include foreign key: <code>branchNo</code> referencing Branch table</li>
-        <li>Add appropriate data types for all columns</li>
-      </ul>`,
-    property: `Remember to:
-      <ul>
-        <li>Set <code>propertyNo</code> as primary key</li>
-        <li>Include three foreign keys (<code>ownerNo</code>, <code>staffNo</code>, <code>branchNo</code>)</li>
-        <li>Specify NOT NULL constraints where appropriate</li>
-      </ul>`,
-    client: `Client table should have:
-      <ul>
-        <li><code>clientNo</code> as primary key</li>
-        <li>Basic client information columns</li>
-        <li>Appropriate data types for each field</li>
-      </ul>`,
-    owner: `PrivateOwner structure:
-      <ul>
-        <li>Primary key: <code>ownerNo</code></li>
-        <li>Include all personal information fields</li>
-        <li>Consider data types for contact information</li>
-      </ul>`,
-    viewing: `Special considerations:
-      <ul>
-        <li>Composite primary key (<code>clientNo</code>, <code>propertyNo</code>)</li>
-        <li>Two foreign keys referencing Client and PropertyForRent</li>
-        <li>Include viewDate and comments fields</li>
-      </ul>`
-  };
+    function showSolution(tableType) {
+      const hints = {
+        branch: `Structure your CREATE TABLE statement with:
+          • <code>branchNo</code> as PRIMARY KEY
+          • Include all specified columns
+          • Use VARCHAR for text fields
+          • Add NOT NULL constraints where appropriate`,
 
-  const card = document.querySelector(`#sql${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`)
-              .closest('.activity-card');
-  
-  // Remove any existing hint
-  const existingHint = card.querySelector('.hint-content');
-  if (existingHint) existingHint.remove();
-  
-  // Create new hint element
-  const hintContent = document.createElement('div');
-  hintContent.className = 'hint-content';
-  hintContent.innerHTML = hints[tableType];
-  
-  // Insert after the button row
-  const buttonRow = card.querySelector('.button-row');
-  buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
-  
-  // Auto-close after 10 seconds
-  setTimeout(() => {
-    hintContent.style.opacity = '0';
-    setTimeout(() => hintContent.remove(), 300);
-  }, 10000);
-}
+        staff: `Key points for Staff table:
+          • <code>staffNo</code> must be PRIMARY KEY
+          • Include all columns from the schema
+          • Remember the foreign key to Branch table
+          • Use appropriate data types (DATE for DOB, DECIMAL for salary)`,
 
-    // Toggle button state
-    function toggleButtonState(button, isLoading) {
-      if (isLoading) {
-        button.innerHTML = '<span class="loading"></span> Analyzing...';
-        button.disabled = true;
-      } else {
-        button.innerHTML = '<span>🤖</span> Get AI Feedback';
-        button.disabled = false;
-      }
+        property: `Remember to:
+          • Set <code>propertyNo</code> as PRIMARY KEY
+          • Include all specified columns
+          • Add three foreign key constraints
+          • Use INT for rooms, DECIMAL for rent`,
+
+        client: `Client table should have:
+          • <code>clientNo</code> as PRIMARY KEY
+          • All specified columns included
+          • VARCHAR for text fields
+          • DECIMAL for maxRent`,
+
+        owner: `PrivateOwner structure:
+          • <code>ownerNo</code> as PRIMARY KEY
+          • Include all personal information fields
+          • VARCHAR for text fields
+          • Consider field lengths`,
+
+        viewing: `Special considerations:
+          • Composite PRIMARY KEY (clientNo + propertyNo)
+          • Two foreign key constraints
+          • DATE for viewDate
+          • TEXT for comments`
+      };
+
+      const card = document.querySelector(`#sql${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`)
+                  .closest('.activity-card');
+      
+      // Remove any existing hint
+      const existingHint = card.querySelector('.hint-content');
+      if (existingHint) existingHint.remove();
+      
+      // Create new hint element
+      const hintContent = document.createElement('div');
+      hintContent.className = 'hint-content';
+      hintContent.innerHTML = hints[tableType];
+      
+      // Insert after the button row
+      const buttonRow = card.querySelector('.button-row');
+      buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
+      
+      // Auto-close after 10 seconds
+      setTimeout(() => {
+        hintContent.style.opacity = '0';
+        setTimeout(() => hintContent.remove(), 300);
+      }, 10000);
     }
 
     // Show feedback in consistent format
     function showFeedback(element, message, isSuccess) {
       element.innerHTML = isSuccess 
         ? `<div class="feedback-content">
-             <strong>AI Feedback:</strong>
+             <strong>Feedback:</strong>
              <div class="feedback-bullets">${message}</div>
            </div>`
         : message;
@@ -529,7 +533,7 @@ function showSolution(tableType) {
     // Get AI feedback
     async function getAIFeedback(button, question) {
       const card = button.closest('.activity-card');
-      const editor = card.querySelector('.');
+      const editor = card.querySelector('.sql-editor');
       const feedback = card.querySelector('.feedback');
       const userAnswer = editor.value.trim();
       
@@ -538,7 +542,10 @@ function showSolution(tableType) {
         return;
       }
       
-      toggleButtonState(button, true);
+      // Store original button HTML
+      const originalBtnHTML = button.innerHTML;
+      button.innerHTML = '<span class="loading"></span> Analyzing...';
+      button.disabled = true;
       
       try {
         const response = await fetch(`${API_BASE_URL}/ai`, {
@@ -576,7 +583,9 @@ function showSolution(tableType) {
         console.error("Error:", error);
         showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
       } finally {
-        toggleButtonState(button, false);
+        // Restore original button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = false;
       }
     }
   </script>
