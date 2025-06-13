@@ -400,17 +400,97 @@
     </div>
   </div>
 
-  <script>
+<script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
+    // Check SQL answers
+    function checkSQL(editorId, feedbackId) {
+      const editor = document.getElementById(editorId);
+      const feedback = document.getElementById(feedbackId);
+      const sql = editor.value.trim().toLowerCase();
+      
+      // Sample validation - replace with your actual validation logic
+      if (sql.includes('create table') && sql.includes('primary key')) {
+        feedback.innerHTML = '✅ Correct! Well done!';
+        feedback.className = 'feedback feedback-success';
+      } else {
+        feedback.innerHTML = '❌ Please check your syntax. Make sure to include PRIMARY KEY.';
+        feedback.className = 'feedback feedback-error';
+      }
+    }
+
+    // Show solution hints
+    function showSolution(tableType) {
+      const solutions = {
+        branch: `CREATE TABLE Branch (
+  branchNo VARCHAR(5) PRIMARY KEY,
+  street VARCHAR(100) NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  postcode VARCHAR(10) NOT NULL
+);`,
+        staff: `CREATE TABLE Staff (
+  staffNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(50) NOT NULL,
+  lName VARCHAR(50) NOT NULL,
+  position VARCHAR(20) NOT NULL,
+  gender CHAR(1),
+  DOB DATE,
+  salary DECIMAL(10,2),
+  branchNo VARCHAR(5),
+  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
+);`,
+        property: `CREATE TABLE PropertyForRent (
+  propertyNo VARCHAR(5) PRIMARY KEY,
+  type VARCHAR(20) NOT NULL,
+  rooms INT NOT NULL,
+  rent DECIMAL(10,2) NOT NULL,
+  ownerNo VARCHAR(5),
+  staffNo VARCHAR(5),
+  branchNo VARCHAR(5),
+  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),
+  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),
+  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
+);`,
+        client: `CREATE TABLE Client (
+  clientNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(50) NOT NULL,
+  lName VARCHAR(50) NOT NULL,
+  telNo VARCHAR(15),
+  prefType VARCHAR(20),
+  maxRent DECIMAL(10,2),
+  email VARCHAR(100)
+);`,
+        owner: `CREATE TABLE PrivateOwner (
+  ownerNo VARCHAR(5) PRIMARY KEY,
+  fName VARCHAR(50) NOT NULL,
+  lName VARCHAR(50) NOT NULL,
+  address VARCHAR(100),
+  telNo VARCHAR(15),
+  email VARCHAR(100),
+  password VARCHAR(50)
+);`,
+        viewing: `CREATE TABLE Viewing (
+  clientNo VARCHAR(5),
+  propertyNo VARCHAR(5),
+  viewDate DATE NOT NULL,
+  comments TEXT,
+  PRIMARY KEY (clientNo, propertyNo),
+  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),
+  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)
+);`
+      };
+      
+      const editorId = 'sql' + tableType.charAt(0).toUpperCase() + tableType.slice(1);
+      document.getElementById(editorId).value = solutions[tableType];
+    }
+
     // Toggle button state
     function toggleButtonState(button, isLoading) {
       if (isLoading) {
         button.innerHTML = '<span class="loading"></span> Analyzing...';
         button.disabled = true;
       } else {
-        const originalText = button.getAttribute('data-original-text') || '<span>🤖</span> Get AI Feedback';
-        button.innerHTML = originalText;
+        button.innerHTML = '<span>🤖</span> Get AI Feedback';
         button.disabled = false;
       }
     }
@@ -442,63 +522,57 @@
 
     // Get AI feedback
     async function getAIFeedback(button, question) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const checkAnswerBtn = card.querySelector('.btn:not(.btn-success)');
-  const userAnswer = editor.value.trim();
-  
-  if (!userAnswer) {
-    showFeedback(feedback, 'Please write your SQL query first', false);
-    return;
-  }
-  
-  // Store original button HTML before loading
-  const originalBtnHTML = button.innerHTML;
-  button.innerHTML = '<span class="loading"></span> Analyzing...';
-  button.disabled = true;
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/ai`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: `You are a SQL instructor. Provide specific feedback on:
-                     - Syntax errors
-                     - Best practices
-                     - Optimization suggestions
-                     Format as clean bullet points`
+      const card = button.closest('.activity-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim();
+      
+      if (!userAnswer) {
+        showFeedback(feedback, 'Please write your SQL query first', false);
+        return;
+      }
+      
+      toggleButtonState(button, true);
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/ai`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
-          {
-            role: "user",
-            content: `Question: ${question}\nSQL Query: ${userAnswer}`
-          }
-        ]
-      })
-    });
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `You are a SQL instructor. Provide specific feedback on:
+                         - Syntax errors
+                         - Best practices
+                         - Optimization suggestions
+                         Format as clean bullet points`
+              },
+              {
+                role: "user",
+                content: `Question: ${question}\nSQL Query: ${userAnswer}`
+              }
+            ]
+          })
+        });
 
-    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-    
-    const data = await response.json();
-    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-    aiResponse = formatAIResponse(aiResponse);
-    showFeedback(feedback, aiResponse, true);
-    
-  } catch (error) {
-    console.error("Error:", error);
-    showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
-  } finally {
-    // Restore original button state
-    button.innerHTML = originalBtnHTML;
-    button.disabled = false;
-  }
-}
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
+        const data = await response.json();
+        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+        aiResponse = formatAIResponse(aiResponse);
+        showFeedback(feedback, aiResponse, true);
+        
+      } catch (error) {
+        console.error("Error:", error);
+        showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
+      } finally {
+        toggleButtonState(button, false);
+      }
+    }
   </script>
 </body>
 </html>
