@@ -92,7 +92,7 @@
       color: var(--secondary);
     }
 
-    .sql-editor {
+    . {
       width: 100%;
       min-height: 120px;
       font-family: 'Courier New', monospace;
@@ -106,7 +106,7 @@
       transition: border-color 0.3s;
     }
 
-    .sql-editor:focus {
+    .:focus {
       border-color: var(--primary);
       outline: none;
     }
@@ -278,12 +278,7 @@
     
     <div class="activity-card">
       <div class="table-header">a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</div>
-      <textarea class="sql-editor" id="sqlBranch" placeholder="CREATE TABLE Branch (
-  branchNo VARCHAR(5) PRIMARY KEY,
-  street VARCHAR(100) NOT NULL,
-  city VARCHAR(50) NOT NULL,
-  postcode VARCHAR(10) NOT NULL
-);"></textarea>
+     <textarea class="sql-editor" placeholder="Write your SQL statement here..."></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkSQL('sqlBranch', 'feedbackBranch')">
           <span>🔍</span> Check Answer
@@ -300,7 +295,7 @@
 
     <div class="activity-card">
       <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
-      <textarea class="sql-editor" id="sqlStaff" placeholder="CREATE TABLE Staff (
+      <textarea class="" id="sqlStaff" placeholder="CREATE TABLE Staff (
   staffNo VARCHAR(5) PRIMARY KEY,
   fName VARCHAR(50) NOT NULL,
   lName VARCHAR(50) NOT NULL,
@@ -322,7 +317,7 @@
 
     <div class="activity-card">
       <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
-      <textarea class="sql-editor" id="sqlProperty" placeholder="CREATE TABLE PropertyForRent (
+      <textarea class="" id="sqlProperty" placeholder="CREATE TABLE PropertyForRent (
   propertyNo VARCHAR(5) PRIMARY KEY,
   /* ... */
 );"></textarea>
@@ -342,7 +337,7 @@
 
     <div class="activity-card">
       <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
-      <textarea class="sql-editor" id="sqlClient" placeholder="CREATE TABLE Client (
+      <textarea class="" id="sqlClient" placeholder="CREATE TABLE Client (
   clientNo VARCHAR(5) PRIMARY KEY,
   /* ... */
 );"></textarea>
@@ -362,7 +357,7 @@
 
     <div class="activity-card">
       <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
-      <textarea class="sql-editor" id="sqlOwner" placeholder="CREATE TABLE PrivateOwner (
+      <textarea class="" id="sqlOwner" placeholder="CREATE TABLE PrivateOwner (
   ownerNo VARCHAR(5) PRIMARY KEY,
   /* ... */
 );"></textarea>
@@ -382,7 +377,7 @@
 
     <div class="activity-card">
       <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
-      <textarea class="sql-editor" id="sqlViewing" placeholder="CREATE TABLE Viewing (
+      <textarea class="" id="sqlViewing" placeholder="CREATE TABLE Viewing (
   /* Composite key? Foreign keys? */
 );"></textarea>
       <div class="button-row">
@@ -524,7 +519,7 @@ function showSolution(tableType) {
     // Get AI feedback
     async function getAIFeedback(button, question) {
       const card = button.closest('.activity-card');
-      const editor = card.querySelector('.sql-editor');
+      const editor = card.querySelector('.');
       const feedback = card.querySelector('.feedback');
       const userAnswer = editor.value.trim();
       
