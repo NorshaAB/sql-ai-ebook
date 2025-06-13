@@ -404,7 +404,7 @@
     </div>
   </div>
 
-  <script>
+    <script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
     // Check answer function
@@ -518,7 +518,7 @@
         .join('<br>');
     }
 
-    // Get AI feedback
+    // Get AI feedback - UPDATED VERSION
     async function getAIFeedback(button, question) {
       const card = button.closest('.activity-card');
       const editor = card.querySelector('.sql-editor');
@@ -531,8 +531,11 @@
         return;
       }
       
-      // Store original button HTML
+      // Store original button state
       const originalBtnHTML = button.innerHTML;
+      const originalBtnDisabled = button.disabled;
+      
+      // Set loading state
       button.innerHTML = '<span class="loading"></span> Analyzing...';
       button.disabled = true;
       
@@ -567,20 +570,25 @@
         let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
         aiResponse = formatAIResponse(aiResponse);
         
+        // First restore the button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        // Then update the feedback with explicit icon
         feedback.innerHTML = `<div class="feedback-content">
-          <strong>AI Feedback:</strong>
+          <strong>🤖 AI Feedback:</strong>
           <div class="feedback-bullets">${aiResponse}</div>
         </div>`;
         feedback.className = 'feedback feedback-success';
         
       } catch (error) {
         console.error("Error:", error);
+        // Restore button state even on error
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
         feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
         feedback.className = 'feedback feedback-error';
-      } finally {
-        // Restore original button state
-        button.innerHTML = originalBtnHTML;
-        button.disabled = false;
       }
     }
   </script>
