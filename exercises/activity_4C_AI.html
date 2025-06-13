@@ -420,69 +420,70 @@
     }
 
     // Show solution hints
-    function showSolution(tableType) {
-      const solutions = {
-        branch: `CREATE TABLE Branch (
-  branchNo VARCHAR(5) PRIMARY KEY,
-  street VARCHAR(100) NOT NULL,
-  city VARCHAR(50) NOT NULL,
-  postcode VARCHAR(10) NOT NULL
-);`,
-        staff: `CREATE TABLE Staff (
-  staffNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(50) NOT NULL,
-  lName VARCHAR(50) NOT NULL,
-  position VARCHAR(20) NOT NULL,
-  gender CHAR(1),
-  DOB DATE,
-  salary DECIMAL(10,2),
-  branchNo VARCHAR(5),
-  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
-);`,
-        property: `CREATE TABLE PropertyForRent (
-  propertyNo VARCHAR(5) PRIMARY KEY,
-  type VARCHAR(20) NOT NULL,
-  rooms INT NOT NULL,
-  rent DECIMAL(10,2) NOT NULL,
-  ownerNo VARCHAR(5),
-  staffNo VARCHAR(5),
-  branchNo VARCHAR(5),
-  FOREIGN KEY (ownerNo) REFERENCES PrivateOwner(ownerNo),
-  FOREIGN KEY (staffNo) REFERENCES Staff(staffNo),
-  FOREIGN KEY (branchNo) REFERENCES Branch(branchNo)
-);`,
-        client: `CREATE TABLE Client (
-  clientNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(50) NOT NULL,
-  lName VARCHAR(50) NOT NULL,
-  telNo VARCHAR(15),
-  prefType VARCHAR(20),
-  maxRent DECIMAL(10,2),
-  email VARCHAR(100)
-);`,
-        owner: `CREATE TABLE PrivateOwner (
-  ownerNo VARCHAR(5) PRIMARY KEY,
-  fName VARCHAR(50) NOT NULL,
-  lName VARCHAR(50) NOT NULL,
-  address VARCHAR(100),
-  telNo VARCHAR(15),
-  email VARCHAR(100),
-  password VARCHAR(50)
-);`,
-        viewing: `CREATE TABLE Viewing (
-  clientNo VARCHAR(5),
-  propertyNo VARCHAR(5),
-  viewDate DATE NOT NULL,
-  comments TEXT,
-  PRIMARY KEY (clientNo, propertyNo),
-  FOREIGN KEY (clientNo) REFERENCES Client(clientNo),
-  FOREIGN KEY (propertyNo) REFERENCES PropertyForRent(propertyNo)
-);`
-      };
-      
-      const editorId = 'sql' + tableType.charAt(0).toUpperCase() + tableType.slice(1);
-      document.getElementById(editorId).value = solutions[tableType];
-    }
+// Replace the existing showSolution() function with this:
+function showSolution(tableType) {
+  const hints = {
+    branch: `Use <code>CREATE TABLE</code> with these columns:
+      <ul>
+        <li><code>branchNo VARCHAR(5) PRIMARY KEY</code></li>
+        <li><code>street VARCHAR(100) NOT NULL</code></li>
+        <li><code>city VARCHAR(50) NOT NULL</code></li>
+        <li><code>postcode VARCHAR(10) NOT NULL</code></li>
+      </ul>`,
+    staff: `Key points for Staff table:
+      <ul>
+        <li>Primary key: <code>staffNo</code></li>
+        <li>Include foreign key: <code>branchNo</code> referencing Branch table</li>
+        <li>Add appropriate data types for all columns</li>
+      </ul>`,
+    property: `Remember to:
+      <ul>
+        <li>Set <code>propertyNo</code> as primary key</li>
+        <li>Include three foreign keys (<code>ownerNo</code>, <code>staffNo</code>, <code>branchNo</code>)</li>
+        <li>Specify NOT NULL constraints where appropriate</li>
+      </ul>`,
+    client: `Client table should have:
+      <ul>
+        <li><code>clientNo</code> as primary key</li>
+        <li>Basic client information columns</li>
+        <li>Appropriate data types for each field</li>
+      </ul>`,
+    owner: `PrivateOwner structure:
+      <ul>
+        <li>Primary key: <code>ownerNo</code></li>
+        <li>Include all personal information fields</li>
+        <li>Consider data types for contact information</li>
+      </ul>`,
+    viewing: `Special considerations:
+      <ul>
+        <li>Composite primary key (<code>clientNo</code>, <code>propertyNo</code>)</li>
+        <li>Two foreign keys referencing Client and PropertyForRent</li>
+        <li>Include viewDate and comments fields</li>
+      </ul>`
+  };
+
+  const card = document.querySelector(`#sql${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`)
+              .closest('.activity-card');
+  
+  // Remove any existing hint
+  const existingHint = card.querySelector('.hint-content');
+  if (existingHint) existingHint.remove();
+  
+  // Create new hint element
+  const hintContent = document.createElement('div');
+  hintContent.className = 'hint-content';
+  hintContent.innerHTML = hints[tableType];
+  
+  // Insert after the button row
+  const buttonRow = card.querySelector('.button-row');
+  buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
+  
+  // Auto-close after 10 seconds
+  setTimeout(() => {
+    hintContent.style.opacity = '0';
+    setTimeout(() => hintContent.remove(), 300);
+  }, 10000);
+}
 
     // Toggle button state
     function toggleButtonState(button, isLoading) {
