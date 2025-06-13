@@ -404,7 +404,7 @@
     </div>
   </div>
 
-<script>
+  <script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
     // Check answer function
@@ -427,12 +427,15 @@
     function showHint(button) {
       const card = button.closest('.activity-card');
       const header = card.querySelector('.table-header').textContent;
-      let tableType = header.match(/[a-z]+/i)[0].toLowerCase();
       
-      // Special case for "PropertyForRent"
-      if (header.includes('PropertyForRent')) {
-        tableType = 'property';
-      }
+      // Improved table type detection
+      let tableType = '';
+      if (header.includes('Branch')) tableType = 'branch';
+      else if (header.includes('Staff')) tableType = 'staff';
+      else if (header.includes('PropertyForRent')) tableType = 'property';
+      else if (header.includes('Client')) tableType = 'client';
+      else if (header.includes('PrivateOwner')) tableType = 'owner';
+      else if (header.includes('Viewing')) tableType = 'viewing';
       
       const hints = {
         branch: `Structure your CREATE TABLE statement with:
@@ -475,6 +478,15 @@
       // Remove any existing hint
       const existingHint = card.querySelector('.hint-content');
       if (existingHint) existingHint.remove();
+      
+      // Check if we found a matching table type
+      if (!tableType || !hints[tableType]) {
+        const errorHint = document.createElement('div');
+        errorHint.className = 'hint-content';
+        errorHint.textContent = 'Hint not available for this table';
+        card.querySelector('.button-row').after(errorHint);
+        return;
+      }
       
       // Create new hint element
       const hintContent = document.createElement('div');
