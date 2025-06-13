@@ -426,14 +426,15 @@
 <script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
-    // Check SQL answers
-    function checkSQL(editorId, feedbackId) {
-      const editor = document.getElementById(editorId);
-      const feedback = document.getElementById(feedbackId);
-      const sql = editor.value.trim().toLowerCase();
+    // Check SQL answers - UPDATED
+    function checkSQL(button, expectedAnswers) {
+      const card = button.closest('.activity-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim().toLowerCase();
       
-      // Sample validation - replace with your actual validation logic
-      if (sql.includes('create table') && sql.includes('primary key')) {
+      // Sample validation - adjust as needed
+      if (userAnswer.includes('create table') && userAnswer.includes('primary key')) {
         feedback.innerHTML = '✅ Correct! Well done!';
         feedback.className = 'feedback feedback-success';
       } else {
@@ -442,8 +443,11 @@
       }
     }
 
-    // Show solution hints
-    function showSolution(tableType) {
+    // Show solution hints - UPDATED
+    function showSolution(button) {
+      const card = button.closest('.activity-card');
+      const tableType = card.querySelector('.table-header').textContent.match(/[a-z]+/i)[0].toLowerCase();
+      
       const hints = {
         branch: `Structure your CREATE TABLE statement with:
           • <code>branchNo</code> as PRIMARY KEY
@@ -482,9 +486,6 @@
           • TEXT for comments`
       };
 
-      const card = document.querySelector(`#sql${tableType.charAt(0).toUpperCase() + tableType.slice(1)}`)
-                  .closest('.activity-card');
-      
       // Remove any existing hint
       const existingHint = card.querySelector('.hint-content');
       if (existingHint) existingHint.remove();
