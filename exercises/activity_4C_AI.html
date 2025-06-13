@@ -442,87 +442,63 @@
 
     // Get AI feedback
     async function getAIFeedback(button, question) {
-      const card = button.closest('.activity-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
-      
-      if (!userAnswer) {
-        showFeedback(feedback, 'Please write your SQL query first', false);
-        return;
-      }
-      
-      // Save original button text
-      button.setAttribute('data-original-text', button.innerHTML);
-      toggleButtonState(button, true);
-      
-      try {
-        const response = await fetch(`${API_BASE_URL}/ai`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content: `You are a SQL instructor. Provide specific feedback on:
-                         - Syntax correctness
-                         - Column definitions
-                         - Primary/Foreign keys
-                         - Data types
-                         Format as bullet points without emojis or grades.`
-              },
-              {
-                role: "user",
-                content: `Question: ${question}\nSQL Query: ${userAnswer}`
-              }
-            ]
-          })
-        });
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const checkAnswerBtn = card.querySelector('.btn:not(.btn-success)');
+  const userAnswer = editor.value.trim();
+  
+  if (!userAnswer) {
+    showFeedback(feedback, 'Please write your SQL query first', false);
+    return;
+  }
+  
+  // Store original button HTML before loading
+  const originalBtnHTML = button.innerHTML;
+  button.innerHTML = '<span class="loading"></span> Analyzing...';
+  button.disabled = true;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: `You are a SQL instructor. Provide specific feedback on:
+                     - Syntax errors
+                     - Best practices
+                     - Optimization suggestions
+                     Format as clean bullet points`
+          },
+          {
+            role: "user",
+            content: `Question: ${question}\nSQL Query: ${userAnswer}`
+          }
+        ]
+      })
+    });
 
-        if (!response.ok) throw new Error(`Server error: ${response.status}`);
-        
-        const data = await response.json();
-        const aiResponse = data.choices?.[0]?.message?.content || "No feedback available";
-        const cleanResponse = formatAIResponse(aiResponse);
-        
-        showFeedback(feedback, cleanResponse, true);
-      } catch (error) {
-        console.error("Error:", error);
-        showFeedback(feedback, `Error: ${error.message}`, false);
-      } finally {
-        toggleButtonState(button, false);
-      }
-    }
-
-    // Existing checkSQL function (modified for consistency)
-    async function checkSQL(textareaId, feedbackId) {
-      const sql = document.getElementById(textareaId).value.trim();
-      const feedback = document.getElementById(feedbackId);
-      
-      if (!sql) {
-        showFeedback(feedback, 'Please enter SQL first', false);
-        return;
-      }
-      
-      const button = document.querySelector(`#${textareaId}`).nextElementSibling.querySelector('.btn');
-      toggleButtonState(button, true);
-      
-      try {
-        // Your existing checkSQL logic here
-        // ...
-        
-        showFeedback(feedback, "Check functionality would go here", true);
-      } catch (error) {
-        showFeedback(feedback, `Check failed: ${error.message}`, false);
-      } finally {
-        toggleButtonState(button, false);
-      }
-    }
-
-    function showSolution(tableType) {
-      // Your solution display logic here
-      alert(`Solution for ${tableType} would appear here`);
-    }
+    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+    
+    const data = await response.json();
+    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+    aiResponse = formatAIResponse(aiResponse);
+    showFeedback(feedback, aiResponse, true);
+    
+  } catch (error) {
+    console.error("Error:", error);
+    showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
+  } finally {
+    // Restore original button state
+    button.innerHTML = originalBtnHTML;
+    button.disabled = false;
+  }
+}
   </script>
 </body>
 </html>
