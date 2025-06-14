@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Quick Reference Guide</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 10px;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .card h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        .syntax-box {
+            background: #f0f7ff;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        
+        .operator-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .operator {
+            background: #e8f4fc;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .highlight {
+            background-color: #fffde7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 0.9em;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <h1>SQL Quick Reference Guide</h1>
+    
+    <div class="card-container">
+        <div class="card">
+            <h3>📚 Data Definition Language (DDL)</h3>
+            <p>Commands that define the database structure:</p>
+            <ul>
+                <li><strong>CREATE DATABASE</strong> - Creates a new database</li>
+                <li><strong>CREATE TABLE</strong> - Creates a new table</li>
+                <li><strong>DROP DATABASE</strong> - Deletes a database</li>
+                <li><strong>DROP TABLE</strong> - Deletes a table</li>
+            </ul>
+            <div class="note">
+                💡 DDL commands are used to create and modify the database structure itself.
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>🔍 Data Manipulation Language (DML)</h3>
+            <p>Commands that work with the data:</p>
+            <ul>
+                <li><strong>SELECT</strong> - Retrieves data from database</li>
+                <li><strong>INSERT</strong> - Adds new records</li>
+                <li><strong>UPDATE</strong> - Modifies existing records</li>
+                <li><strong>DELETE</strong> - Removes records</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Basic Data Types</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>🔢 Numeric Types</h3>
+            <ul>
+                <li><strong>INT</strong> - Integer numbers</li>
+                <li><strong>FLOAT</strong> - Floating-point numbers</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h3>🔤 Character Types</h3>
+            <ul>
+                <li><strong>VARCHAR</strong> - Variable-length strings</li>
+                <li><strong>DATE</strong> - Date values</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>SQL Query Syntax</h2>
+    <div class="syntax-box">
+SELECT column_list 
+FROM table_list
+[ WHERE condition_list ]
+[ GROUP BY column_list ]
+[ HAVING condition_list ]
+[ ORDER BY column_list [ ASC | DESC ] ];
+    </div>
+    
+    <h2>Operators</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>🧠 Logical Operators</h3>
+            <div class="operator-grid">
+                <div class="operator">AND</div>
+                <div class="operator">OR</div>
+                <div class="operator">NOT</div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>⚖️ Comparison Operators</h3>
+            <div class="operator-grid">
+                <div class="operator">=</div>
+                <div class="operator"><</div>
+                <div class="operator"><=</div>
+                <div class="operator">></div>
+                <div class="operator">>=</div>
+                <div class="operator"><></div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>✨ Special Operators</h3>
+            <div class="operator-grid">
+                <div class="operator">BETWEEN</div>
+                <div class="operator">IS NULL</div>
+                <div class="operator">LIKE</div>
+                <div class="operator">IN</div>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Aggregate Functions</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>📊 Data Aggregation</h3>
+            <p>Perform calculations across sets of rows:</p>
+            <div class="operator-grid">
+                <div class="operator">COUNT()</div>
+                <div class="operator">MIN()</div>
+                <div class="operator">MAX()</div>
+                <div class="operator">SUM()</div>
+                <div class="operator">AVG()</div>
+            </div>
+            
+            <div class="syntax-box">
+-- Example:
+SELECT department, AVG(salary)
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 50000;
+            </div>
+            
+            <ul>
+                <li><strong>GROUP BY</strong> - Groups rows by specified columns</li>
+                <li><strong>HAVING</strong> - Filters groups (like WHERE for GROUP BY)</li>
+            </ul>
+        </div>
+    </div>
+    
+    <h2>Joins</h2>
+    <div class="card-container">
+        <div class="card">
+            <h3>🔗 Outer Join</h3>
+            <p>Returns all rows from one table and matching rows from another:</p>
+            <div class="syntax-box">
+-- Left Outer Join (returns all left table rows)
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.id = table2.id;
+            </div>
+            <div class="note">
+                ⚠️ Without a join condition, you get a Cartesian product (all possible row combinations)!
+            </div>
+        </div>
+        
+        <div class="card">
+            <h3>🤝 Natural Join</h3>
+            <p>Automatically joins tables by columns with the same name:</p>
+            <div class="syntax-box">
+SELECT *
+FROM employees
+NATURAL JOIN departments;
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>SQL Quick Reference Guide | Last updated: 2023</p>
+    </footer>
+</body>
+</html>
