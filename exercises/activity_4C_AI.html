@@ -284,6 +284,56 @@
         align-items: flex-start;
       }
     }
+
+    .ai-feedback-avatar {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: #2ecc71;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+      transition: all 0.3s ease;
+      z-index: 1000;
+      border: 3px solid white;
+    }
+
+    .ai-feedback-avatar:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+    }
+
+    .avatar-img {
+      width: 60%;
+      height: auto;
+    }
+
+    .avatar-tooltip {
+      position: absolute;
+      bottom: -35px;
+      background: #333;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      white-space: nowrap;
+      pointer-events: none;
+      font-weight: bold;
+    }
+
+    .ai-feedback-avatar:hover .avatar-tooltip {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
   </style>
 </head>
 <body>
@@ -311,13 +361,16 @@
         <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
-        <button class="btn-success" onclick="getAIFeedback(this, 'Create table Branch with columns: branchNo (PK), street, city, postcode')">
-          <span>🤖</span> Get AI Feedback
-        </button>
+       
       </div>
-      <div class="feedback"></div>
+
     </div>
 
+    <div class="ai-feedback-avatar" onclick="getFloatingAIFeedback()">
+    <img src="https://norshaab.github.io/sql-ai-ebook/assets/ai-avatar.png" alt="AI Feedback" class="avatar-img">
+    <span class="avatar-tooltip">Get AI Feedback</span>
+  </div>
+    
     <div class="activity-card">
       <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
       <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
@@ -590,6 +643,30 @@
         feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
         feedback.className = 'feedback feedback-error';
       }
+      // Add this new function for the floating avatar
+    function getFloatingAIFeedback() {
+      // Find the currently focused editor
+      const focusedEditor = document.activeElement;
+      
+      if (!focusedEditor || !focusedEditor.classList.contains('sql-editor')) {
+        alert("Please click on a SQL editor first to get feedback for that question.");
+        return;
+      }
+      
+      // Find the corresponding card and question
+      const card = focusedEditor.closest('.activity-card');
+      const question = card.querySelector('.table-header').textContent.trim();
+      
+      // Create a temporary button element to pass to the existing function
+      const tempButton = document.createElement('button');
+      tempButton.classList.add('btn-success');
+      card.querySelector('.button-row').appendChild(tempButton);
+      
+      // Call the existing function
+      getAIFeedback(tempButton, question);
+      
+      // Remove the temporary button
+      setTimeout(() => tempButton.remove(), 100);
     }
   </script>
 </body>
