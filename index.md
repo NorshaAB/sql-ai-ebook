@@ -26,7 +26,7 @@
 }
 
 .exercise-card {
-  background: #3498db; /* First color from welcome gradient */
+  background: linear-gradient(135deg, #3498db, #2c3e50); 
   color: white;
   padding: 1rem;
   border-radius: 6px;
@@ -37,7 +37,7 @@
 }
 
 .exercise-card:nth-child(2) {
-  background: #2c3e50; /* Second color from welcome gradient */
+   background: linear-gradient(135deg, #3498db, #2c3e50);
 }
 
 /* Interactive elements */
