@@ -335,41 +335,51 @@
       }
     }
 
-       .btn-avatar {
-  height: 40px;
-  padding: 0 12px 0 8px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-
-    .btn-avatar:hover {
-      transform: scale(1.05);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      background: #25a25a;
-    }
-
-    .btn-avatar .avatar-img-container {
-  width: 32px;
-  height: 32px;
-}
-
-    .btn-avatar img {
-      width: 60%;
-      height: auto;
-    }
-
-    .btn-avatar .avatar-text {
-  font-size: 14px; /* Match other buttons */
+  /* Replace all .btn-avatar styles with these */
+.btn-avatar {
   padding: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #2ecc71;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  border: 3px solid white;
+  margin-left: 4px;
 }
 
-    /* Loading state for avatar button */
-    .btn-avatar .loading {
-      border-top-color: #2ecc71;
-      width: 20px;
-      height: 20px;
-    }
+.btn-avatar:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  background: #25a25a;
+}
+
+.btn-avatar .avatar-img-container {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-avatar img {
+  width: 65%;
+  height: auto;
+  filter: brightness(0) invert(1); /* Makes the image white */
+}
+
+/* Loading state */
+.btn-avatar .loading {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+  border-top-color: #2ecc71;
+}
   </style>
 </head>
 <body>
@@ -479,16 +489,18 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
         <p><b>Type SQL command to insert first row of customer data into CUSTOMER table.</b></p>
         <textarea class="sql-editor" placeholder="INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');"></textarea>
         <div class="button-row">
-          <button class="btn-secondary" onclick="toggleHint(this)">
-            <span>💡</span> Show Hint
-          </button>
-          <button class="btn" onclick="checkAnswer(this, ['insert into customer values (\'c0001\', \'david teo\', \'wuv2318\', \'81691\', \'2014-01-09\')'])">
-            <span>🔍</span> Check Answer
-          </button>
-          <button class="btn-success" onclick="getAIFeedback(this, 'Type SQL command to insert first row of customer data into CUSTOMER table with values: C0001, David Teo, WUV2318, 81691, 2014-01-09')">
-            <span>🤖</span> Get AI Feedback
-          </button>
-        </div>
+  <button class="btn-secondary" onclick="toggleHint(this)">
+    <span>💡</span> Show Hint
+  </button>
+  <button class="btn" onclick="checkAnswer(this, ['...'])">
+    <span>🔍</span> Check Answer
+  </button>
+  <button class="btn-avatar" onclick="getAIFeedback(this, 'Question text here')" title="Get AI Feedback">
+    <div class="avatar-img-container">
+      <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+    </div>
+  </button>
+</div>
         <div class="hint-content">
           Use <code>INSERT INTO</code> statement with the correct table name and values in the proper order.
           Example: <code>INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');</code>
