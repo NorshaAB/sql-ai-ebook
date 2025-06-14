@@ -495,24 +495,26 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
         </div>
         <div class="feedback"></div>
       </li>
-
-      <li class="question-card">
-        <p><b>Type SQL command to insert first row of customer data into CUSTOMER table.</b></p>
-        <textarea class="sql-editor" placeholder="INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');"></textarea>
-        <div class="button-row">
-  <button class="btn-secondary" onclick="toggleHint(this)">
-    <span>💡</span> Show Hint
-  </button>
-  <button class="btn" onclick="checkAnswer(this, ['...'])">
-    <span>🔍</span> Check Answer
-  </button>
-  <button class="btn-avatar" onclick="getAIFeedback(this, 'Question text here')" title="Get AI Feedback">
-    <div class="avatar-img-container">
-      <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-    </div>
-  </button>
-</div>
-        <div class="hint-content">
+<li class="question-card">
+  <div class="question-content">
+    <p><b>Type SQL command to insert first row of customer data into CUSTOMER table.</b></p>
+    <textarea class="sql-editor" placeholder="INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');"></textarea>
+  </div>
+  <div class="button-row">
+    <button class="btn-secondary" onclick="toggleHint(this)">
+      <span>💡</span> Show Hint
+    </button>
+    <button class="btn" onclick="checkAnswer(this, ['...'])">
+      <span>🔍</span> Check Answer
+    </button>
+    <button class="btn-avatar" onclick="getAIFeedback(this, 'Question text here')">
+      <div class="avatar-img-container">
+        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+      </div>
+      Get AI Feedback
+    </button>
+  </div>
+  <div class="hint-content">
           Use <code>INSERT INTO</code> statement with the correct table name and values in the proper order.
           Example: <code>INSERT INTO CUSTOMER VALUES ('C0001', 'David Teo', 'WUV2318', '81691', '2014-01-09');</code>
         </div>
