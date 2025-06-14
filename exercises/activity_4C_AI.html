@@ -285,30 +285,42 @@
       }
     }
 
-  .btn-avatar {
-    padding: 0;
-    width: 48px;  /* Increased from 40px */
-    height: 48px; /* Increased from 40px */
-    border-radius: 50%;
+.btn-avatar {
+    padding: 0 15px 0 0; /* Add right padding for text */
+    width: auto; /* Remove fixed width */
+    height: 48px;
+    border-radius: 24px; /* Pill shape */
     background: #2ecc71;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     transition: all 0.3s ease;
-    border: 3px solid white; /* Thicker border */
-    margin-left: 4px; /* Better spacing */
-  }
+    border: 3px solid white;
+    margin-left: 4px;
+    gap: 8px; /* Space between icon and text */
+}
 
-  .btn-avatar:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    background: #25a25a; /* Slightly darker on hover */
-  }
+.btn-avatar .avatar-text {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding-right: 8px;
+}
 
-  .btn-avatar img {
-    width: 65%; /* Slightly larger icon */
+.btn-avatar .avatar-img-container {
+    width: 42px;
+    height: 42px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-avatar img {
+    width: 60%;
     height: auto;
   }
 
@@ -344,9 +356,12 @@
         <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
-        <button class="btn-avatar" onclick="getAIFeedback(this, 'Create table Branch with columns: branchNo (PK), street, city, postcode')">
-          <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Feedback">
-        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
       </div>
       <div class="feedback"></div>
     </div>
