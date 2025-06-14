@@ -460,11 +460,14 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
   <button class="btn" onclick="checkAnswer(this, ['...'])">
     <span>🔍</span> Check Answer
   </button>
-  <button class="btn-avatar" onclick="getAIFeedback(this, 'Question text here')" title="Get AI Feedback">
-    <div class="avatar-img-container">
-      <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-    </div>
-  </button>
+    <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
         </div>
         <div class="hint-content">
           Use <code>CREATE TABLE</code> with correct syntax for column names and types. Remember to specify the primary key.
