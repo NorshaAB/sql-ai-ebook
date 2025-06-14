@@ -335,43 +335,57 @@
       }
     }
 
-  /* Avatar Button Styles */
+/* Update the button styles */
 .btn-avatar {
-  padding: 0;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  padding: 0 15px 0 8px; /* Adjusted padding */
+  height: 40px; /* Match other buttons */
+  border-radius: 20px; /* Pill shape */
   background: #2ecc71;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   transition: all 0.3s ease;
-  border: 3px solid white;
+  border: none;
   margin-left: 4px;
+  gap: 8px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .btn-avatar:hover {
-  transform: scale(1.1);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
   background: #25a25a;
 }
 
+.btn-avatar .avatar-img-container {
+  width: 24px;
+  height: 24px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .btn-avatar img {
-  width: 65%;
+  width: 60%;
   height: auto;
 }
 
-/* Loading state */
-.btn-avatar .loading {
-  border-top-color: #2ecc71;
-  width: 24px;
-  height: 24px;
-  border-width: 3px;
+/* Ensure button row alignment */
+.button-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 15px 0;
 }
   </style>
 </head>
+  
 <body>
   <div class="header">
     <div class="logo">
@@ -453,20 +467,20 @@ COMPONENT_CLAIM(<span class="sql-keyword">CLAIMID</span>, <span class="sql-keywo
   custname VARCHAR(100),
   /* ... */
 );"></textarea>
-        <div class="button-row">
-          <button class="btn-secondary" onclick="toggleHint(this)">
+    <div class="button-row">
+  <button class="btn-secondary" onclick="toggleHint(this)">
     <span>💡</span> Show Hint
   </button>
   <button class="btn" onclick="checkAnswer(this, ['...'])">
     <span>🔍</span> Check Answer
   </button>
-    <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
-        <div class="avatar-img-container">
-            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-        </div>
-        <span class="avatar-text">Get AI Feedback</span>
-    </button>
-      </div>
+  <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+    <div class="avatar-img-container">
+      <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+    </div>
+    Get AI Feedback
+  </button>
+</div>
       <div class="feedback"></div>
         </div>
         <div class="hint-content">
