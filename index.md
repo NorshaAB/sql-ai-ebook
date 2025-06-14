@@ -103,7 +103,7 @@ Practice with live exercises and AI-powered feedback.
 
 
 <div id="ai-assistant">
-  <img src="AI_lecturer.PNG" alt="AI Assistant Avatar" id="assistant-avatar" />
+  <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
   <div id="chat-box">
     <p>Hi! I'm your SQL AI Assistant. How can I help you today?</p>
   </div>
