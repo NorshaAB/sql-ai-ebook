@@ -93,6 +93,13 @@ Practice with live exercises and AI-powered feedback.
 — Aristotle (perfect for SQL learning!)
 
 ## 📚 SQL Quick Reference
-![SQL Cheat Sheet](SQL NOTES.JPG){: .notes-image}
+## 📚 SQL Quick Reference
+<div class="exercise-grid">
+    <a href="notes.html" class="exercise-card">
+        <div style="font-size: 1.5rem;">📚</div>
+        <div style="font-weight: bold; margin: 0.5rem 0;">Interactive SQL Reference</div>
+        <div style="font-size: 0.9em; opacity: 0.9;">Click to view the complete guide</div>
+    </a>
+</div>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
