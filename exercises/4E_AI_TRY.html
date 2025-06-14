@@ -332,6 +332,51 @@
         font-size: 14px;
       }
     }
+
+       .btn-avatar {
+      padding: 0 15px 0 5px;
+      height: 48px;
+      border-radius: 24px;
+      background: #2ecc71;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      border: 3px solid white;
+      margin-left: 4px;
+      gap: 8px;
+      font-weight: 500;
+      color: white;
+    }
+
+    .btn-avatar:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      background: #25a25a;
+    }
+
+    .btn-avatar .avatar-img-container {
+      width: 38px;
+      height: 38px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-avatar img {
+      width: 60%;
+      height: auto;
+    }
+
+    /* Loading state for avatar button */
+    .btn-avatar .loading {
+      border-top-color: #2ecc71;
+      width: 20px;
+      height: 20px;
+    }
   </style>
 </head>
 <body>
