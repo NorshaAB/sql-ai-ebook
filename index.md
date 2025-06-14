@@ -17,6 +17,7 @@
 }
 
 /* Exercise grid */
+/* Exercise grid */
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -25,7 +26,7 @@
 }
 
 .exercise-card {
-  background: #2188ff;
+  background: #3498db; /* First color from welcome gradient */
   color: white;
   padding: 1rem;
   border-radius: 6px;
@@ -33,6 +34,10 @@
   transition: transform 0.2s;
   text-decoration: none;
   display: block;
+}
+
+.exercise-card:nth-child(2) {
+  background: #2c3e50; /* Second color from welcome gradient */
 }
 
 /* Interactive elements */
