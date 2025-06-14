@@ -93,7 +93,6 @@ Practice with live exercises and AI-powered feedback.
 — Aristotle (perfect for SQL learning!)
 
 ## 📚 SQL Quick Reference
-## 📚 SQL Quick Reference
 <div class="exercise-grid">
     <a href="notes.html" class="exercise-card">
         <div style="font-size: 1.5rem;">📚</div>
