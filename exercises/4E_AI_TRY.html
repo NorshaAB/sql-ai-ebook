@@ -126,14 +126,20 @@
     }
 
     .question-card {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
-      margin-bottom: 25px;
-      transition: transform 0.3s;
-    }
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  transition: transform 0.3s;
+  min-height: 250px; /* Add this line for consistent minimum height */
+  display: flex;
+  flex-direction: column;
+}
 
+    .question-card > * {
+  flex: 1;
+}
     .question-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 5px 20px rgba(0,0,0,0.1);
@@ -323,13 +329,6 @@
         margin: 0 0.5rem;
       }
       
-      .button-row {
-  display: flex;
-  align-items: center; /* Ensures vertical alignment */
-  gap: 8px;
-  flex-wrap: wrap;
-}
-      
       .data-table {
         font-size: 14px;
       }
@@ -382,6 +381,13 @@
   gap: 8px;
   flex-wrap: wrap;
   margin: 15px 0;
+}
+
+     .button-row {
+  display: flex;
+  align-items: center; /* Ensures vertical alignment */
+  gap: 8px;
+  flex-wrap: wrap;
 }
   </style>
 </head>
