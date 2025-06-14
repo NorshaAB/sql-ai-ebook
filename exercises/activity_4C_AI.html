@@ -285,30 +285,39 @@
       }
     }
 
-     .btn-avatar {
-      padding: 0;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: #2ecc71;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      border: 2px solid white;
-    }
+  .btn-avatar {
+    padding: 0;
+    width: 48px;  /* Increased from 40px */
+    height: 48px; /* Increased from 40px */
+    border-radius: 50%;
+    background: #2ecc71;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    border: 3px solid white; /* Thicker border */
+    margin-left: 4px; /* Better spacing */
+  }
 
-    .btn-avatar:hover {
-      transform: scale(1.1);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    }
+  .btn-avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    background: #25a25a; /* Slightly darker on hover */
+  }
 
-    .btn-avatar img {
-      width: 60%;
-      height: auto;
-    }
+  .btn-avatar img {
+    width: 65%; /* Slightly larger icon */
+    height: auto;
+    filter: brightness(0) invert(1); /* Ensure white icon */
+  }
+
+  .btn-avatar .loading {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+  }
   </style>
 </head>
 <body>
@@ -543,7 +552,6 @@
         .join('<br>');
     }
 
-    // Get AI feedback - UPDATED VERSION
     async function getAIFeedback(button, question) {
       const card = button.closest('.activity-card');
       const editor = card.querySelector('.sql-editor');
@@ -561,8 +569,8 @@
       const originalBtnDisabled = button.disabled;
       
       // Set loading state
-      button.innerHTML = '<span class="loading"></span> Analyzing...';
-      button.disabled = true;
+     const originalContent = button.innerHTML;
+    button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div>';
       
       try {
         const response = await fetch(`${API_BASE_URL}/ai`, {
