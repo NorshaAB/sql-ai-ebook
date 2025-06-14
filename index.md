@@ -101,4 +101,61 @@ Practice with live exercises and AI-powered feedback.
 "The more you know, the more you realize you don't know."
 — Aristotle (perfect for SQL learning!)
 
+
+<div id="ai-assistant">
+  <img src="AI_lecturer.PNG" alt="AI Assistant Avatar" id="assistant-avatar" />
+  <div id="chat-box">
+    <p>Hi! I'm your SQL AI Assistant. How can I help you today?</p>
+  </div>
+</div>
+
+<style>
+  #ai-assistant {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    text-align: center;
+  }
+
+  #assistant-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+  }
+
+  #assistant-avatar:hover {
+    transform: scale(1.1);
+  }
+
+  #chat-box {
+    display: none;
+    position: absolute;
+    bottom: 100px;
+    right: 0;
+    width: 250px;
+    background: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    color: #333; /* Added for better text contrast */
+  }
+
+  #ai-assistant.active #chat-box {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('assistant-avatar').addEventListener('click', function () {
+      document.getElementById('ai-assistant').classList.toggle('active');
+    });
+  });
+</script>
+
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
