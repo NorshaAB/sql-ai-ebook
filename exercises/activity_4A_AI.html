@@ -5,14 +5,426 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    /* [Your existing CSS from previous exercises] */
+    /* COPY ALL CSS FROM YOUR 4E_AI_TRY.HTML FILE HERE */
+    /* This ensures perfect visual consistency */
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --light: #f5f7fa;
+      --dark: #333;
+      --gray: #7f8c8d;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .header {
+      background: var(--secondary);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .header p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    h2 {
+      color: var(--secondary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-top: 30px;
+    }
+
+    h3 {
+      color: var(--secondary);
+      margin-top: 25px;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .data-table:hover {
+      transform: translateY(-3px);
+    }
+
+    .data-table th {
+      background: var(--primary);
+      color: white;
+      padding: 12px;
+      text-align: left;
+    }
+
+    .data-table td {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .data-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .data-table tr:hover {
+      background: #f1f1f1;
+    }
+
+    pre {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      border-left: 4px solid var(--primary);
+      overflow-x: auto;
+      font-family: 'Consolas', 'Monaco', monospace;
+      margin: 15px 0;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 20px 0;
+    }
+
+    .question-card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      margin-bottom: 25px;
+      transition: transform 0.3s;
+      min-height: 250px;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .question-content {
+      flex: 1;
+      width: 100%;
+    }
+
+    .question-content p {
+      margin: 8px 0;
+      line-height: 1.5;
+    }
+
+    .sql-editor {
+      width: 100%;
+      min-height: 100px;
+      font-family: 'Courier New', monospace;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+      margin: 10px 0;
+      background: #f8f9fa;
+      transition: border-color 0.3s;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+
+    .sql-editor:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+
+    .button-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      padding-top: 15px;
+      width: 100%;
+    }
+
+    .btn, .btn-secondary, .btn-success {
+      padding: 10px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      flex-shrink: 0;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--gray);
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+    
+    .btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-secondary:hover {
+      background: #6c757d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-success:hover {
+      background: #25a25a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn:active, .btn-secondary:active, .btn-success:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn span, .btn-secondary span, .btn-success span {
+      font-size: 16px;
+    }
+
+    .feedback {
+      padding: 12px;
+      margin: 15px 0 0;
+      border-radius: 4px;
+      border-left: 4px solid var(--primary);
+      animation: fadeIn 0.3s ease-in;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .feedback-success {
+      border-color: var(--success);
+      background: #e8f8f0;
+    }
+
+    .feedback-error {
+      border-color: var(--danger);
+      background: #fdedec;
+    }
+
+    .hint-content {
+      display: none;
+      padding: 12px;
+      margin: 10px 0 0;
+      background: #e8f4ff;
+      border-left: 4px solid var(--primary);
+      border-radius: 0 4px 4px 0;
+      animation: fadeIn 0.3s ease-in;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .sql-keyword {
+      color: #d03b3b;
+      font-weight: bold;
+    }
+
+    ol {
+      counter-reset: item;
+      padding-left: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    ol li {
+      list-style-type: none;
+      counter-increment: item;
+      margin-bottom: 25px;
+      width: 100%;
+      position: relative;
+      padding-left: 30px;
+      box-sizing: border-box;
+    }
+
+    ol li:before {
+      content: counter(item) ".";
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-size: 1.1em;
+    }
+
+    .feedback-content {
+      line-height: 1.6;
+    }
+
+    .feedback-bullets {
+      margin-top: 8px;
+      padding-left: 20px;
+    }
+
+    .feedback-bullets br {
+      display: block;
+      margin-bottom: 6px;
+      content: "";
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .btn-avatar {
+      padding: 0 15px 0 8px;
+      height: 40px;
+      border-radius: 20px;
+      background: #2ecc71;
+      display: inline-flex;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: all 0.3s ease;
+      border: none;
+      margin-left: 4px;
+      gap: 8px;
+      color: white;
+      font-weight: 500;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-avatar:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      background: #25a25a;
+    }
+
+    .btn-avatar .avatar-img-container {
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-avatar img {
+      width: 60%;
+      height: auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links a {
+        margin: 0 0.5rem;
+      }
+      
+      .data-table {
+        font-size: 14px;
+      }
+
+      .button-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .btn, .btn-secondary, .btn-success, .btn-avatar {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .question-card {
+        padding: 15px;
+        min-height: auto;
+      }
+
+      .sql-editor {
+        min-height: 80px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="header">
     <div class="logo">
       <h1>📘 AI-Augmented SQL Learning</h1>
-      <p>Higher Order Thinking Skills (HOTS) Questions</p>
+      <p>Higher Order Thinking Skills (HOTS)</p>
     </div>
     <div class="nav-links">
       <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
@@ -23,20 +435,18 @@
   </div>
 
   <div class="container">
-    <h1>Activity 4A: Higher Order Thinking Skills</h1>
+    <h1>Activity 4A: HOTS Questions</h1>
 
     <div class="quick-note">
-      <p>These questions test your conceptual understanding of SQL. Think carefully about each answer before checking the AI feedback.</p>
+      <p>These conceptual questions test your deep understanding of SQL principles.</p>
     </div>
-
-    <h2>Conceptual Questions</h2>
 
     <ol>
       <!-- Question 1 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>What is the difference between a WHERE clause and a HAVING clause in a SELECT query?</b></p>
-          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+          <p><b>1. What is difference between a WHERE clause and a HAVING clause for a SELECT query?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here... (e.g., WHERE filters before grouping, HAVING filters after...)"></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
@@ -50,10 +460,10 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider these aspects in your answer:
-          - When each clause is applied in query execution
-          - The types of conditions they can filter
-          - Their relationship with GROUP BY
+          <strong>Hint:</strong> Consider:<br>
+          • When each clause executes in query processing<br>
+          • Their relationship with GROUP BY<br>
+          • Example: WHERE filters rows, HAVING filters groups
         </div>
         <div class="feedback"></div>
       </li>
@@ -61,8 +471,8 @@
       <!-- Question 2 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>Explain why it might be appropriate to declare an attribute that contains only digits as character data type instead of numeric data type.</b></p>
-          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+          <p><b>2. Explain why it might be appropriate to declare an attribute that contains only digits as character data type instead of numeric data type.</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here... (e.g., phone numbers, IDs...)"></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
@@ -76,10 +486,10 @@
           </button>
         </div>
         <div class="hint-content">
-          Think about:
-          - How the data will be used
-          - Special cases like phone numbers or IDs
-          - Leading zeros and formatting
+          <strong>Hint:</strong> Think about:<br>
+          • Preservation of leading zeros<br>
+          • Cases where arithmetic isn't needed<br>
+          • Example: Phone numbers, ZIP codes
         </div>
         <div class="feedback"></div>
       </li>
@@ -87,7 +497,7 @@
       <!-- Question 3 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>Explain the difference between an ORDER BY clause and a GROUP BY clause.</b></p>
+          <p><b>3. Explain the difference between an ORDER BY clause and a GROUP BY clause.</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
@@ -102,10 +512,10 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider:
-          - Their purposes in query processing
-          - Effect on result set
-          - Relationship with aggregate functions
+          <strong>Hint:</strong> Consider:<br>
+          • Their purposes in query processing<br>
+          • Effect on result set<br>
+          • Relationship with aggregate functions
         </div>
         <div class="feedback"></div>
       </li>
@@ -113,7 +523,7 @@
       <!-- Question 4 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>What is the difference between the COUNT aggregate function and the SUM aggregate function?</b></p>
+          <p><b>4. What is the difference between the COUNT aggregate function and the SUM aggregate function?</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
@@ -128,10 +538,10 @@
           </button>
         </div>
         <div class="hint-content">
-          Think about:
-          - What each function calculates
-          - The data they work with
-          - NULL value handling
+          <strong>Hint:</strong> Think about:<br>
+          • What each function calculates<br>
+          • The data they work with<br>
+          • NULL value handling
         </div>
         <div class="feedback"></div>
       </li>
@@ -139,7 +549,7 @@
       <!-- Question 5 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>Explain why it would be preferable to use a DATE data type to store dates instead of a character data type.</b></p>
+          <p><b>5. Explain why it would be preferable to use a DATE data type to store dates instead of a character data type.</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
@@ -154,25 +564,25 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider:
-          - Data validation
-          - Special date functions available
-          - Sorting and comparison behavior
+          <strong>Hint:</strong> Consider:<br>
+          • Data validation<br>
+          • Special date functions available<br>
+          • Sorting and comparison behavior
         </div>
         <div class="feedback"></div>
       </li>
 
-     <!-- Question 6 -->
+      <!-- Question 6 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>What is difference between a DELETE command and a DROP command?</b></p>
+          <p><b>6. What is difference between a DELETE command and a DROP command?</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between DELETE and DROP commands in SQL')">
             <div class="avatar-img-container">
               <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
             </div>
@@ -180,8 +590,10 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider:
-          - deleting table or tuples
+          <strong>Hint:</strong> Think about:<br>
+          • What each command operates on<br>
+          • The scope of their effects<br>
+          • Whether structure or data is affected
         </div>
         <div class="feedback"></div>
       </li>
@@ -189,14 +601,14 @@
       <!-- Question 7 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>What is difference between logical operators of AND operator and OR operator?</b></p>
+          <p><b>7. What is difference between logical operators of AND operator and OR operator?</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between AND and OR logical operators in SQL')">
             <div class="avatar-img-container">
               <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
             </div>
@@ -204,24 +616,25 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider:
-          - values that must be true
-          - whether all value must be true or only one of the two values has to be true
+          <strong>Hint:</strong> Consider:<br>
+          • How each combines conditions<br>
+          • Their truth tables<br>
+          • Example scenarios for each
         </div>
         <div class="feedback"></div>
       </li>
 
-       <!-- Question 8 -->
+      <!-- Question 8 -->
       <li class="question-card">
         <div class="question-content">
-          <p><b>What is function of DISTINCT clause in SQL?</b></p>
+          <p><b>8. What is function of DISTINCT clause in SQL?</b></p>
           <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Purpose of DISTINCT clause in SQL')">
             <div class="avatar-img-container">
               <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
             </div>
@@ -229,18 +642,170 @@
           </button>
         </div>
         <div class="hint-content">
-          Consider:
-          - the meaning of DISTINCT
-          - Distinct = Diferrent
+          <strong>Hint:</strong> Think about:<br>
+          • What DISTINCT does to query results<br>
+          • Performance considerations<br>
+          • Alternatives like GROUP BY
         </div>
         <div class="feedback"></div>
       </li>
-      
+
+      <!-- Question 9 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>9. List the DATE formats which exist in the MySQL.</b></p>
+          <textarea class="sql-editor" placeholder="Type your answer here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'MySQL DATE formats')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          <strong>Hint:</strong> Consider:<br>
+          • Standard SQL date formats<br>
+          • MySQL-specific variations<br>
+          • Time component inclusion
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 10 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>10. What is difference between NULL and NOT NULL values?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between NULL and NOT NULL values in SQL')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          <strong>Hint:</strong> Think about:<br>
+          • Database design implications<br>
+          • How each affects queries<br>
+          • Constraints and default behaviors
+        </div>
+        <div class="feedback"></div>
+      </li>
     </ol>
   </div>
 
   <script>
-    // [Your existing JavaScript code from previous exercises]
+    // COPY ALL JAVASCRIPT FROM YOUR 4E_AI_TRY.HTML FILE HERE
+    // Configuration
+    const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+    
+    // Toggle hint visibility
+    function toggleHint(button) {
+      const card = button.closest('.question-card');
+      const hint = card.querySelector('.hint-content');
+      hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleButtonState(button, isLoading) {
+      if (isLoading) {
+        button.innerHTML = '<span class="loading"></span> Analyzing...';
+        button.disabled = true;
+      } else {
+        const avatarHtml = button.querySelector('.avatar-img-container') ? 
+          button.innerHTML : '<span>🤖</span> Get AI Feedback';
+        button.innerHTML = avatarHtml;
+        button.disabled = false;
+      }
+    }
+
+    function showFeedback(element, message, isSuccess) {
+      element.innerHTML = isSuccess 
+        ? `<div class="feedback-content">
+             <strong>AI Feedback:</strong>
+             <div class="feedback-bullets">${message}</div>
+           </div>`
+        : message;
+      element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
+    }
+
+    function formatAIResponse(text) {
+      // Remove grade references
+      text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
+      
+      // Convert to proper HTML bullet points
+      return text
+        .split('\n')
+        .map(line => {
+          line = line.replace(/^[\s*\-•]+/, '').trim();
+          return line ? `• ${line}` : '';
+        })
+        .filter(line => line)
+        .join('<br>');
+    }
+
+    async function getAIFeedback(button, question) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim();
+      
+      if (!userAnswer) {
+        showFeedback(feedback, 'Please write your answer first', false);
+        return;
+      }
+      
+      toggleButtonState(button, true);
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/ai`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
+                         Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
+              },
+              {
+                role: "user",
+                content: `Question: ${question}\nStudent Answer: ${userAnswer}`
+              }
+            ]
+          })
+        });
+
+        if (!response.ok) {
+          throw new Error(`Server responded with ${response.status}`);
+        }
+
+        const data = await response.json();
+        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+        
+        // Clean and format the response
+        aiResponse = formatAIResponse(aiResponse);
+        showFeedback(feedback, aiResponse, true);
+        
+      } catch (error) {
+        console.error("Error:", error);
+        showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
+      } finally {
+        toggleButtonState(button, false);
+      }
+    }
   </script>
 </body>
 </html>
