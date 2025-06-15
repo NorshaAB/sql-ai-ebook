@@ -85,7 +85,7 @@ Practice with live exercises and AI-powered feedback.
 - **Progress Tracking** - Visualize your learning journey
 
 ## 📝 Your Exercises
-<div class="exercise-grid"> <a href="exercises/activity_4C_AI.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4C</div> <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> </a> <a href="exercises/4E_AI_TRY.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise 4E</div> <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> </a> </div>
+<div class="exercise-grid"> <a href="exercises/activity_4C_AI.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise C</div> <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> </a> <a href="exercises/4E_AI_TRY.html" class="exercise-card"> <div style="font-size: 1.5rem;">📌</div> <div style="font-weight: bold; margin: 0.5rem 0;">Exercise E</div> <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> </a> </div>
 
 ## 📚 SQL Quick Reference
 <div class="exercise-grid">
