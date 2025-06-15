@@ -86,6 +86,12 @@ Practice with live exercises and AI-powered feedback.
 
 ## 📝 Your Exercises
 <div class="exercise-grid"> 
+  <a href="exercises/activity_4A_AI.html" class="exercise-card"> 
+  <div style="font-size: 1.5rem;">📌</div> 
+  <div style="font-weight: bold; margin: 0.5rem 0;">Exercise A</div> 
+  <div style="font-size: 0.9em; opacity: 0.9;">Conceptual SQL Questions</div> 
+  </a>
+  
   <a href="exercises/activity_B_AI.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">📌</div> 
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise B</div> 
