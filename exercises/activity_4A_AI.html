@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SQL Learning - Activity 4A</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* [Your existing CSS from previous exercises] */
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <h1>📘 AI-Augmented SQL Learning</h1>
+      <p>Higher Order Thinking Skills (HOTS) Questions</p>
+    </div>
+    <div class="nav-links">
+      <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
+      <a href="activity_4B_AI.html">Exercise 4B</a>
+      <a href="activity_4C_AI.html">Exercise 4C</a>
+      <a href="4E_AI_TRY.html">Exercise 4E</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Activity 4A: Higher Order Thinking Skills</h1>
+
+    <div class="quick-note">
+      <p>These questions test your conceptual understanding of SQL. Think carefully about each answer before checking the AI feedback.</p>
+    </div>
+
+    <h2>Conceptual Questions</h2>
+
+    <ol>
+      <!-- Question 1 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>What is the difference between a WHERE clause and a HAVING clause in a SELECT query?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between WHERE and HAVING clauses in SQL')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider these aspects in your answer:
+          - When each clause is applied in query execution
+          - The types of conditions they can filter
+          - Their relationship with GROUP BY
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 2 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>Explain why it might be appropriate to declare an attribute that contains only digits as character data type instead of numeric data type.</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'When to use character vs numeric data types for digit-only attributes')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Think about:
+          - How the data will be used
+          - Special cases like phone numbers or IDs
+          - Leading zeros and formatting
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 3 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>Explain the difference between an ORDER BY clause and a GROUP BY clause.</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between ORDER BY and GROUP BY in SQL')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider:
+          - Their purposes in query processing
+          - Effect on result set
+          - Relationship with aggregate functions
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 4 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>What is the difference between the COUNT aggregate function and the SUM aggregate function?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between COUNT and SUM aggregate functions in SQL')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Think about:
+          - What each function calculates
+          - The data they work with
+          - NULL value handling
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 5 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>Explain why it would be preferable to use a DATE data type to store dates instead of a character data type.</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider:
+          - Data validation
+          - Special date functions available
+          - Sorting and comparison behavior
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+     <!-- Question 6 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>What is difference between a DELETE command and a DROP command?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider:
+          - deleting table or tuples
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+      <!-- Question 7 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>What is difference between logical operators of AND operator and OR operator?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider:
+          - values that must be true
+          - whether all value must be true or only one of the two values has to be true
+        </div>
+        <div class="feedback"></div>
+      </li>
+
+       <!-- Question 8 -->
+      <li class="question-card">
+        <div class="question-content">
+          <p><b>What is function of DISTINCT clause in SQL?</b></p>
+          <textarea class="sql-editor" placeholder="Type your explanation here..."></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this)">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            Get AI Feedback
+          </button>
+        </div>
+        <div class="hint-content">
+          Consider:
+          - the meaning of DISTINCT
+          - Distinct = Diferrent
+        </div>
+        <div class="feedback"></div>
+      </li>
+      
+    </ol>
+  </div>
+
+  <script>
+    // [Your existing JavaScript code from previous exercises]
+  </script>
+</body>
+</html>
