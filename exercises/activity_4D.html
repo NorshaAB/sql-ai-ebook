@@ -14,7 +14,7 @@
       --dark: #333;
       --gray: #7f8c8d;
     }
-
+    
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       line-height: 1.6;
@@ -30,7 +30,7 @@
       padding: 20px;
       box-sizing: border-box;
     }
-
+    
     .header {
       background: var(--secondary);
       color: white;
@@ -53,7 +53,30 @@
       font-size: 0.9rem;
     }
 
-    h2 {
+        /* Navigation Links Styles */
+    .nav-links {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    .nav-links a.active {
+      background: var(--primary);
+    }
+    
+    h2 
+    {
       color: var(--secondary);
       border-bottom: 2px solid var(--primary);
       padding-bottom: 8px;
