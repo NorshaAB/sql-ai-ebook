@@ -717,16 +717,23 @@
     }
 
     function toggleButtonState(button, isLoading) {
-      if (isLoading) {
-        button.innerHTML = '<span class="loading"></span> Analyzing...';
-        button.disabled = true;
-      } else {
-        const avatarHtml = button.querySelector('.avatar-img-container') ? 
-          button.innerHTML : '<span>🤖</span> Get AI Feedback';
-        button.innerHTML = avatarHtml;
-        button.disabled = false;
-      }
-    }
+  const avatarContainer = button.querySelector('.avatar-img-container');
+  const avatarImg = avatarContainer ? avatarContainer.innerHTML : '';
+  
+  if (isLoading) {
+    button.innerHTML = '<span class="loading"></span> Analyzing...';
+    button.disabled = true;
+  } else {
+    // Restore the original button content with avatar image
+    button.innerHTML = `
+      <div class="avatar-img-container">
+        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+      </div>
+      Get AI Feedback
+    `;
+    button.disabled = false;
+  }
+}
 
     function showFeedback(element, message, isSuccess) {
       element.innerHTML = isSuccess 
