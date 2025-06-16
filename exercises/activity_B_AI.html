@@ -624,11 +624,14 @@ CREATE TABLE EMPLOYEE (
         button.innerHTML = '<span class="loading"></span> Analyzing...';
         button.disabled = true;
       } else {
-        const avatarHtml = button.querySelector('.avatar-img-container') ? 
-          button.innerHTML : '<span>🤖</span> Get AI Feedback';
-        button.innerHTML = avatarHtml;
-        button.disabled = false;
-      }
+        button.innerHTML = `
+      <div class="avatar-img-container">
+        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+      </div>
+      Get AI Feedback
+    `;
+    button.disabled = false;
+  }
     }
 
     function showFeedback(element, message, isSuccess) {
