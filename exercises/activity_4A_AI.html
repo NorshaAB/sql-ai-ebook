@@ -331,46 +331,50 @@
       margin-right: 8px;
     }
 
-    .ai-feedback-btn {
-  padding: 10px 15px 10px 10px;
-  border-radius: 20px;
-  background: #2ecc71;
-  color: white;
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 500;
-  font-size: 14px;
-  transition: all 0.3s;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  height: 40px;
+/* Replace existing .ai-feedback-btn styles with these */
+.ai-feedback-btn {
+    padding: 0 15px 0 0;
+    width: auto;
+    height: 48px;
+    border-radius: 24px;
+    background: #2ecc71;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    border: 3px solid white;
+    margin-left: 4px;
+    gap: 8px;
 }
 
-.ai-feedback-btn:hover {
-  background: #25a25a;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+.ai-feedback-btn .avatar-text {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding-right: 8px;
 }
 
-.ai-feedback-btn .avatar-img {
-  width: 24px;
-  height: 24px;
-  background: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.ai-feedback-btn .avatar-img-container {
+    width: 42px;
+    height: 42px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.ai-feedback-btn .avatar-img img {
-  width: 60%;
-  height: auto;
+.ai-feedback-btn img {
+    width: 60%;
+    height: auto;
 }
 
 .ai-feedback-btn .loading {
-  margin-right: 8px;
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
 }
 
 @keyframes buttonRestore {
@@ -477,11 +481,11 @@
           ])">
             <span>🔍</span> Check Answer
           </button>
-<button class="ai-feedback-btn" onclick="getAIFeedback(...)">
-  <div class="avatar-img">
-    <img src="../AI_lecturer.png" alt="AI">
+<button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
   </div>
-  Get AI Feedback
+  <span class="avatar-text">Get AI Feedback</span>
 </button>
         </div>
         <div class="hint-content">
@@ -511,12 +515,12 @@
           ])">
             <span>🔍</span> Check Answer
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'When to use character vs numeric data types for digit-only attributes')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+        <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Think about:<br>
@@ -537,12 +541,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between ORDER BY and GROUP BY in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+         <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Consider:<br>
@@ -563,12 +567,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between COUNT and SUM aggregate functions in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+         <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Think about:<br>
@@ -589,12 +593,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Advantages of DATE data type over character type for dates')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+        <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Consider:<br>
@@ -615,12 +619,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between DELETE and DROP commands in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+        <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Think about:<br>
@@ -641,12 +645,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between AND and OR logical operators in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+      <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Consider:<br>
@@ -667,12 +671,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Purpose of DISTINCT clause in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+         <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Think about:<br>
@@ -693,12 +697,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'MySQL DATE formats')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+         <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Consider:<br>
@@ -719,12 +723,12 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between NULL and NOT NULL values in SQL')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+          <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           <strong>Hint:</strong> Think about:<br>
@@ -817,59 +821,75 @@ function toggleButtonState(button, isLoading) {
         .join('<br>');
     }
 
-    async function getAIFeedback(button, question) {
-      const card = button.closest('.question-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
-      
-      if (!userAnswer) {
-        showFeedback(feedback, 'Please write your answer first', false);
+async function getAIFeedback(button, question) {
+    const card = button.closest('.question-card');
+    const editor = card.querySelector('.sql-editor');
+    const feedback = card.querySelector('.feedback');
+    const userAnswer = editor.value.trim();
+    
+    if (!userAnswer) {
+        feedback.innerHTML = '❌ Please write your answer first';
+        feedback.className = 'feedback feedback-error';
         return;
-      }
-      
-      toggleButtonState(button, true);
-      
-      try {
+    }
+    
+    // Store original button state
+    const originalBtnHTML = button.innerHTML;
+    const originalBtnDisabled = button.disabled;
+    
+    // Set loading state
+    button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+    button.disabled = true;
+    
+    try {
         const response = await fetch(`${API_BASE_URL}/ai`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
-                         Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
-              },
-              {
-                role: "user",
-                content: `Question: ${question}\nStudent Answer: ${userAnswer}`
-              }
-            ]
-          })
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                messages: [
+                    {
+                        role: "system",
+                        content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
+                                Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
+                    },
+                    {
+                        role: "user",
+                        content: `Question: ${question}\nStudent Answer: ${userAnswer}`
+                    }
+                ]
+            })
         });
 
-        if (!response.ok) {
-          throw new Error(`Server responded with ${response.status}`);
-        }
-
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
         const data = await response.json();
         let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-        
-        // Clean and format the response
         aiResponse = formatAIResponse(aiResponse);
-        showFeedback(feedback, aiResponse, true);
         
-      } catch (error) {
+        // First restore the button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        // Then update the feedback with explicit icon
+        feedback.innerHTML = `<div class="feedback-content">
+            <strong>🤖 AI Feedback:</strong>
+            <div class="feedback-bullets">${aiResponse}</div>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+        
+    } catch (error) {
         console.error("Error:", error);
-        showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
-      } finally {
-        toggleButtonState(button, false);
-      }
+        // Restore button state even on error
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+        feedback.className = 'feedback feedback-error';
     }
+}
 </script>
 
 </body>
