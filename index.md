@@ -103,9 +103,9 @@ Practice with live exercises and AI-powered feedback.
     <div style="font-size: 0.9em; opacity: 0.9;">CREATE TABLE practice</div> 
   </a> 
 
- <a href="exercises/activity_B_AI.html" class="exercise-card"> 
+ <a href="exercises/activity_4D.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise B</div> 
+    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise D</div> 
     <div style="font-size: 0.9em; opacity: 0.9;">CUSTOMER database queries</div> 
   </a>
 
