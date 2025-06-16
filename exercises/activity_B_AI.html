@@ -326,45 +326,52 @@
       margin-right: 8px;
     }
 
-    .btn-avatar {
-      padding: 0 15px 0 8px;
-      height: 40px;
-      border-radius: 20px;
-      background: #2ecc71;
-      display: inline-flex;
-      align-items: center;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: all 0.3s ease;
-      border: none;
-      margin-left: 4px;
-      gap: 8px;
-      color: white;
-      font-weight: 500;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
+/* Improved AI Feedback Button (matches A & C) */
+.ai-feedback-btn {
+  padding: 0 15px 0 10px;
+  height: 48px;
+  border-radius: 24px;
+  background: #2ecc71;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  border: 3px solid white;
+  margin-left: 4px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  flex-shrink: 0;
+}
 
-    .btn-avatar:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      background: #25a25a;
-    }
+.ai-feedback-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background: #25a25a;
+}
 
-    .btn-avatar .avatar-img-container {
-      width: 24px;
-      height: 24px;
-      background: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+.ai-feedback-btn .avatar-img-container {
+  width: 42px;
+  height: 42px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    .btn-avatar img {
-      width: 60%;
-      height: auto;
-    }
+.ai-feedback-btn img {
+  width: 60%;
+  height: auto;
+}
+
+.ai-feedback-btn .loading {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
 
     @keyframes spin {
       to { transform: rotate(360deg); }
@@ -399,7 +406,7 @@
         gap: 10px;
       }
 
-      .btn, .btn-secondary, .btn-success, .btn-avatar {
+      .btn, .btn-secondary, .btn-success, .ai-feedback-btn {
         width: 100%;
         justify-content: center;
       }
@@ -510,12 +517,12 @@ EMP_YEARS INT -- Sample: 3"></textarea>
           <button class="btn" onclick="checkAnswer(this, ['...'])">
             <span>🔍</span> Check Answer
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Write suitable SQL data types and sample data for CONSULT_COMPANY database tables')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+<button class="ai-feedback-btn" onclick="getAIFeedback(...)">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           Consider appropriate data types for each field:
@@ -558,12 +565,12 @@ CREATE TABLE EMPLOYEE (
           <button class="btn" onclick="checkAnswer(this, ['...'])">
             <span>🔍</span> Check Answer
           </button>
-          <button class="btn-avatar" onclick="getAIFeedback(this, 'Create SQL statements to create CONSULT_COMPANY database and tables with constraints')">
-            <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-            </div>
-            Get AI Feedback
-          </button>
+<button class="ai-feedback-btn" onclick="getAIFeedback(...)">
+  <div class="avatar-img-container">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+  </div>
+  <span class="avatar-text">Get AI Feedback</span>
+</button>
         </div>
         <div class="hint-content">
           Remember to:
@@ -662,63 +669,79 @@ CREATE TABLE EMPLOYEE (
         .filter(line => line)
         .join('<br>');
     }
-
-    async function getAIFeedback(button, question) {
-      const card = button.closest('.question-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
-      
-      if (!userAnswer) {
-        showFeedback(feedback, 'Please write your SQL query first', false);
-        return;
-      }
-      
-      toggleButtonState(button, true);
-      
-      try {
-        const response = await fetch(`${API_BASE_URL}/ai`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+async function getAIFeedback(button, question) {
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim();
+  
+  if (!userAnswer) {
+    feedback.innerHTML = '❌ Please write your SQL query first';
+    feedback.className = 'feedback feedback-error';
+    return;
+  }
+  
+  // Store original button state
+  const originalBtnHTML = button.innerHTML;
+  const originalBtnDisabled = button.disabled;
+  
+  // Set loading state
+  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+  button.disabled = true;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: `You are a SQL instructor. Provide specific feedback on:
+                     - Syntax errors
+                     - Best practices
+                     - Optimization suggestions
+                     Format as clean bullet points`
           },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content: `You are a SQL instructor. Provide specific feedback on:
-                         - Syntax errors
-                         - Best practices
-                         - Optimization suggestions
-                         Format as clean bullet points`
-              },
-              {
-                role: "user",
-                content: `Question: ${question}\nSQL Query: ${userAnswer}`
-              }
-            ]
-          })
-        });
+          {
+            role: "user",
+            content: `Question: ${question}\nSQL Query: ${userAnswer}`
+          }
+        ]
+      })
+    });
 
-        if (!response.ok) {
-          throw new Error(`Server responded with ${response.status}`);
-        }
+    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+    
+    const data = await response.json();
+    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+    aiResponse = formatAIResponse(aiResponse);
+    
+    // First restore the button state
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    // Then update the feedback with explicit icon
+    feedback.innerHTML = `<div class="feedback-content">
+      <strong>🤖 AI Feedback:</strong>
+      <div class="feedback-bullets">${aiResponse}</div>
+    </div>`;
+    feedback.className = 'feedback feedback-success';
+    
+  } catch (error) {
+    console.error("Error:", error);
+    // Restore button state even on error
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+    feedback.className = 'feedback feedback-error';
+  }
+}
 
-        const data = await response.json();
-        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-        
-        // Clean and format the response
-        aiResponse = formatAIResponse(aiResponse);
-        showFeedback(feedback, aiResponse, true);
-        
-      } catch (error) {
-        console.error("Error:", error);
-        showFeedback(feedback, `Failed to get feedback: ${error.message}`, false);
-      } finally {
-        toggleButtonState(button, false);
-      }
-    }
   </script>
 </body>
 </html>
