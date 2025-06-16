@@ -452,6 +452,14 @@
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
           </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'where clause is used to filter individual rows',
+            'having clause is used to filter groups of rows',
+            'where executes before group by',
+            'having executes after group by'
+          ])">
+            <span>🔍</span> Check Answer
+          </button>
           <button class="btn-avatar" onclick="getAIFeedback(this, 'Difference between WHERE and HAVING clauses in SQL')">
             <div class="avatar-img-container">
               <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
@@ -477,6 +485,14 @@
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this)">
             <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkAnswer(this, [
+            'no mathematical function needed',
+            'preserve leading zeros',
+            'phone numbers',
+            'social security numbers'
+          ])">
+            <span>🔍</span> Check Answer
           </button>
           <button class="btn-avatar" onclick="getAIFeedback(this, 'When to use character vs numeric data types for digit-only attributes')">
             <div class="avatar-img-container">
