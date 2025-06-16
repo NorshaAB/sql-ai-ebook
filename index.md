@@ -108,7 +108,6 @@ Practice with live exercises and AI-powered feedback.
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise B</div> 
     <div style="font-size: 0.9em; opacity: 0.9;">CUSTOMER database queries</div> 
   </a>
-</div>
 
   <a href="exercises/4E_AI_TRY.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">📌</div> 
