@@ -440,105 +440,75 @@
   <div class="container">
     <h1>Activity 4B: CONSULT_COMPANY Database</h1>
 
-    <h2>Database Tables Structure</h2>
+    <h2>Part 1: Define Data Types and Sample Data</h2>
+    
+    <!-- JOB Table Section -->
+    <div class="question-card">
+      <h3>1. JOB Table</h3>
+      <table class="data-table">
+        <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
+        <tr><td>JOB_CODE (PK)</td><td>VARCHAR(10)</td><td>J10001</td></tr>
+        <tr><td>JOB_DESCRIPTION</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+        <tr><td>JOB_CHARGE_HOUR</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+        <tr><td>JOB_LAST_DATE</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+      </table>
+      
+      <div class="button-row">
+        <button class="btn-secondary" onclick="toggleHint(this, 'job')">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn" onclick="checkDataTypes(this, 'job')">
+          <span>🔍</span> Check Answer
+        </button>
+      </div>
+      <div class="hint-content job-hint">
+        Consider appropriate data types:
+        • Text fields: VARCHAR with suitable length
+        • Monetary values: DECIMAL
+        • Dates: DATE
+      </div>
+      <div class="feedback job-feedback"></div>
+    </div>
 
-    <h3>JOB</h3>
-    <table class="data-table">
-      <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
-      <tr><td>JOB_CODE (PK)</td><td>VARCHAR(10)</td><td>J10001</td></tr>
-      <tr><td>JOB_DESCRIPTION</td><td></td><td></td></tr>
-      <tr><td>JOB_CHARGE_HOUR</td><td></td><td></td></tr>
-      <tr><td>JOB_LAST_DATE</td><td></td><td></td></tr>
-    </table>
+    <!-- EMPLOYEE Table Section -->
+    <div class="question-card">
+      <h3>2. EMPLOYEE Table</h3>
+      <table class="data-table">
+        <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
+        <tr><td>EMP_NO (PK)</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+        <tr><td>EMP_NAME</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+        <tr><td>EMP_HIREDATE</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+        <tr><td>JOB_CODE (FK)</td><td>VARCHAR(10)</td><td>J10001</td></tr>
+        <tr><td>EMP_YEARS</td><td><input type="text" class="data-declaration" placeholder="Enter data type"></td><td><input type="text" class="sample-data" placeholder="Enter sample data"></td></tr>
+      </table>
+      
+      <div class="button-row">
+        <button class="btn-secondary" onclick="toggleHint(this, 'employee')">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn" onclick="checkDataTypes(this, 'employee')">
+          <span>🔍</span> Check Answer
+        </button>
+      </div>
+      <div class="hint-content employee-hint">
+        Remember:
+        • Match foreign key data types to referenced primary keys
+        • Years can be INT or SMALLINT
+        • Names typically use VARCHAR
+      </div>
+      <div class="feedback employee-feedback"></div>
+    </div>
 
-    <h3>EMPLOYEE</h3>
-    <table class="data-table">
-      <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
-      <tr><td>EMP_NO (PK)</td><td></td><td></td></tr>
-      <tr><td>EMP_NAME</td><td></td><td></td></tr>
-      <tr><td>EMP_HIREDATE</td><td></td><td></td></tr>
-      <tr><td>JOB_CODE (FK)</td><td>REFER TO THE JOB TABLE</td><td></td></tr>
-      <tr><td>EMP_YEARS</td><td></td><td></td></tr>
-    </table>
-
-    <h3>PROJECT</h3>
-    <table class="data-table">
-      <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
-      <tr><td>PROJ_NO (PK)</td><td></td><td></td></tr>
-      <tr><td>PROJ_NAME</td><td></td><td></td></tr>
-      <tr><td>PROJ_VALUE</td><td></td><td></td></tr>
-      <tr><td>PROJ_BALANCE</td><td></td><td></td></tr>
-      <tr><td>EMP_NO (FK)</td><td>REFER TO THE EMPLOYEE TABLE</td><td></td></tr>
-    </table>
-
-    <h3>ASSIGNMENT</h3>
-    <table class="data-table">
-      <tr><th>ATTRIBUTE NAME (FIELD)</th><th>DATA DECLARATION</th><th>SAMPLE DATA</th></tr>
-      <tr><td>ASSIGN_NO (PK)</td><td></td><td></td></tr>
-      <tr><td>ASSIGN_DATE</td><td></td><td></td></tr>
-      <tr><td>PROJ_NO (FK)</td><td>REFER TO THE PROJECT TABLE</td><td></td></tr>
-      <tr><td>EMP_NO (FK)</td><td>REFER TO THE EMPLOYEE TABLE</td><td></td></tr>
-    </table>
+    <!-- Add similar sections for PROJECT and ASSIGNMENT tables -->
 
     <hr>
 
-    <h2>Database Schema</h2>
-    <pre>
-JOB(<span class="sql-keyword">JOB_CODE</span>, JOB_DESCRIPTION, JOB_CHARGE_HOUR, JOB_LAST_DATE)
-EMPLOYEE(<span class="sql-keyword">EMP_NO</span>, EMP_NAME, EMP_HIREDATE, <span class="sql-keyword">JOB_CODE</span>, EMP_YEARS)
-PROJECT(<span class="sql-keyword">PROJ_NO</span>, PROJ_NAME, PROJ_VALUE, PROJ_BALANCE, <span class="sql-keyword">EMP_NO</span>)
-ASSIGNMENT(<span class="sql-keyword">ASSIGN_NO</span>, ASSIGN_DATE, <span class="sql-keyword">PROJ_NO</span>, <span class="sql-keyword">EMP_NO</span>)
-    </pre>
-
-    <hr>
-
-    <h2>SQL Questions</h2>
-
-    <ol>
-      <li class="question-card">
-        <div class="question-content">
-          <p><b>i. Write the suitable SQL data types and sample data for the table structures shown above.</b></p>
-          <p>Complete the data declarations and sample data for all tables.</p>
-          <textarea class="sql-editor" placeholder="-- For JOB table
-JOB_DESCRIPTION VARCHAR(100) -- Sample: 'System Analyst'
-JOB_CHARGE_HOUR DECIMAL(10,2) -- Sample: 85.50
-JOB_LAST_DATE DATE -- Sample: '2023-12-31'
-
--- For EMPLOYEE table
-EMP_NO VARCHAR(10) -- Sample: 'E1001'
-EMP_NAME VARCHAR(100) -- Sample: 'John Smith'
-EMP_HIREDATE DATE -- Sample: '2020-05-15'
-EMP_YEARS INT -- Sample: 3"></textarea>
-        </div>
-        <div class="button-row">
-          <button class="btn-secondary" onclick="toggleHint(this)">
-            <span>💡</span> Show Hint
-          </button>
-          <button class="btn" onclick="checkAnswer(this, ['...'])">
-            <span>🔍</span> Check Answer
-          </button>
-<button class="ai-feedback-btn" onclick="getAIFeedback(...)">
-  <div class="avatar-img-container">
-    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-  </div>
-  <span class="avatar-text">Get AI Feedback</span>
-</button>
-        </div>
-        <div class="hint-content">
-          Consider appropriate data types for each field:
-          - Text fields: VARCHAR with suitable length
-          - Numeric fields: INT, DECIMAL, etc.
-          - Date fields: DATE
-          - Foreign keys: Match the data type of the referenced primary key
-        </div>
-        <div class="feedback"></div>
-      </li>
-
-      <li class="question-card">
-        <div class="question-content">
-          <p><b>ii. Create the database and all tables according to the data declaration, with sample data.</b></p>
-          <p>Write complete SQL statements to create the database and tables with proper constraints.</p>
-          <textarea class="sql-editor" placeholder="CREATE DATABASE CONSULT_COMPANY;
+    <h2>Part 2: Create Database and Tables</h2>
+    
+    <div class="question-card">
+      <div class="question-content">
+        <p><b>Write complete SQL statements to create the CONSULT_COMPANY database and all tables with proper constraints.</b></p>
+        <textarea class="sql-editor" placeholder="CREATE DATABASE CONSULT_COMPANY;
 
 USE CONSULT_COMPANY;
 
@@ -549,199 +519,309 @@ CREATE TABLE JOB (
   JOB_LAST_DATE DATE
 );
 
-CREATE TABLE EMPLOYEE (
-  EMP_NO VARCHAR(10) PRIMARY KEY,
-  EMP_NAME VARCHAR(100),
-  EMP_HIREDATE DATE,
-  JOB_CODE VARCHAR(10),
-  EMP_YEARS INT,
-  FOREIGN KEY (JOB_CODE) REFERENCES JOB(JOB_CODE)
-);"></textarea>
-        </div>
-        <div class="button-row">
-          <button class="btn-secondary" onclick="toggleHint(this)">
-            <span>💡</span> Show Hint
-          </button>
-          <button class="btn" onclick="checkAnswer(this, ['...'])">
-            <span>🔍</span> Check Answer
-          </button>
-<button class="ai-feedback-btn" onclick="getAIFeedback(...)">
-  <div class="avatar-img-container">
-    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+-- Add CREATE TABLE statements for other tables"></textarea>
+      </div>
+      <div class="button-row">
+        <button class="btn-secondary" onclick="toggleHint(this, 'create')">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Create CONSULT_COMPANY database and tables')">
+          <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+          </div>
+          <span class="avatar-text">Get AI Feedback</span>
+        </button>
+      </div>
+      <div class="hint-content create-hint">
+        Remember to:
+        1. Create the database first
+        2. Define primary keys for each table
+        3. Add foreign key constraints
+        4. Use appropriate data types from Part 1
+        5. Consider NOT NULL constraints where needed
+      </div>
+      <div class="feedback create-feedback"></div>
+    </div>
   </div>
-  <span class="avatar-text">Get AI Feedback</span>
-</button>
-        </div>
-        <div class="hint-content">
-          Remember to:
-          1. Create the database first
-          2. Create tables with proper data types
-          3. Define primary keys
-          4. Add foreign key constraints
-          5. Consider adding NOT NULL constraints where appropriate
-        </div>
-        <div class="feedback"></div>
-      </li>
-    </ol>
-  </div>
-
-  <script>
+  
+<script>
     // Configuration
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
+    // Expected answers for data types and sample data
+    const expectedAnswers = {
+      job: {
+        dataTypes: {
+          JOB_DESCRIPTION: 'VARCHAR(100)',
+          JOB_CHARGE_HOUR: 'DECIMAL(10,2)',
+          JOB_LAST_DATE: 'DATE'
+        },
+        samples: {
+          JOB_DESCRIPTION: ['System Analyst', 'Programmer', 'Project Manager'],
+          JOB_CHARGE_HOUR: ['85.50', '65.00', '95.75'],
+          JOB_LAST_DATE: ['2023-12-31', '2024-06-30', '2024-12-31']
+        }
+      },
+      employee: {
+        dataTypes: {
+          EMP_NO: 'VARCHAR(10)',
+          EMP_NAME: 'VARCHAR(100)',
+          EMP_HIREDATE: 'DATE',
+          EMP_YEARS: 'INT'
+        },
+        samples: {
+          EMP_NO: ['E1001', 'E1002', 'E1003'],
+          EMP_NAME: ['John Smith', 'Alice Johnson', 'Robert Chen'],
+          EMP_HIREDATE: ['2020-05-15', '2019-11-20', '2021-02-10'],
+          EMP_YEARS: ['3', '4', '2']
+        }
+      },
+      project: {
+        dataTypes: {
+          PROJ_NO: 'VARCHAR(10)',
+          PROJ_NAME: 'VARCHAR(100)',
+          PROJ_VALUE: 'DECIMAL(12,2)',
+          PROJ_BALANCE: 'DECIMAL(12,2)'
+        },
+        samples: {
+          PROJ_NO: ['P1001', 'P1002', 'P1003'],
+          PROJ_NAME: ['Inventory System', 'HR Management', 'E-Commerce Platform'],
+          PROJ_VALUE: ['50000.00', '75000.00', '120000.00'],
+          PROJ_BALANCE: ['25000.00', '50000.00', '80000.00']
+        }
+      },
+      assignment: {
+        dataTypes: {
+          ASSIGN_NO: 'VARCHAR(10)',
+          ASSIGN_DATE: 'DATE'
+        },
+        samples: {
+          ASSIGN_NO: ['A1001', 'A1002', 'A1003'],
+          ASSIGN_DATE: ['2023-01-15', '2023-02-20', '2023-03-05']
+        }
+      }
+    };
+
     // Toggle hint visibility
-    function toggleHint(button) {
+    function toggleHint(button, table) {
       const card = button.closest('.question-card');
-      const hint = card.querySelector('.hint-content');
-      hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+      const hint = card.querySelector(`.${table}-hint`);
+      const isHidden = hint.style.display !== 'block';
+      
+      hint.style.display = isHidden ? 'block' : 'none';
+      button.innerHTML = isHidden 
+        ? '<span>💡</span> Hide Hint' 
+        : '<span>💡</span> Show Hint';
     }
 
-    // Check answer against expected patterns
-    function checkAnswer(button, expectedAnswers) {
+    // Check data types and sample data for each table
+    function checkDataTypes(button, table) {
+      const card = button.closest('.question-card');
+      const feedback = card.querySelector(`.${table}-feedback`);
+      const rows = card.querySelectorAll('tbody tr');
+      
+      let allCorrect = true;
+      let feedbackHTML = '<div class="feedback-content">';
+      
+      rows.forEach(row => {
+        const fieldName = row.querySelector('td').textContent.trim();
+        const typeInput = row.querySelector('.data-declaration');
+        const sampleInput = row.querySelector('.sample-data');
+        
+        // Skip if no input fields (like for PK/FK declarations)
+        if (!typeInput || !sampleInput) return;
+        
+        const userType = typeInput.value.trim().toUpperCase();
+        const userSample = sampleInput.value.trim();
+        const expectedType = expectedAnswers[table].dataTypes[fieldName];
+        
+        // Check data type
+        if (expectedType && userType !== expectedType.toUpperCase()) {
+          allCorrect = false;
+          feedbackHTML += `<div class="feedback-item">
+            <strong>${fieldName}:</strong> 
+            <span class="incorrect">Expected "${expectedType}"</span>, 
+            got <span class="user-answer">"${typeInput.value}"</span>
+          </div>`;
+        }
+        
+        // Check sample data (basic check for non-empty)
+        if (userSample === '') {
+          allCorrect = false;
+          feedbackHTML += `<div class="feedback-item">
+            <strong>${fieldName}:</strong> 
+            <span class="incorrect">Please provide sample data</span>
+          </div>`;
+        }
+      });
+      
+      feedbackHTML += '</div>';
+      
+      if (allCorrect) {
+        feedbackHTML = `<div class="feedback-content">
+          <strong>✅ All correct!</strong>
+          <p>Well done! All data types and sample data match the expected values.</p>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+      } else {
+        feedback.className = 'feedback feedback-error';
+      }
+      
+      feedback.innerHTML = feedbackHTML;
+      feedback.style.display = 'block';
+    }
+
+    // Check complete CREATE TABLE statements
+    function checkAnswer(button) {
       const card = button.closest('.question-card');
       const editor = card.querySelector('.sql-editor');
       const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim().toLowerCase();
+      const sql = editor.value.trim().toUpperCase();
       
-      // More flexible comparison
-      const normalizedUserAnswer = userAnswer
-        .replace(/\s+/g, ' ')
-        .replace(/;/g, '')
-        .replace(/not null/gi, '')
-        .trim();
+      // Basic validation checks
+      const hasCreateDB = sql.includes('CREATE DATABASE CONSULT_COMPANY');
+      const hasUseDB = sql.includes('USE CONSULT_COMPANY');
+      const hasJobTable = sql.includes('CREATE TABLE JOB');
+      const hasEmployeeTable = sql.includes('CREATE TABLE EMPLOYEE');
+      const hasProjectTable = sql.includes('CREATE TABLE PROJECT');
+      const hasAssignmentTable = sql.includes('CREATE TABLE ASSIGNMENT');
       
-      let isCorrect = expectedAnswers.some(expected => {
-        const normalizedExpected = expected
-          .toLowerCase()
-          .replace(/\s+/g, ' ')
-          .replace(/;/g, '')
-          .replace(/not null/gi, '')
-          .trim();
-        return normalizedUserAnswer === normalizedExpected;
-      });
+      if (hasCreateDB && hasUseDB && hasJobTable && hasEmployeeTable && 
+          hasProjectTable && hasAssignmentTable) {
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>✅ Good structure!</strong>
+          <p>You've included all required tables. Check for:</p>
+          <ul>
+            <li>Proper primary keys</li>
+            <li>Correct foreign key constraints</li>
+            <li>Appropriate data types</li>
+          </ul>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+      } else {
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>❌ Incomplete solution</strong>
+          <p>Make sure your SQL includes:</p>
+          <ul>
+            <li>CREATE DATABASE statement</li>
+            <li>USE statement</li>
+            <li>CREATE TABLE for all 4 tables</li>
+          </ul>
+        </div>`;
+        feedback.className = 'feedback feedback-error';
+      }
       
-      feedback.textContent = isCorrect 
-        ? '✅ Correct! Well done!' 
-        : '❌ Not quite right. Try again or check the hint.';
-      feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+      feedback.style.display = 'block';
     }
 
-    function toggleButtonState(button, isLoading) {
-  if (isLoading) {
-    // Store original HTML in a data attribute before changing it
-    button.dataset.originalHtml = button.innerHTML;
-    button.innerHTML = '<span class="loading"></span> Analyzing...';
-    button.disabled = true;
-  } else {
-    // Restore from the data attribute if it exists
-    if (button.dataset.originalHtml) {
-      button.innerHTML = button.dataset.originalHtml;
-    } else {
-      // Fallback in case data attribute isn't set
-      const avatarImg = button.querySelector('.avatar-img-container')?.outerHTML || '';
-      button.innerHTML = `${avatarImg} Get AI Feedback`;
-    }
-    button.disabled = false;
-  }
-}
-
-    function showFeedback(element, message, isSuccess) {
-      element.innerHTML = isSuccess 
-        ? `<div class="feedback-content">
-             <strong>AI Feedback:</strong>
-             <div class="feedback-bullets">${message}</div>
-           </div>`
-        : message;
-      element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
-    }
-
-    function formatAIResponse(text) {
-      // Remove grade references
-      text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
+    // Get AI feedback on SQL statements
+    async function getAIFeedback(button, question) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim();
       
-      // Convert to proper HTML bullet points
-      return text
-        .split('\n')
-        .map(line => {
-          line = line.replace(/^[\s*\-•]+/, '').trim();
-          return line ? `• ${line}` : '';
-        })
-        .filter(line => line)
-        .join('<br>');
-    }
-async function getAIFeedback(button, question) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const userAnswer = editor.value.trim();
-  
-  if (!userAnswer) {
-    feedback.innerHTML = '❌ Please write your SQL query first';
-    feedback.className = 'feedback feedback-error';
-    return;
-  }
-  
-  // Store original button state
-  const originalBtnHTML = button.innerHTML;
-  const originalBtnDisabled = button.disabled;
-  
-  // Set loading state
-  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
-  button.disabled = true;
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/ai`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: `You are a SQL instructor. Provide specific feedback on:
-                     - Syntax errors
-                     - Best practices
-                     - Optimization suggestions
-                     Format as clean bullet points`
+      if (!userAnswer) {
+        feedback.innerHTML = '❌ Please write your SQL query first';
+        feedback.className = 'feedback feedback-error';
+        feedback.style.display = 'block';
+        return;
+      }
+      
+      // Store original button state
+      const originalBtnHTML = button.innerHTML;
+      const originalBtnDisabled = button.disabled;
+      
+      // Set loading state
+      button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+      button.disabled = true;
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/ai`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
           },
-          {
-            role: "user",
-            content: `Question: ${question}\nSQL Query: ${userAnswer}`
-          }
-        ]
-      })
-    });
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `You are a SQL instructor reviewing database creation scripts. Provide feedback on:
+                         - Correct syntax
+                         - Proper constraints (PK, FK)
+                         - Appropriate data types
+                         - Best practices
+                         Format your response with bullet points`
+              },
+              {
+                role: "user",
+                content: `Question: ${question}\nSQL Query: ${userAnswer}`
+              }
+            ]
+          })
+        });
 
-    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-    
-    const data = await response.json();
-    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-    aiResponse = formatAIResponse(aiResponse);
-    
-    // First restore the button state
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    // Then update the feedback with explicit icon
-    feedback.innerHTML = `<div class="feedback-content">
-      <strong>🤖 AI Feedback:</strong>
-      <div class="feedback-bullets">${aiResponse}</div>
-    </div>`;
-    feedback.className = 'feedback feedback-success';
-    
-  } catch (error) {
-    console.error("Error:", error);
-    // Restore button state even on error
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
-    feedback.className = 'feedback feedback-error';
-  }
-}
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
+        const data = await response.json();
+        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+        
+        // Format the AI response
+        aiResponse = aiResponse
+          .replace(/\bGrade:\s*[A-F][-+]?\b/gi, '')
+          .split('\n')
+          .map(line => line.replace(/^[\s*\-•]+/, '').trim())
+          .filter(line => line)
+          .map(line => `• ${line}`)
+          .join('<br>');
+        
+        // Restore button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        // Show feedback
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>🤖 AI Feedback:</strong>
+          <div class="feedback-bullets">${aiResponse}</div>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+        
+      } catch (error) {
+        console.error("Error:", error);
+        // Restore button state even on error
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+        feedback.className = 'feedback feedback-error';
+      }
+      
+      feedback.style.display = 'block';
+    }
 
+    // Add some CSS for feedback items
+    const style = document.createElement('style');
+    style.textContent = `
+      .feedback-item {
+        margin-bottom: 8px;
+      }
+      .incorrect {
+        color: #e74c3c;
+        font-weight: 500;
+      }
+      .user-answer {
+        color: #3498db;
+      }
+      .feedback-content ul {
+        margin-top: 8px;
+        padding-left: 20px;
+      }
+    `;
+    document.head.appendChild(style);
   </script>
 </body>
 </html>
