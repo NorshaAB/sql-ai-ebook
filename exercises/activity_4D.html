@@ -214,11 +214,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    @media (max-width: 768px) {
-      .header {
-        flex-direction: column;
-        text-align: center;
-      }
+@media (max-width: 768px) {
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1rem;
+  }
+  
+  .nav-links a {
+    margin: 0.25rem;
+  }
+}
       
       .data-table {
         font-size: 14px;
@@ -484,6 +490,17 @@ WHERE u.Name IN ('Sara', 'Victor');`
         hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
       });
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+  const currentPage = window.location.pathname.split('/').pop();
+  const navLinks = document.querySelectorAll('.nav-links a');
+  
+  navLinks.forEach(link => {
+    if (link.getAttribute('href') === currentPage) {
+      link.classList.add('active');
+    }
+  });
+});
   </script>
 </body>
 </html>
