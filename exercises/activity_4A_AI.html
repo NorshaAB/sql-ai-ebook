@@ -719,10 +719,7 @@
       </li>
     </ol>
   </div>
-
-  <script>
-    // COPY ALL JAVASCRIPT FROM YOUR 4E_AI_TRY.HTML FILE HERE
-    // Configuration
+<script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
     // Toggle hint visibility
@@ -732,24 +729,47 @@
       hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Check answer against expected keywords
+    function checkAnswer(button, expectedKeywords) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim().toLowerCase();
+      
+      let correctCount = 0;
+      expectedKeywords.forEach(keyword => {
+        if (userAnswer.includes(keyword.toLowerCase())) {
+          correctCount++;
+        }
+      });
+      
+      const percentage = (correctCount / expectedKeywords.length) * 100;
+      const isCorrect = percentage >= 50; // Consider correct if at least half match
+      
+      feedback.innerHTML = isCorrect 
+        ? `<div class="feedback-content">
+            <strong>✅ Correct!</strong>
+            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+           </div>`
+        : `<div class="feedback-content">
+            <strong>❌ Try Again</strong>
+            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+           </div>`;
+      feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+    }
+
     function toggleButtonState(button, isLoading) {
-  const avatarContainer = button.querySelector('.avatar-img-container');
-  const avatarImg = avatarContainer ? avatarContainer.innerHTML : '';
-  
-  if (isLoading) {
-    button.innerHTML = '<span class="loading"></span> Analyzing...';
-    button.disabled = true;
-  } else {
-    // Restore the original button content with avatar image
-    button.innerHTML = `
-      <div class="avatar-img-container">
-        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-      </div>
-      Get AI Feedback
-    `;
-    button.disabled = false;
-  }
-}
+      const avatarContainer = button.querySelector('.avatar-img-container');
+      const avatarImg = avatarContainer ? avatarContainer.outerHTML : '';
+      
+      if (isLoading) {
+        button.innerHTML = '<span class="loading"></span> Analyzing...';
+        button.disabled = true;
+      } else {
+        button.innerHTML = `${avatarImg} Get AI Feedback`;
+        button.disabled = false;
+      }
+    }
 
     function showFeedback(element, message, isSuccess) {
       element.innerHTML = isSuccess 
@@ -829,6 +849,7 @@
         toggleButtonState(button, false);
       }
     }
-  </script>
+</script>
+
 </body>
 </html>
