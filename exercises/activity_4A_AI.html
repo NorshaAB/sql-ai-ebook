@@ -766,9 +766,14 @@
         button.innerHTML = '<span class="loading"></span> Analyzing...';
         button.disabled = true;
       } else {
-        button.innerHTML = `${avatarImg} Get AI Feedback`;
-        button.disabled = false;
-      }
+        button.innerHTML = `
+      <div class="avatar-img-container">
+        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+      </div>
+      Get AI Feedback
+    `;
+    button.disabled = false;
+  }
     }
 
     function showFeedback(element, message, isSuccess) {
