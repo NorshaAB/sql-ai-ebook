@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    :root {
+   :root {
       --primary: #3498db;
       --secondary: #2c3e50;
       --success: #2ecc71;
@@ -423,6 +423,71 @@
   </style>
 </head>
   
+
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --light: #f5f7fa;
+      --dark: #333;
+      --gray: #7f8c8d;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .creation-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .step-indicator {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .step-number {
+      width: 30px;
+      height: 30px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    
+    .step-title {
+      font-weight: bold;
+      color: var(--secondary);
+    }
+    
+    .data-declaration, .sample-data {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .data-declaration:focus, .sample-data:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+  </style>
+</head>
 <body>
   <div class="header">
     <div class="logo">
@@ -503,12 +568,147 @@
 
     <hr>
 
-    <h2>Part 2: Create Database and Tables</h2>
+    <h2>Part 2: Create Database and Tables - Step by Step</h2>
     
-    <div class="question-card">
-      <div class="question-content">
-        <p><b>Write complete SQL statements to create the CONSULT_COMPANY database and all tables with proper constraints.</b></p>
-        <textarea class="sql-editor" placeholder="CREATE DATABASE CONSULT_COMPANY;
+    <div class="creation-steps">
+      <!-- Step 1: Create Database -->
+      <div class="question-card">
+        <div class="step-indicator">
+          <div class="step-number">1</div>
+          <div class="step-title">Create the Database</div>
+        </div>
+        <div class="question-content">
+          <p>Write the SQL statement to create the CONSULT_COMPANY database:</p>
+          <textarea class="sql-editor" placeholder="CREATE DATABASE CONSULT_COMPANY;"></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this, 'create-db')">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkDatabaseCreation(this)">
+            <span>🔍</span> Check Answer
+          </button>
+        </div>
+        <div class="hint-content create-db-hint">
+          Basic syntax: <code>CREATE DATABASE database_name;</code>
+        </div>
+        <div class="feedback create-db-feedback"></div>
+      </div>
+
+      <!-- Step 2: Use Database -->
+      <div class="question-card">
+        <div class="step-indicator">
+          <div class="step-number">2</div>
+          <div class="step-title">Select the Database</div>
+        </div>
+        <div class="question-content">
+          <p>Write the SQL statement to use the CONSULT_COMPANY database:</p>
+          <textarea class="sql-editor" placeholder="USE CONSULT_COMPANY;"></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this, 'use-db')">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkUseDatabase(this)">
+            <span>🔍</span> Check Answer
+          </button>
+        </div>
+        <div class="hint-content use-db-hint">
+          Basic syntax: <code>USE database_name;</code>
+        </div>
+        <div class="feedback use-db-feedback"></div>
+      </div>
+
+      <!-- Step 3: Create JOB Table -->
+      <div class="question-card">
+        <div class="step-indicator">
+          <div class="step-number">3</div>
+          <div class="step-title">Create JOB Table</div>
+        </div>
+        <div class="question-content">
+          <p>Write the SQL statement to create the JOB table with all columns and constraints:</p>
+          <textarea class="sql-editor" placeholder="CREATE TABLE JOB (
+  JOB_CODE VARCHAR(10) PRIMARY KEY,
+  JOB_DESCRIPTION VARCHAR(100),
+  JOB_CHARGE_HOUR DECIMAL(10,2),
+  JOB_LAST_DATE DATE
+);"></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this, 'create-job')">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkJobTable(this)">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Create JOB table for CONSULT_COMPANY database')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            <span class="avatar-text">Get AI Feedback</span>
+          </button>
+        </div>
+        <div class="hint-content create-job-hint">
+          Remember to:
+          • Include all columns from Part 1
+          • Set JOB_CODE as PRIMARY KEY
+          • Use correct data types
+        </div>
+        <div class="feedback create-job-feedback"></div>
+      </div>
+
+      <!-- Step 4: Create EMPLOYEE Table -->
+      <div class="question-card">
+        <div class="step-indicator">
+          <div class="step-number">4</div>
+          <div class="step-title">Create EMPLOYEE Table</div>
+        </div>
+        <div class="question-content">
+          <p>Write the SQL statement to create the EMPLOYEE table with all columns and constraints:</p>
+          <textarea class="sql-editor" placeholder="CREATE TABLE EMPLOYEE (
+  EMP_NO VARCHAR(10) PRIMARY KEY,
+  EMP_NAME VARCHAR(100),
+  EMP_HIREDATE DATE,
+  JOB_CODE VARCHAR(10),
+  EMP_YEARS INT,
+  FOREIGN KEY (JOB_CODE) REFERENCES JOB(JOB_CODE)
+);"></textarea>
+        </div>
+        <div class="button-row">
+          <button class="btn-secondary" onclick="toggleHint(this, 'create-employee')">
+            <span>💡</span> Show Hint
+          </button>
+          <button class="btn" onclick="checkEmployeeTable(this)">
+            <span>🔍</span> Check Answer
+          </button>
+          <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Create EMPLOYEE table for CONSULT_COMPANY database')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            <span class="avatar-text">Get AI Feedback</span>
+          </button>
+        </div>
+        <div class="hint-content create-employee-hint">
+          Remember to:
+          • Include all columns from Part 1
+          • Set EMP_NO as PRIMARY KEY
+          • Add FOREIGN KEY constraint for JOB_CODE
+        </div>
+        <div class="feedback create-employee-feedback"></div>
+      </div>
+
+      <!-- Add similar steps for PROJECT and ASSIGNMENT tables -->
+
+      <!-- Final Step: Complete Solution -->
+      <div class="question-card">
+        <div class="step-indicator">
+          <div class="step-number">✓</div>
+          <div class="step-title">Complete Solution</div>
+        </div>
+        <div class="question-content">
+          <p>Combine all your statements into one complete solution:</p>
+          <textarea class="sql-editor" placeholder="-- Your complete solution here
+CREATE DATABASE CONSULT_COMPANY;
 
 USE CONSULT_COMPANY;
 
@@ -519,35 +719,22 @@ CREATE TABLE JOB (
   JOB_LAST_DATE DATE
 );
 
--- Add CREATE TABLE statements for other tables"></textarea>
+-- Add your other CREATE TABLE statements here"></textarea>
+        </div>
+        <div class="button-row">
+          <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Complete CONSULT_COMPANY database creation script')">
+            <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+            </div>
+            <span class="avatar-text">Get Full AI Feedback</span>
+          </button>
+        </div>
+        <div class="feedback complete-feedback"></div>
       </div>
-      <div class="button-row">
-        <button class="btn-secondary" onclick="toggleHint(this, 'create')">
-          <span>💡</span> Show Hint
-        </button>
-        <button class="btn" onclick="checkAnswer(this)">
-          <span>🔍</span> Check Answer
-        </button>
-        <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Create CONSULT_COMPANY database and tables')">
-          <div class="avatar-img-container">
-            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-          </div>
-          <span class="avatar-text">Get AI Feedback</span>
-        </button>
-      </div>
-      <div class="hint-content create-hint">
-        Remember to:
-        1. Create the database first
-        2. Define primary keys for each table
-        3. Add foreign key constraints
-        4. Use appropriate data types from Part 1
-        5. Consider NOT NULL constraints where needed
-      </div>
-      <div class="feedback create-feedback"></div>
     </div>
   </div>
-  
-<script>
+
+  <script>
     // Configuration
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
@@ -674,48 +861,95 @@ CREATE TABLE JOB (
       feedback.style.display = 'block';
     }
 
-    // Check complete CREATE TABLE statements
-    function checkAnswer(button) {
+    // New validation functions for Part 2
+    function checkDatabaseCreation(button) {
       const card = button.closest('.question-card');
       const editor = card.querySelector('.sql-editor');
       const feedback = card.querySelector('.feedback');
       const sql = editor.value.trim().toUpperCase();
       
-      // Basic validation checks
-      const hasCreateDB = sql.includes('CREATE DATABASE CONSULT_COMPANY');
-      const hasUseDB = sql.includes('USE CONSULT_COMPANY');
-      const hasJobTable = sql.includes('CREATE TABLE JOB');
-      const hasEmployeeTable = sql.includes('CREATE TABLE EMPLOYEE');
-      const hasProjectTable = sql.includes('CREATE TABLE PROJECT');
-      const hasAssignmentTable = sql.includes('CREATE TABLE ASSIGNMENT');
-      
-      if (hasCreateDB && hasUseDB && hasJobTable && hasEmployeeTable && 
-          hasProjectTable && hasAssignmentTable) {
-        feedback.innerHTML = `<div class="feedback-content">
-          <strong>✅ Good structure!</strong>
-          <p>You've included all required tables. Check for:</p>
-          <ul>
-            <li>Proper primary keys</li>
-            <li>Correct foreign key constraints</li>
-            <li>Appropriate data types</li>
-          </ul>
-        </div>`;
+      if (sql.includes('CREATE DATABASE CONSULT_COMPANY')) {
+        feedback.innerHTML = '✅ Correct database creation statement!';
         feedback.className = 'feedback feedback-success';
       } else {
-        feedback.innerHTML = `<div class="feedback-content">
-          <strong>❌ Incomplete solution</strong>
-          <p>Make sure your SQL includes:</p>
-          <ul>
-            <li>CREATE DATABASE statement</li>
-            <li>USE statement</li>
-            <li>CREATE TABLE for all 4 tables</li>
-          </ul>
-        </div>`;
+        feedback.innerHTML = '❌ Please write a proper CREATE DATABASE statement';
         feedback.className = 'feedback feedback-error';
       }
-      
       feedback.style.display = 'block';
     }
+
+    function checkUseDatabase(button) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const sql = editor.value.trim().toUpperCase();
+      
+      if (sql.includes('USE CONSULT_COMPANY')) {
+        feedback.innerHTML = '✅ Correct USE statement!';
+        feedback.className = 'feedback feedback-success';
+      } else {
+        feedback.innerHTML = '❌ Please write a proper USE statement';
+        feedback.className = 'feedback feedback-error';
+      }
+      feedback.style.display = 'block';
+    }
+
+    function checkJobTable(button) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const sql = editor.value.trim().toUpperCase();
+      
+      const hasCreateTable = sql.includes('CREATE TABLE JOB');
+      const hasPrimaryKey = sql.includes('PRIMARY KEY');
+      const hasAllColumns = sql.includes('JOB_CODE') && sql.includes('JOB_DESCRIPTION') && 
+                          sql.includes('JOB_CHARGE_HOUR') && sql.includes('JOB_LAST_DATE');
+      
+      if (hasCreateTable && hasPrimaryKey && hasAllColumns) {
+        feedback.innerHTML = '✅ Good JOB table structure!';
+        feedback.className = 'feedback feedback-success';
+      } else {
+        let issues = [];
+        if (!hasCreateTable) issues.push('Missing CREATE TABLE JOB');
+        if (!hasPrimaryKey) issues.push('Missing PRIMARY KEY on JOB_CODE');
+        if (!hasAllColumns) issues.push('Missing some columns');
+        
+        feedback.innerHTML = '❌ Issues found:<br>• ' + issues.join('<br>• ');
+        feedback.className = 'feedback feedback-error';
+      }
+      feedback.style.display = 'block';
+    }
+
+    function checkEmployeeTable(button) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const sql = editor.value.trim().toUpperCase();
+      
+      const hasCreateTable = sql.includes('CREATE TABLE EMPLOYEE');
+      const hasPrimaryKey = sql.includes('PRIMARY KEY');
+      const hasForeignKey = sql.includes('FOREIGN KEY') && sql.includes('REFERENCES JOB');
+      const hasAllColumns = sql.includes('EMP_NO') && sql.includes('EMP_NAME') && 
+                          sql.includes('EMP_HIREDATE') && sql.includes('JOB_CODE') && 
+                          sql.includes('EMP_YEARS');
+      
+      if (hasCreateTable && hasPrimaryKey && hasForeignKey && hasAllColumns) {
+        feedback.innerHTML = '✅ Good EMPLOYEE table structure!';
+        feedback.className = 'feedback feedback-success';
+      } else {
+        let issues = [];
+        if (!hasCreateTable) issues.push('Missing CREATE TABLE EMPLOYEE');
+        if (!hasPrimaryKey) issues.push('Missing PRIMARY KEY on EMP_NO');
+        if (!hasForeignKey) issues.push('Missing FOREIGN KEY for JOB_CODE');
+        if (!hasAllColumns) issues.push('Missing some columns');
+        
+        feedback.innerHTML = '❌ Issues found:<br>• ' + issues.join('<br>• ');
+        feedback.className = 'feedback feedback-error';
+      }
+      feedback.style.display = 'block';
+    }
+
+    // Add similar functions for PROJECT and ASSIGNMENT tables
 
     // Get AI feedback on SQL statements
     async function getAIFeedback(button, question) {
@@ -803,7 +1037,7 @@ CREATE TABLE JOB (
       feedback.style.display = 'block';
     }
 
-    // Add some CSS for feedback items
+    // Add CSS for feedback items
     const style = document.createElement('style');
     style.textContent = `
       .feedback-item {
@@ -819,6 +1053,44 @@ CREATE TABLE JOB (
       .feedback-content ul {
         margin-top: 8px;
         padding-left: 20px;
+      }
+      .creation-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-top: 30px;
+      }
+      .step-indicator {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+      .step-number {
+        width: 30px;
+        height: 30px;
+        background-color: var(--primary);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+      .step-title {
+        font-weight: bold;
+        color: var(--secondary);
+      }
+      .data-declaration, .sample-data {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+      }
+      .data-declaration:focus, .sample-data:focus {
+        border-color: var(--primary);
+        outline: none;
       }
     `;
     document.head.appendChild(style);
