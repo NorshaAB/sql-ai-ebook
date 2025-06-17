@@ -209,6 +209,53 @@
       animation: fadeIn 0.3s ease-in;
     }
 
+    /* AI Feedback Button */
+.ai-feedback-btn {
+  padding: 0 15px 0 10px;
+  height: 48px;
+  border-radius: 24px;
+  background: #2ecc71;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  border: 3px solid white;
+  margin-left: 4px;
+  color: white;
+  font-weight: 500;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.ai-feedback-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  background: #25a25a;
+}
+
+.ai-feedback-btn .avatar-img-container {
+  width: 42px;
+  height: 42px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-feedback-btn img {
+  width: 60%;
+  height: auto;
+}
+
+.ai-feedback-btn .loading {
+  width: 24px;
+  height: 24px;
+  border-width: 3px;
+}
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
@@ -298,25 +345,44 @@
 
     <h2>Exercises</h2>
     
-    <!-- Question i -->
-    <div class="question-card">
-      <h3>i. Create tables for User, Occupation and City</h3>
-      <textarea class="sql-editor" placeholder="-- Write your SQL statements here"></textarea>
-      <div class="button-row">
-        <button class="btn" onclick="checkAnswer(this, 'i')">
-          <span>🔍</span> Check Answer
-        </button>
+<!-- Question i -->
+<div class="question-card">
+  <h3>i. Create tables for User, Occupation and City</h3>
+  
+  <h4>Occupation Table</h4>
+  <textarea class="sql-editor" placeholder="CREATE TABLE Occupation..."></textarea>
+  
+  <h4>City Table</h4>
+  <textarea class="sql-editor" placeholder="CREATE TABLE City..."></textarea>
+  
+  <h4>User Table</h4>
+  <textarea class="sql-editor" placeholder="CREATE TABLE User..."></textarea>
+  
+  <div class="button-row">
+    <button class="btn-secondary" onclick="toggleHint(this, 'i')">
+      <span>💡</span> Show Hint
+    </button>
+    <button class="btn" onclick="checkAnswer(this, 'i')">
+      <span>🔍</span> Check Answer
+    </button>
+    <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Create tables for User, Occupation and City')">
+      <div class="avatar-img-container">
+        <img src="../AI_lecturer.png" alt="AI">
       </div>
-      <div class="hint-content hint-i">
-        <p>Hints:</p>
-        <ul>
-          <li>Use CREATE TABLE statements</li>
-          <li>Define primary keys for each table</li>
-          <li>User table should have foreign keys for Occupation and City</li>
-        </ul>
-      </div>
-      <div class="feedback feedback-i"></div>
-    </div>
+      <span class="avatar-text">Get AI Feedback</span>
+    </button>
+  </div>
+  
+  <div class="hint-content hint-i">
+    <p>Hints:</p>
+    <ul>
+      <li>Create tables in this order: Occupation, City, then User</li>
+      <li>Define primary keys for each table</li>
+      <li>User table needs foreign keys for Occupation and City</li>
+    </ul>
+  </div>
+  <div class="feedback feedback-i"></div>
+</div>
 
     <!-- Question ii -->
     <div class="question-card">
@@ -397,20 +463,22 @@
     </div>
   </div>
 
-  <script>
-    // Expected answers
-    const expectedAnswers = {
-      i: `CREATE TABLE Occupation (
+<script>
+  // Configuration
+  const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com'; // Or your AI API endpoint
+  
+  // Expected answers
+  const expectedAnswers = {
+    i: {
+      occupation: `CREATE TABLE Occupation (
   OccupationId INT PRIMARY KEY,
   OccupationName VARCHAR(50)
-);
-
-CREATE TABLE City (
+);`,
+      city: `CREATE TABLE City (
   CityId INT PRIMARY KEY,
   CityName VARCHAR(50)
-);
-
-CREATE TABLE User (
+);`,
+      user: `CREATE TABLE User (
   Id INT PRIMARY KEY,
   Name VARCHAR(50),
   Age INT,
@@ -419,8 +487,9 @@ CREATE TABLE User (
   CityId INT,
   FOREIGN KEY (Occupation) REFERENCES Occupation(OccupationId),
   FOREIGN KEY (CityId) REFERENCES City(CityId)
-);`,
-      ii: `INSERT INTO Occupation VALUES
+);`
+    },
+    ii: `INSERT INTO Occupation VALUES
 (1, 'Software Engineer'),
 (2, 'Accountant'),
 (3, 'Pharmacist'),
@@ -438,69 +507,196 @@ INSERT INTO User VALUES
 (2, 'Sara', 20, 'Female', 3, 4),
 (3, 'Victor', 31, 'Male', 2, 5),
 (4, 'Jane', 27, 'Female', 1, 3);`,
-      iii: `SELECT Gender, COUNT(*) AS NumberOfUsers
+    iii: `SELECT Gender, COUNT(*) AS NumberOfUsers
 FROM User
 GROUP BY Gender;`,
-      iv: `SELECT u.Name, u.Age, u.Gender, o.OccupationName
+    iv: `SELECT u.Name, u.Age, u.Gender, o.OccupationName
 FROM User u
 JOIN Occupation o ON u.Occupation = o.OccupationId
 WHERE o.OccupationName = 'Software Engineer'
 AND u.Age BETWEEN 25 AND 30;`,
-      v: `SELECT u.Name, u.Age, u.Gender, o.OccupationName, c.CityName
+    v: `SELECT u.Name, u.Age, u.Gender, o.OccupationName, c.CityName
 FROM User u
 JOIN Occupation o ON u.Occupation = o.OccupationId
 JOIN City c ON u.CityId = c.CityId
 WHERE u.Name IN ('Sara', 'Victor');`
-    };
+  };
 
-    // Check answers
-    function checkAnswer(button, question) {
-      const card = button.closest('.question-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
+  // Check answers
+  function checkAnswer(button, question) {
+    const card = button.closest('.question-card');
+    const feedback = card.querySelector('.feedback');
+    
+    if (question === 'i') {
+      // Special handling for question i with multiple editors
+      const editors = card.querySelectorAll('.sql-editor');
+      let allCorrect = true;
+      let feedbackHTML = '<div class="feedback-content">';
       
-      if (!userAnswer) {
-        feedback.innerHTML = '❌ Please write your SQL query first';
-        feedback.className = 'feedback feedback-error';
-        feedback.style.display = 'block';
-        return;
+      // Check Occupation table
+      const occupationSQL = editors[0].value.trim().toLowerCase();
+      const expectedOccupation = expectedAnswers.i.occupation.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (!occupationSQL.includes(expectedOccupation)) {
+        allCorrect = false;
+        feedbackHTML += '<p>❌ Occupation table needs work. Make sure to include primary key.</p>';
       }
       
-      // Simple check - compare with expected answer
-      const expected = expectedAnswers[question].replace(/\s+/g, ' ').trim().toLowerCase();
-      const user = userAnswer.replace(/\s+/g, ' ').trim().toLowerCase();
+      // Check City table
+      const citySQL = editors[1].value.trim().toLowerCase();
+      const expectedCity = expectedAnswers.i.city.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (!citySQL.includes(expectedCity)) {
+        allCorrect = false;
+        feedbackHTML += '<p>❌ City table needs work. Make sure to include primary key.</p>';
+      }
       
-      if (user.includes(expected) {
-        feedback.innerHTML = '✅ Correct! Well done!';
+      // Check User table
+      const userSQL = editors[2].value.trim().toLowerCase();
+      const expectedUser = expectedAnswers.i.user.replace(/\s+/g, ' ').trim().toLowerCase();
+      if (!userSQL.includes(expectedUser)) {
+        allCorrect = false;
+        feedbackHTML += '<p>❌ User table needs work. Make sure to include primary key and foreign keys.</p>';
+      }
+      
+      if (allCorrect) {
+        feedbackHTML = '<div class="feedback-content"><p>✅ All tables created correctly!</p></div>';
         feedback.className = 'feedback feedback-success';
       } else {
-        feedback.innerHTML = '❌ Not quite right. Check the hints for guidance.';
         feedback.className = 'feedback feedback-error';
       }
       
+      feedback.innerHTML = feedbackHTML;
+      feedback.style.display = 'block';
+      return;
+    }
+    
+    // Original checking for other questions...
+    const editor = card.querySelector('.sql-editor');
+    const userAnswer = editor.value.trim();
+    
+    if (!userAnswer) {
+      feedback.innerHTML = '<div class="feedback-content">❌ Please write your SQL query first</div>';
+      feedback.className = 'feedback feedback-error';
+      feedback.style.display = 'block';
+      return;
+    }
+    
+    const expected = expectedAnswers[question].replace(/\s+/g, ' ').trim().toLowerCase();
+    const user = userAnswer.replace(/\s+/g, ' ').trim().toLowerCase();
+    
+    if (user.includes(expected)) {
+      feedback.innerHTML = '<div class="feedback-content">✅ Correct! Well done!</div>';
+      feedback.className = 'feedback feedback-success';
+    } else {
+      feedback.innerHTML = '<div class="feedback-content">❌ Not quite right. Check the hints for guidance.</div>';
+      feedback.className = 'feedback feedback-error';
+    }
+    
+    feedback.style.display = 'block';
+  }
+
+  // Toggle hints
+  function toggleHint(button, question) {
+    const hint = document.querySelector(`.hint-${question}`);
+    hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+    button.innerHTML = hint.style.display === 'block' 
+      ? '<span>💡</span> Hide Hint' 
+      : '<span>💡</span> Show Hint';
+  }
+
+  // Get AI feedback
+  async function getAIFeedback(button, questionText) {
+    const card = button.closest('.question-card');
+    const feedback = card.querySelector('.feedback');
+    const editors = card.querySelectorAll('.sql-editor');
+    
+    // Combine all SQL for question i
+    let userAnswer = '';
+    if (editors.length > 1) {
+      userAnswer = Array.from(editors).map(editor => editor.value.trim()).join('\n\n');
+    } else {
+      userAnswer = editors[0].value.trim();
+    }
+    
+    if (!userAnswer) {
+      feedback.innerHTML = '<div class="feedback-content">❌ Please write your SQL query first</div>';
+      feedback.className = 'feedback feedback-error';
+      feedback.style.display = 'block';
+      return;
+    }
+    
+    // Set loading state
+    const originalBtnHTML = button.innerHTML;
+    button.innerHTML = '<div class="loading"></div> Analyzing...';
+    button.disabled = true;
+    
+    try {
+      const response = await fetch(`${API_BASE_URL}/ai`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "system",
+              content: `You are a SQL instructor reviewing student work. Provide feedback on:
+                       - Correct syntax
+                       - Proper constraints (PK, FK)
+                       - Appropriate data types
+                       - Best practices
+                       Format your response with bullet points`
+            },
+            {
+              role: "user",
+              content: `Question: ${questionText}\nSQL Query: ${userAnswer}`
+            }
+          ]
+        })
+      });
+
+      if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+      
+      const data = await response.json();
+      let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+      
+      // Format the AI response
+      aiResponse = aiResponse
+        .replace(/\bGrade:\s*[A-F][-+]?\b/gi, '')
+        .split('\n')
+        .map(line => line.replace(/^[\s*\-•]+/, '').trim())
+        .filter(line => line)
+        .map(line => `• ${line}`)
+        .join('<br>');
+      
+      feedback.innerHTML = `<div class="feedback-content">
+        <strong>🤖 AI Feedback:</strong>
+        <div class="feedback-bullets">${aiResponse}</div>
+      </div>`;
+      feedback.className = 'feedback feedback-success';
+      
+    } catch (error) {
+      console.error("Error:", error);
+      feedback.innerHTML = `<div class="feedback-content">❌ Failed to get feedback: ${error.message}</div>`;
+      feedback.className = 'feedback feedback-error';
+    } finally {
+      button.innerHTML = originalBtnHTML;
+      button.disabled = false;
       feedback.style.display = 'block';
     }
+  }
 
-    // Toggle hints
-    document.querySelectorAll('.btn').forEach(btn => {
-      btn.addEventListener('click', function() {
-        const question = this.getAttribute('onclick').match(/'(\w+)'/)[1];
-        const hint = document.querySelector(`.hint-${question}`);
-        hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
-      });
+  // Highlight current page in navigation
+  document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop();
+    const navLinks = document.querySelectorAll('.nav-links a');
+    
+    navLinks.forEach(link => {
+      if (link.getAttribute('href') === currentPage) {
+        link.classList.add('active');
+      }
     });
-
-    document.addEventListener('DOMContentLoaded', function() {
-  const currentPage = window.location.pathname.split('/').pop();
-  const navLinks = document.querySelectorAll('.nav-links a');
-  
-  navLinks.forEach(link => {
-    if (link.getAttribute('href') === currentPage) {
-      link.classList.add('active');
-    }
   });
-});
-  </script>
+</script>
 </body>
 </html>
