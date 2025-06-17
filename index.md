@@ -115,7 +115,7 @@ Practice with live exercises and AI-powered feedback.
     <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> 
   </a>
 
-    <a href="exercises/activity_F.html" class="exercise-card"> 
+  <a href="exercises/activity_F.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">📌</div> 
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise F</div> 
     <div style="font-size: 0.9em; opacity: 0.9;">GROUP BY and HAVING queries</div> 
