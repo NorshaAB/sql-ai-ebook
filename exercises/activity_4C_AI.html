@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+still not same, i give you 1 example of codes : <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SQL Learning - Activity F</title>
+  <title>SQL Learning - Activity C</title>
   <style>
     :root {
       --primary: #3498db;
@@ -286,10 +286,10 @@
     }
 
 .btn-avatar {
-    padding: 0 15px 0 0;
-    width: auto;
+    padding: 0 15px 0 0; /* Add right padding for text */
+    width: auto; /* Remove fixed width */
     height: 48px;
-    border-radius: 24px;
+    border-radius: 24px; /* Pill shape */
     background: #2ecc71;
     display: inline-flex;
     align-items: center;
@@ -299,7 +299,7 @@
     transition: all 0.3s ease;
     border: 3px solid white;
     margin-left: 4px;
-    gap: 8px;
+    gap: 8px; /* Space between icon and text */
 }
 
 .btn-avatar .avatar-text {
@@ -335,25 +335,23 @@
   <div class="header">
     <div class="logo">
       <h1>📘 AI-Augmented SQL Learning</h1>
-      <p>Interactive GROUP BY and HAVING Practice</p>
+      <p>Interactive CREATE TABLE Statements Practice</p>
     </div>
     <div class="nav-links">
       <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
       <a href="activity_4A_AI.html">Exercise A</a>
       <a href="activity_B_AI.html">Exercise B</a>
-      <a href="activity_4D.html">Exercise D</a>
+       <a href="activity_4D.html">Exercise D</a>
       <a href="4E_AI_TRY.html">Exercise E</a>
-      <a href="activity_4F.html" style="background: rgba(255,255,255,0.2);">Exercise F</a>
     </div>
   </div>
 
   <div class="container">
-    <h2>Activity F: GROUP BY and HAVING Clause</h2>
+    <h2>Activity C: CREATE TABLE Statements</h2>
     
     <div class="activity-card">
-      <div class="table-header">SALES (<span class="sql-keyword">product_id</span>, quantity, total_price)</div>
-      <p>Write a query to display the total sales for each product, but only include products where the total sales exceed $500.</p>
-      <textarea class="sql-editor" placeholder="SELECT product_id, SUM(total_price) FROM sales..."></textarea>
+      <div class="table-header">a. Branch (<span class="sql-keyword">branchNo</span>, street, city, postcode)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here..."></textarea>
       <div class="button-row">
         <button class="btn" onclick="checkAnswer(this)">
           <span>🔍</span> Check Answer
@@ -361,18 +359,118 @@
         <button class="btn-secondary" onclick="showHint(this)">
           <span>💡</span> Show Hint
         </button>
-        <button class="btn-avatar" onclick="getAIFeedback(this, 'Write a query to show total sales per product where total sales exceed $500')">
-          <div class="avatar-img-container">
-              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-          </div>
-          <span class="avatar-text">Get AI Feedback</span>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="activity-card">
+      <div class="table-header">b. Staff (<span class="sql-keyword">staffNo</span>, fName, lName, position, gender, DOB, salary, <span class="sql-keyword">branchNo</span>)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
         </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="activity-card">
+      <div class="table-header">c. PropertyForRent (<span class="sql-keyword">propertyNo</span>, type, rooms, rent, <span class="sql-keyword">ownerNo</span>, <span class="sql-keyword">staffNo</span>, <span class="sql-keyword">branchNo</span>)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="activity-card">
+      <div class="table-header">d. Client (<span class="sql-keyword">clientNo</span>, fName, lName, telNo, prefType, maxRent, email)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="activity-card">
+      <div class="table-header">e. PrivateOwner (<span class="sql-keyword">ownerNo</span>, fName, lName, address, telNo, email, password)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+       </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
+      </div>
+      <div class="feedback"></div>
+    </div>
+
+    <div class="activity-card">
+      <div class="table-header">f. Viewing (<span class="sql-keyword">clientNo</span>, <span class="sql-keyword">propertyNo</span>, viewDate, comments)</div>
+      <textarea class="sql-editor" placeholder="Write your statement here"></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Your question here')">
+        <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+        </div>
+        <span class="avatar-text">Get AI Feedback</span>
+    </button>
       </div>
       <div class="feedback"></div>
     </div>
   </div>
 
-  <script>
+    <script>
     const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
     
     // Check answer function
@@ -382,26 +480,11 @@
       const feedback = card.querySelector('.feedback');
       const sql = editor.value.trim().toLowerCase();
       
-      const correctAnswers = [
-        "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500",
-        "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500",
-        "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500;",
-        "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500;",
-        "SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500",
-        "SELECT product_id, SUM(total_price) AS total_sales FROM sales GROUP BY product_id HAVING SUM(total_price) > 500"
-      ];
-
-      const normalizedInput = sql.replace(/;/g, '').replace(/\s+/g, ' ').trim();
-      const isCorrect = correctAnswers.some(ans => normalizedInput === ans.replace(/;/g, '').replace(/\s+/g, ' ').trim());
-      
-      if (isCorrect) {
+      if (sql.includes('create table') && sql.includes('primary key')) {
         feedback.innerHTML = '✅ Correct! Well done!';
         feedback.className = 'feedback feedback-success';
       } else {
-        feedback.innerHTML = '❌ Please check your syntax. Make sure to include:<br>' +
-          '• GROUP BY product_id<br>' +
-          '• HAVING SUM(total_price) > 500<br>' +
-          '• Proper aggregation with SUM()';
+        feedback.innerHTML = '❌ Please check your syntax. Make sure to include PRIMARY KEY.';
         feedback.className = 'feedback feedback-error';
       }
     }
@@ -409,24 +492,72 @@
     // Show hint function
     function showHint(button) {
       const card = button.closest('.activity-card');
+      const header = card.querySelector('.table-header').textContent;
       
+      // Improved table type detection
+      let tableType = '';
+      if (header.includes('Branch')) tableType = 'branch';
+      else if (header.includes('Staff')) tableType = 'staff';
+      else if (header.includes('PropertyForRent')) tableType = 'property';
+      else if (header.includes('Client')) tableType = 'client';
+      else if (header.includes('PrivateOwner')) tableType = 'owner';
+      else if (header.includes('Viewing')) tableType = 'viewing';
+      
+      const hints = {
+        branch: `Structure your CREATE TABLE statement with:
+          • <code>branchNo</code> as PRIMARY KEY
+          • Include all specified columns
+          • Use VARCHAR for text fields
+          • Add NOT NULL constraints where appropriate`,
+
+        staff: `Key points for Staff table:
+          • <code>staffNo</code> must be PRIMARY KEY
+          • Include all columns from the schema
+          • Remember the foreign key to Branch table
+          • Use appropriate data types (DATE for DOB, DECIMAL for salary)`,
+
+        property: `Remember to:
+          • Set <code>propertyNo</code> as PRIMARY KEY
+          • Include all specified columns
+          • Add three foreign key constraints
+          • Use INT for rooms, DECIMAL for rent`,
+
+        client: `Client table should have:
+          • <code>clientNo</code> as PRIMARY KEY
+          • All specified columns included
+          • VARCHAR for text fields
+          • DECIMAL for maxRent`,
+
+        owner: `PrivateOwner structure:
+          • <code>ownerNo</code> as PRIMARY KEY
+          • Include all personal information fields
+          • VARCHAR for text fields
+          • Consider field lengths`,
+
+        viewing: `Special considerations:
+          • Composite PRIMARY KEY (clientNo + propertyNo)
+          • Two foreign key constraints
+          • DATE for viewDate
+          • TEXT for comments`
+      };
+
       // Remove any existing hint
       const existingHint = card.querySelector('.hint-content');
       if (existingHint) existingHint.remove();
       
+      // Check if we found a matching table type
+      if (!tableType || !hints[tableType]) {
+        const errorHint = document.createElement('div');
+        errorHint.className = 'hint-content';
+        errorHint.textContent = 'Hint not available for this table';
+        card.querySelector('.button-row').after(errorHint);
+        return;
+      }
+      
       // Create new hint element
       const hintContent = document.createElement('div');
       hintContent.className = 'hint-content';
-      hintContent.innerHTML = `
-        <p>Key concepts for this query:</p>
-        <ul>
-          <li>Use <code>GROUP BY product_id</code> to group sales by product</li>
-          <li>Apply <code>SUM(total_price)</code> to calculate total sales per product</li>
-          <li>Filter groups with <code>HAVING SUM(total_price) > 500</code></li>
-          <li>Optionally use <code>AS</code> to rename the sum column</li>
-        </ul>
-        <p>Example structure: <code>SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500</code></p>
-      `;
+      hintContent.innerHTML = hints[tableType];
       
       // Insert after the button row
       const buttonRow = card.querySelector('.button-row');
@@ -470,7 +601,8 @@
       const originalBtnDisabled = button.disabled;
       
       // Set loading state
-      button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div>';
+     const originalContent = button.innerHTML;
+    button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div>';
       
       try {
         const response = await fetch(`${API_BASE_URL}/ai`, {
@@ -484,9 +616,9 @@
               {
                 role: "system",
                 content: `You are a SQL instructor. Provide specific feedback on:
-                         - Correct use of GROUP BY and HAVING
-                         - Proper aggregation functions
-                         - Query structure and syntax
+                         - Syntax errors
+                         - Best practices
+                         - Optimization suggestions
                          Format as clean bullet points`
               },
               {
