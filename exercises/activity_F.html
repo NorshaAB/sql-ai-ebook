@@ -6,24 +6,59 @@
   <title>SQL Learning - Activity F</title>
   <link rel="stylesheet" href="style.css"> <!-- Assuming you have a shared CSS file -->
   <style>
-    /* Consistent with your other activities */
+    /* Consistent header styling */
+    .header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+    .header-title {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .tabs {
+      display: flex;
+      gap: 15px;
+    }
+    .tab {
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .tab:hover {
+      background-color: #34495e;
+    }
+    .tab.active {
+      background-color: #3498db;
+    }
+
+    /* Consistent body styling */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f8f9fa;
       margin: 0;
-      padding: 20px;
       color: #333;
     }
     .container {
       max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
+      margin: 20px auto;
+      padding: 0 20px;
     }
     h2 {
       color: #2c3e50;
       border-bottom: 2px solid #3498db;
       padding-bottom: 10px;
-      margin-top: 0;
+      margin-top: 30px;
     }
     .activity-card {
       background: #ffffff;
@@ -58,18 +93,39 @@
       font-size: 14px;
       margin: 10px 0;
     }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
     button {
       padding: 10px 20px;
-      background-color: #3498db;
-      color: white;
-      border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.3s;
+      transition: all 0.3s;
+      border: none;
     }
-    button:hover {
+    .check-button {
+      background-color: #3498db;
+      color: white;
+    }
+    .check-button:hover {
       background-color: #2980b9;
+    }
+    .hint-button {
+      background-color: #f39c12;
+      color: white;
+    }
+    .hint-button:hover {
+      background-color: #e67e22;
+    }
+    .ai-button {
+      background-color: #2ecc71;
+      color: white;
+    }
+    .ai-button:hover {
+      background-color: #27ae60;
     }
     .feedback {
       margin-top: 20px;
@@ -87,6 +143,14 @@
       border-color: #e74c3c;
       background-color: #fdecea;
     }
+    .hint-content {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background-color: #fff8e1;
+      border-left: 4px solid #f39c12;
+      border-radius: 4px;
+    }
     code {
       background-color: #f5f5f5;
       padding: 2px 4px;
@@ -96,6 +160,18 @@
   </style>
 </head>
 <body>
+  <header class="header">
+    <div class="header-container">
+      <div class="header-title">SQL Learning Platform</div>
+      <div class="tabs">
+        <div class="tab">Home</div>
+        <div class="tab">Lessons</div>
+        <div class="tab active">Activities</div>
+        <div class="tab">Progress</div>
+      </div>
+    </div>
+  </header>
+
   <div class="container">
     <h2>Activity F: GROUP BY and HAVING Clause</h2>
     
@@ -117,9 +193,25 @@ total_price (DECIMAL)</pre>
       <label for="sqlInput">Your SQL Query:</label>
       <textarea id="sqlInput" placeholder="SELECT product_id, SUM(total_price) FROM sales..."></textarea>
       
-      <button onclick="checkAnswer()">Check Answer</button>
+      <div class="button-group">
+        <button class="hint-button" onclick="showHint()">Show Hint</button>
+        <button class="check-button" onclick="checkAnswer()">Check Answer</button>
+        <button class="ai-button" onclick="showAIFeedback()">AI Feedback</button>
+      </div>
+      
+      <div id="hintContent" class="hint-content">
+        <h4>Hint:</h4>
+        <p>Remember that:</p>
+        <ul>
+          <li><code>GROUP BY</code> is used to group rows that have the same values</li>
+          <li><code>HAVING</code> is used to filter groups (similar to WHERE but for groups)</li>
+          <li>Aggregate functions like <code>SUM()</code> work with grouped data</li>
+        </ul>
+        <p>Try writing a query that groups by product_id and sums the total_price, then filters for sums greater than 500.</p>
+      </div>
       
       <div id="feedback" class="feedback"></div>
+      <div id="aiFeedback" class="feedback"></div>
     </div>
   </div>
 
@@ -135,11 +227,15 @@ total_price (DECIMAL)</pre>
     ];
 
     function normalizeSQL(input) {
-      // Remove semicolons, extra whitespace, and normalize case
       return input.toLowerCase()
         .replace(/;/g, '')
         .replace(/\s+/g, ' ')
         .trim();
+    }
+
+    function showHint() {
+      const hintContent = document.getElementById('hintContent');
+      hintContent.style.display = hintContent.style.display === 'block' ? 'none' : 'block';
     }
 
     function checkAnswer() {
@@ -150,6 +246,7 @@ total_price (DECIMAL)</pre>
       const isCorrect = correctAnswers.some(ans => normalizedInput === normalizeSQL(ans));
       
       feedback.style.display = 'block';
+      document.getElementById('aiFeedback').style.display = 'none';
       
       if (isCorrect) {
         feedback.innerHTML = '✅ <strong>Correct!</strong> You\'ve successfully used GROUP BY to aggregate data and HAVING to filter the results.';
@@ -163,6 +260,28 @@ total_price (DECIMAL)</pre>
           'Example solution: <code>SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500</code>';
         feedback.className = 'feedback error';
       }
+    }
+
+    function showAIFeedback() {
+      const input = document.getElementById('sqlInput').value;
+      const aiFeedback = document.getElementById('aiFeedback');
+      
+      document.getElementById('feedback').style.display = 'none';
+      aiFeedback.style.display = 'block';
+      aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Analyzing your query... (This would connect to an AI service in a real implementation)';
+      aiFeedback.className = 'feedback';
+      
+      // In a real implementation, you would call an API here
+      // This is just a placeholder simulation
+      setTimeout(() => {
+        if (input.trim() === '') {
+          aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Please write a query first so I can analyze it.';
+        } else {
+          aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Your query looks like it\'s on the right track. ' +
+            'Make sure you\'re using GROUP BY with product_id and HAVING with SUM(total_price). ' +
+            'Also consider adding an alias to your sum for better readability.';
+        }
+      }, 1000);
     }
   </script>
 </body>
