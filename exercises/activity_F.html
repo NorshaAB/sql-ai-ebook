@@ -4,284 +4,525 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SQL Learning - Activity F</title>
-  <link rel="stylesheet" href="style.css"> <!-- Assuming you have a shared CSS file -->
   <style>
-    /* Consistent header styling */
-    .header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 15px 0;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --light: #f5f7fa;
+      --dark: #333;
+      --gray: #7f8c8d;
     }
-    .header-container {
-      max-width: 1200px;
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+      background-color: var(--light);
+    }
+
+    .container {
+      max-width: 900px;
       margin: 0 auto;
+      padding: 20px;
+    }
+
+    .header {
+      background: var(--secondary);
+      color: white;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
-    }
-    .header-title {
-      font-size: 24px;
-      font-weight: bold;
-    }
-    .tabs {
-      display: flex;
-      gap: 15px;
-    }
-    .tab {
-      padding: 8px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .tab:hover {
-      background-color: #34495e;
-    }
-    .tab.active {
-      background-color: #3498db;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
     }
 
-    /* Consistent body styling */
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
+    .header h1 {
       margin: 0;
-      color: #333;
+      font-size: 1.5rem;
     }
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 0 20px;
+
+    .header p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
     }
+
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
     h2 {
-      color: #2c3e50;
-      border-bottom: 2px solid #3498db;
-      padding-bottom: 10px;
+      color: var(--secondary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
       margin-top: 30px;
     }
+
     .activity-card {
-      background: #ffffff;
+      background: white;
+      padding: 20px;
       border-radius: 8px;
-      padding: 25px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      margin-bottom: 30px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    .problem-statement {
-      background-color: #f1f8fe;
-      padding: 15px;
-      border-left: 4px solid #3498db;
-      margin-bottom: 20px;
-      border-radius: 4px;
+
+    .activity-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-    .table-schema {
-      background-color: #f5f5f5;
-      padding: 15px;
-      border-radius: 4px;
-      font-family: monospace;
-      margin: 15px 0;
-      overflow-x: auto;
+
+    .table-header {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--secondary);
     }
-    textarea {
+
+    .sql-editor {
       width: 100%;
-      height: 120px;
-      font-family: 'Courier New', Courier, monospace;
+      min-height: 120px;
+      font-family: 'Courier New', monospace;
       padding: 12px;
+      border: 2px solid #ddd;
       border-radius: 4px;
-      border: 1px solid #ddd;
       resize: vertical;
       font-size: 14px;
       margin: 10px 0;
+      background: #f8f9fa;
+      transition: border-color 0.3s;
     }
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 15px;
+
+    .sql-editor::placeholder {
+      color: #aaa;
+      font-style: italic;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      opacity: 1;
+      transition: opacity 0.2s;
     }
-    button {
-      padding: 10px 20px;
+
+    .sql-editor:focus::placeholder {
+      opacity: 0.5;
+    }
+
+    .sql-editor:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .btn, .btn-secondary, .btn-success {
+      padding: 10px 18px;
       border-radius: 4px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       border: none;
+      font-weight: 500;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .check-button {
-      background-color: #3498db;
+
+    .btn {
+      background: var(--primary);
       color: white;
     }
-    .check-button:hover {
-      background-color: #2980b9;
-    }
-    .hint-button {
-      background-color: #f39c12;
+
+    .btn-secondary {
+      background: var(--gray);
       color: white;
     }
-    .hint-button:hover {
-      background-color: #e67e22;
-    }
-    .ai-button {
-      background-color: #2ecc71;
+
+    .btn-success {
+      background: var(--success);
       color: white;
     }
-    .ai-button:hover {
-      background-color: #27ae60;
+
+    .btn:hover {
+      background: #2980b9;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
+
+    .btn-secondary:hover {
+      background: #6c757d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn-success:hover {
+      background: #25a25a;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .btn:active, .btn-secondary:active, .btn-success:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .btn span, .btn-secondary span, .btn-success span {
+      font-size: 16px;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin: 15px 0;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
     .feedback {
-      margin-top: 20px;
-      padding: 15px;
-      border-left: 4px solid #3498db;
-      background-color: #f1f8fe;
+      padding: 12px;
+      margin: 15px 0;
       border-radius: 4px;
-      display: none;
+      border-left: 4px solid var(--primary);
+      animation: fadeIn 0.3s ease-in;
     }
-    .feedback.success {
-      border-color: #27ae60;
-      background-color: #e8f5e9;
+
+    .feedback-content {
+      line-height: 1.6;
     }
-    .feedback.error {
-      border-color: #e74c3c;
-      background-color: #fdecea;
+
+    .feedback-bullets {
+      margin-top: 8px;
+      padding-left: 20px;
     }
+
+    .feedback-bullets br {
+      display: block;
+      content: "";
+      margin-bottom: 6px;
+    }
+
+    .feedback-success {
+      border-color: var(--success);
+      background: #e8f8f0;
+    }
+
+    .feedback-error {
+      border-color: var(--danger);
+      background: #fdedec;
+    }
+
     .hint-content {
-      display: none;
-      margin-top: 15px;
-      padding: 15px;
-      background-color: #fff8e1;
-      border-left: 4px solid #f39c12;
-      border-radius: 4px;
+      background: #e8f4ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 0 4px 4px 0;
+      animation: fadeIn 0.3s ease-in;
     }
-    code {
-      background-color: #f5f5f5;
-      padding: 2px 4px;
-      border-radius: 3px;
-      font-family: monospace;
+
+    .hint-content ul {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
     }
+
+    .hint-content li {
+      margin-bottom: 6px;
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .sql-keyword {
+      color: #d03b3b;
+      font-weight: bold;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links a {
+        margin: 0 0.5rem;
+      }
+      
+      .button-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+.btn-avatar {
+    padding: 0 15px 0 0;
+    width: auto;
+    height: 48px;
+    border-radius: 24px;
+    background: #2ecc71;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    border: 3px solid white;
+    margin-left: 4px;
+    gap: 8px;
+}
+
+.btn-avatar .avatar-text {
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding-right: 8px;
+}
+
+.btn-avatar .avatar-img-container {
+    width: 42px;
+    height: 42px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-avatar img {
+    width: 60%;
+    height: auto;
+  }
+
+  .btn-avatar .loading {
+    width: 24px;
+    height: 24px;
+    border-width: 3px;
+  }
   </style>
 </head>
 <body>
-  <header class="header">
-    <div class="header-container">
-      <div class="header-title">SQL Learning Platform</div>
-      <div class="tabs">
-        <div class="tab">Home</div>
-        <div class="tab">Lessons</div>
-        <div class="tab active">Activities</div>
-        <div class="tab">Progress</div>
-      </div>
+  <div class="header">
+    <div class="logo">
+      <h1>📘 AI-Augmented SQL Learning</h1>
+      <p>Interactive GROUP BY and HAVING Practice</p>
     </div>
-  </header>
+    <div class="nav-links">
+      <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
+      <a href="activity_4A_AI.html">Exercise A</a>
+      <a href="activity_B_AI.html">Exercise B</a>
+      <a href="activity_4D.html">Exercise D</a>
+      <a href="4E_AI_TRY.html">Exercise E</a>
+      <a href="activity_4F.html" style="background: rgba(255,255,255,0.2);">Exercise F</a>
+    </div>
+  </div>
 
   <div class="container">
     <h2>Activity F: GROUP BY and HAVING Clause</h2>
     
     <div class="activity-card">
-      <div class="problem-statement">
-        <p>You are working with a <code>SALES</code> table that contains sales records. Write a SQL query to:</p>
-        <p><strong>Display the total sales for each product, but only include products where the total sales exceed $500.</strong></p>
+      <div class="table-header">SALES (<span class="sql-keyword">product_id</span>, quantity, total_price)</div>
+      <p>Write a query to display the total sales for each product, but only include products where the total sales exceed $500.</p>
+      <textarea class="sql-editor" placeholder="SELECT product_id, SUM(total_price) FROM sales..."></textarea>
+      <div class="button-row">
+        <button class="btn" onclick="checkAnswer(this)">
+          <span>🔍</span> Check Answer
+        </button>
+        <button class="btn-secondary" onclick="showHint(this)">
+          <span>💡</span> Show Hint
+        </button>
+        <button class="btn-avatar" onclick="getAIFeedback(this, 'Write a query to show total sales per product where total sales exceed $500')">
+          <div class="avatar-img-container">
+              <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+          </div>
+          <span class="avatar-text">Get AI Feedback</span>
+        </button>
       </div>
-      
-      <div class="table-schema">
-        <strong>Table Schema:</strong>
-        <pre>SALES
------
-product_id (INT)
-quantity (INT)
-total_price (DECIMAL)</pre>
-      </div>
-      
-      <label for="sqlInput">Your SQL Query:</label>
-      <textarea id="sqlInput" placeholder="SELECT product_id, SUM(total_price) FROM sales..."></textarea>
-      
-      <div class="button-group">
-        <button class="hint-button" onclick="showHint()">Show Hint</button>
-        <button class="check-button" onclick="checkAnswer()">Check Answer</button>
-        <button class="ai-button" onclick="showAIFeedback()">AI Feedback</button>
-      </div>
-      
-      <div id="hintContent" class="hint-content">
-        <h4>Hint:</h4>
-        <p>Remember that:</p>
-        <ul>
-          <li><code>GROUP BY</code> is used to group rows that have the same values</li>
-          <li><code>HAVING</code> is used to filter groups (similar to WHERE but for groups)</li>
-          <li>Aggregate functions like <code>SUM()</code> work with grouped data</li>
-        </ul>
-        <p>Try writing a query that groups by product_id and sums the total_price, then filters for sums greater than 500.</p>
-      </div>
-      
-      <div id="feedback" class="feedback"></div>
-      <div id="aiFeedback" class="feedback"></div>
+      <div class="feedback"></div>
     </div>
   </div>
 
   <script>
-    const correctAnswers = [
-      "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500",
-      "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500",
-      "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500;",
-      "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500;",
-      // Case insensitive versions
-      "SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500",
-      "SELECT product_id, SUM(total_price) AS total_sales FROM sales GROUP BY product_id HAVING SUM(total_price) > 500"
-    ];
-
-    function normalizeSQL(input) {
-      return input.toLowerCase()
-        .replace(/;/g, '')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-
-    function showHint() {
-      const hintContent = document.getElementById('hintContent');
-      hintContent.style.display = hintContent.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function checkAnswer() {
-      const input = document.getElementById('sqlInput').value;
-      const feedback = document.getElementById('feedback');
-      const normalizedInput = normalizeSQL(input);
+    const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+    
+    // Check answer function
+    function checkAnswer(button) {
+      const card = button.closest('.activity-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const sql = editor.value.trim().toLowerCase();
       
-      const isCorrect = correctAnswers.some(ans => normalizedInput === normalizeSQL(ans));
-      
-      feedback.style.display = 'block';
-      document.getElementById('aiFeedback').style.display = 'none';
+      const correctAnswers = [
+        "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500",
+        "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500",
+        "select product_id, sum(total_price) from sales group by product_id having sum(total_price) > 500;",
+        "select product_id, sum(total_price) as total_sales from sales group by product_id having sum(total_price) > 500;",
+        "SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500",
+        "SELECT product_id, SUM(total_price) AS total_sales FROM sales GROUP BY product_id HAVING SUM(total_price) > 500"
+      ];
+
+      const normalizedInput = sql.replace(/;/g, '').replace(/\s+/g, ' ').trim();
+      const isCorrect = correctAnswers.some(ans => normalizedInput === ans.replace(/;/g, '').replace(/\s+/g, ' ').trim());
       
       if (isCorrect) {
-        feedback.innerHTML = '✅ <strong>Correct!</strong> You\'ve successfully used GROUP BY to aggregate data and HAVING to filter the results.';
-        feedback.className = 'feedback success';
+        feedback.innerHTML = '✅ Correct! Well done!';
+        feedback.className = 'feedback feedback-success';
       } else {
-        feedback.innerHTML = '❌ <strong>Try Again</strong><br>' + 
-          'The query should:<br>' +
-          '1. Group records by product_id<br>' +
-          '2. Calculate the sum of total_price for each group<br>' +
-          '3. Only include groups where the sum exceeds 500<br><br>' +
-          'Example solution: <code>SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500</code>';
-        feedback.className = 'feedback error';
+        feedback.innerHTML = '❌ Please check your syntax. Make sure to include:<br>' +
+          '• GROUP BY product_id<br>' +
+          '• HAVING SUM(total_price) > 500<br>' +
+          '• Proper aggregation with SUM()';
+        feedback.className = 'feedback feedback-error';
       }
     }
 
-    function showAIFeedback() {
-      const input = document.getElementById('sqlInput').value;
-      const aiFeedback = document.getElementById('aiFeedback');
+    // Show hint function
+    function showHint(button) {
+      const card = button.closest('.activity-card');
       
-      document.getElementById('feedback').style.display = 'none';
-      aiFeedback.style.display = 'block';
-      aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Analyzing your query... (This would connect to an AI service in a real implementation)';
-      aiFeedback.className = 'feedback';
+      // Remove any existing hint
+      const existingHint = card.querySelector('.hint-content');
+      if (existingHint) existingHint.remove();
       
-      // In a real implementation, you would call an API here
-      // This is just a placeholder simulation
+      // Create new hint element
+      const hintContent = document.createElement('div');
+      hintContent.className = 'hint-content';
+      hintContent.innerHTML = `
+        <p>Key concepts for this query:</p>
+        <ul>
+          <li>Use <code>GROUP BY product_id</code> to group sales by product</li>
+          <li>Apply <code>SUM(total_price)</code> to calculate total sales per product</li>
+          <li>Filter groups with <code>HAVING SUM(total_price) > 500</code></li>
+          <li>Optionally use <code>AS</code> to rename the sum column</li>
+        </ul>
+        <p>Example structure: <code>SELECT product_id, SUM(total_price) FROM sales GROUP BY product_id HAVING SUM(total_price) > 500</code></p>
+      `;
+      
+      // Insert after the button row
+      const buttonRow = card.querySelector('.button-row');
+      buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
+      
+      // Auto-close after 10 seconds
       setTimeout(() => {
-        if (input.trim() === '') {
-          aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Please write a query first so I can analyze it.';
-        } else {
-          aiFeedback.innerHTML = '🤖 <strong>AI Feedback:</strong><br>Your query looks like it\'s on the right track. ' +
-            'Make sure you\'re using GROUP BY with product_id and HAVING with SUM(total_price). ' +
-            'Also consider adding an alias to your sum for better readability.';
-        }
-      }, 1000);
+        hintContent.style.opacity = '0';
+        setTimeout(() => hintContent.remove(), 300);
+      }, 10000);
+    }
+
+    // Format AI response
+    function formatAIResponse(text) {
+      // Remove grade references
+      text = text.replace(/\bGrade:\s*[A-F][-+]?\b/gi, '');
+      
+      // Convert to bullet points
+      return text
+        .split('\n')
+        .map(line => line.replace(/^[\s*\-•]+/, '').trim())
+        .filter(line => line)
+        .map(line => `• ${line}`)
+        .join('<br>');
+    }
+
+    async function getAIFeedback(button, question) {
+      const card = button.closest('.activity-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim();
+      
+      if (!userAnswer) {
+        feedback.innerHTML = '❌ Please write your SQL query first';
+        feedback.className = 'feedback feedback-error';
+        return;
+      }
+      
+      // Store original button state
+      const originalBtnHTML = button.innerHTML;
+      const originalBtnDisabled = button.disabled;
+      
+      // Set loading state
+      button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div>';
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/ai`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `You are a SQL instructor. Provide specific feedback on:
+                         - Correct use of GROUP BY and HAVING
+                         - Proper aggregation functions
+                         - Query structure and syntax
+                         Format as clean bullet points`
+              },
+              {
+                role: "user",
+                content: `Question: ${question}\nSQL Query: ${userAnswer}`
+              }
+            ]
+          })
+        });
+
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
+        const data = await response.json();
+        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+        aiResponse = formatAIResponse(aiResponse);
+        
+        // First restore the button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        // Then update the feedback with explicit icon
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>🤖 AI Feedback:</strong>
+          <div class="feedback-bullets">${aiResponse}</div>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+        
+      } catch (error) {
+        console.error("Error:", error);
+        // Restore button state even on error
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+        feedback.className = 'feedback feedback-error';
+      }
     }
   </script>
 </body>
