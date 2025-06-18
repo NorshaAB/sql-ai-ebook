@@ -991,7 +991,7 @@ async function getAIFeedback(button, question) {
     }
 }
 
-  <script>
+<script>
 /* ===== PROGRESS TRACKER ===== */
 class ProgressTracker {
   constructor() {
@@ -1080,6 +1080,168 @@ progressTracker.updateStreak();
 // Make functions available globally
 window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
 window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
+
+const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+    
+// Toggle hint visibility
+function toggleHint(button) {
+  const card = button.closest('.question-card');
+  const hint = card.querySelector('.hint-content');
+  hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+}
+
+// Check answer against expected keywords
+function checkAnswer(button, expectedKeywords) {
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim().toLowerCase();
+  
+  let correctCount = 0;
+  expectedKeywords.forEach(keyword => {
+    if (userAnswer.includes(keyword.toLowerCase())) {
+      correctCount++;
+    }
+  });
+  
+  const percentage = (correctCount / expectedKeywords.length) * 100;
+  const isCorrect = percentage >= 50;
+  
+  // Track progress
+  if (isCorrect && typeof window.markExerciseComplete === 'function') {
+    window.markExerciseComplete('A');
+  }
+  if (typeof window.recordQueryAttempt === 'function') {
+    window.recordQueryAttempt(isCorrect);
+  }
+  
+  feedback.innerHTML = isCorrect 
+    ? `<div class="feedback-content">
+        <strong>✅ Correct!</strong>
+        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+       </div>`
+    : `<div class="feedback-content">
+        <strong>❌ Try Again</strong>
+        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+       </div>`;
+  feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+}
+
+function toggleButtonState(button, isLoading) {
+  if (isLoading) {
+    button.innerHTML = '<span class="loading"></span> Analyzing...';
+    button.disabled = true;
+  } else {
+    button.innerHTML = `
+      <div class="avatar-img-container">
+        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+      </div>
+      <span class="avatar-text">Get AI Feedback</span>
+    `;
+    button.disabled = false;
+    button.style.animation = 'buttonRestore 0.3s ease';
+    setTimeout(() => button.style.animation = '', 300);
+  }
+}
+
+function showFeedback(element, message, isSuccess) {
+  element.innerHTML = isSuccess 
+    ? `<div class="feedback-content">
+         <strong>AI Feedback:</strong>
+         <div class="feedback-bullets">${message}</div>
+       </div>`
+    : message;
+  element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
+}
+
+function formatAIResponse(text) {
+  // Remove grade references
+  text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
+  
+  // Convert to proper HTML bullet points
+  return text
+    .split('\n')
+    .map(line => {
+      line = line.replace(/^[\s*\-•]+/, '').trim();
+      return line ? `• ${line}` : '';
+    })
+    .filter(line => line)
+    .join('<br>');
+}
+
+async function getAIFeedback(button, question) {
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim();
+  
+  if (!userAnswer) {
+    feedback.innerHTML = '❌ Please write your answer first';
+    feedback.className = 'feedback feedback-error';
+    return;
+  }
+
+  if (typeof window.recordQueryAttempt === 'function') {
+    window.recordQueryAttempt(false);
+  }
+    
+  // Store original button state
+  const originalBtnHTML = button.innerHTML;
+  const originalBtnDisabled = button.disabled;
+    
+  // Set loading state
+  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+  button.disabled = true;
+    
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
+                    Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
+          },
+          {
+            role: "user",
+            content: `Question: ${question}\nStudent Answer: ${userAnswer}`
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+    
+    const data = await response.json();
+    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+    aiResponse = formatAIResponse(aiResponse);
+    
+    // First restore the button state
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    // Then update the feedback with explicit icon
+    feedback.innerHTML = `<div class="feedback-content">
+      <strong>🤖 AI Feedback:</strong>
+      <div class="feedback-bullets">${aiResponse}</div>
+    </div>`;
+    feedback.className = 'feedback feedback-success';
+    
+  } catch (error) {
+    console.error("Error:", error);
+    // Restore button state even on error
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+    feedback.className = 'feedback feedback-error';
+  }
+}
 </script>
 
 </body>
