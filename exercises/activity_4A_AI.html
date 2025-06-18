@@ -988,258 +988,257 @@ async function getAIFeedback(button, question) {
     }
 }
 
-<script>
-/* ===== PROGRESS TRACKER ===== */
-class ProgressTracker {
-  constructor() {
-    this.progressData = this.loadProgress();
-  }
-
-  loadProgress() {
-    const defaultData = {
-      completedExercises: [],
-      exerciseProgress: {},
-      streak: 0,
-      lastAccessDate: null,
-      achievements: {
-        firstSteps: false,
-        queryExplorer: false
-      },
-      stats: {
-        queriesAttempted: 0,
-        correctQueries: 0
+  <script>
+    const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+    
+    /* ===== PROGRESS TRACKER ===== */
+    class ProgressTracker {
+      constructor() {
+        this.progressData = this.loadProgress();
       }
-    };
-    const savedData = JSON.parse(localStorage.getItem('sqlLearningProgress')) || defaultData;
-    return {...defaultData, ...savedData};
-  }
 
-  saveProgress() {
-    localStorage.setItem('sqlLearningProgress', JSON.stringify(this.progressData));
-  }
-
-  updateStreak() {
-    const today = new Date().toISOString().split('T')[0];
-    if (this.progressData.lastAccessDate === today) return;
-    
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    if (!this.progressData.lastAccessDate || this.progressData.lastAccessDate === yesterday) {
-      this.progressData.streak++;
-    } else {
-      this.progressData.streak = 1;
-    }
-    this.progressData.lastAccessDate = today;
-    this.saveProgress();
-  }
-
-  markExerciseComplete(exerciseId) {
-    if (!this.progressData.completedExercises.includes(exerciseId)) {
-      this.progressData.completedExercises.push(exerciseId);
-      if (exerciseId === 'A' && !this.progressData.achievements.firstSteps) {
-        this.progressData.achievements.firstSteps = true;
-        this.showAchievement("First Steps", "Completed your first exercise!");
-      }
-    }
-    this.saveProgress();
-  }
-
-  recordQueryAttempt(isCorrect) {
-    this.progressData.stats.queriesAttempted++;
-    if (isCorrect) this.progressData.stats.correctQueries++;
-    
-    if (this.progressData.stats.queriesAttempted >= 10 && 
-        !this.progressData.achievements.queryExplorer) {
-      this.progressData.achievements.queryExplorer = true;
-      this.showAchievement("Query Explorer", "Attempted 10+ queries!");
-    }
-    this.saveProgress();
-  }
-
-  showAchievement(title, message) {
-    const notification = document.createElement('div');
-    notification.className = 'achievement-notification';
-    notification.innerHTML = `
-      <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; 
-                  position: fixed; bottom: 20px; left: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <div style="font-weight: bold; font-size: 1.2rem;">🏆 ${title}</div>
-        <div>${message}</div>
-      </div>
-    `;
-    document.body.appendChild(notification);
-    setTimeout(() => notification.remove(), 5000);
-  }
-}
-
-// Initialize progress tracker
-const progressTracker = new ProgressTracker();
-progressTracker.updateStreak();
-
-// Make functions available globally
-window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
-window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
-
-const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
-    
-// Toggle hint visibility
-function toggleHint(button) {
-  const card = button.closest('.question-card');
-  const hint = card.querySelector('.hint-content');
-  hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
-}
-
-// Check answer against expected keywords
-function checkAnswer(button, expectedKeywords) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const userAnswer = editor.value.trim().toLowerCase();
-  
-  let correctCount = 0;
-  expectedKeywords.forEach(keyword => {
-    if (userAnswer.includes(keyword.toLowerCase())) {
-      correctCount++;
-    }
-  });
-  
-  const percentage = (correctCount / expectedKeywords.length) * 100;
-  const isCorrect = percentage >= 50;
-  
-  // Track progress
-  if (isCorrect && typeof window.markExerciseComplete === 'function') {
-    window.markExerciseComplete('A');
-  }
-  if (typeof window.recordQueryAttempt === 'function') {
-    window.recordQueryAttempt(isCorrect);
-  }
-  
-  feedback.innerHTML = isCorrect 
-    ? `<div class="feedback-content">
-        <strong>✅ Correct!</strong>
-        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
-       </div>`
-    : `<div class="feedback-content">
-        <strong>❌ Try Again</strong>
-        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
-       </div>`;
-  feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
-}
-
-function toggleButtonState(button, isLoading) {
-  if (isLoading) {
-    button.innerHTML = '<span class="loading"></span> Analyzing...';
-    button.disabled = true;
-  } else {
-    button.innerHTML = `
-      <div class="avatar-img-container">
-        <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
-      </div>
-      <span class="avatar-text">Get AI Feedback</span>
-    `;
-    button.disabled = false;
-    button.style.animation = 'buttonRestore 0.3s ease';
-    setTimeout(() => button.style.animation = '', 300);
-  }
-}
-
-function showFeedback(element, message, isSuccess) {
-  element.innerHTML = isSuccess 
-    ? `<div class="feedback-content">
-         <strong>AI Feedback:</strong>
-         <div class="feedback-bullets">${message}</div>
-       </div>`
-    : message;
-  element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
-}
-
-function formatAIResponse(text) {
-  // Remove grade references
-  text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
-  
-  // Convert to proper HTML bullet points
-  return text
-    .split('\n')
-    .map(line => {
-      line = line.replace(/^[\s*\-•]+/, '').trim();
-      return line ? `• ${line}` : '';
-    })
-    .filter(line => line)
-    .join('<br>');
-}
-
-async function getAIFeedback(button, question) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const userAnswer = editor.value.trim();
-  
-  if (!userAnswer) {
-    feedback.innerHTML = '❌ Please write your answer first';
-    feedback.className = 'feedback feedback-error';
-    return;
-  }
-
-  if (typeof window.recordQueryAttempt === 'function') {
-    window.recordQueryAttempt(false);
-  }
-    
-  // Store original button state
-  const originalBtnHTML = button.innerHTML;
-  const originalBtnDisabled = button.disabled;
-    
-  // Set loading state
-  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
-  button.disabled = true;
-    
-  try {
-    const response = await fetch(`${API_BASE_URL}/ai`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
-                    Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
+      loadProgress() {
+        const defaultData = {
+          completedExercises: [],
+          exerciseProgress: {},
+          streak: 0,
+          lastAccessDate: null,
+          achievements: {
+            firstSteps: false,
+            queryExplorer: false
           },
-          {
-            role: "user",
-            content: `Question: ${question}\nStudent Answer: ${userAnswer}`
+          stats: {
+            queriesAttempted: 0,
+            correctQueries: 0
           }
-        ]
-      })
-    });
+        };
+        const savedData = JSON.parse(localStorage.getItem('sqlLearningProgress')) || defaultData;
+        return {...defaultData, ...savedData};
+      }
 
-    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-    
-    const data = await response.json();
-    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-    aiResponse = formatAIResponse(aiResponse);
-    
-    // First restore the button state
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    // Then update the feedback with explicit icon
-    feedback.innerHTML = `<div class="feedback-content">
-      <strong>🤖 AI Feedback:</strong>
-      <div class="feedback-bullets">${aiResponse}</div>
-    </div>`;
-    feedback.className = 'feedback feedback-success';
-    
-  } catch (error) {
-    console.error("Error:", error);
-    // Restore button state even on error
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
-    feedback.className = 'feedback feedback-error';
-  }
-}
-</script>
+      saveProgress() {
+        localStorage.setItem('sqlLearningProgress', JSON.stringify(this.progressData));
+      }
 
+      updateStreak() {
+        const today = new Date().toISOString().split('T')[0];
+        if (this.progressData.lastAccessDate === today) return;
+        
+        const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+        if (!this.progressData.lastAccessDate || this.progressData.lastAccessDate === yesterday) {
+          this.progressData.streak++;
+        } else {
+          this.progressData.streak = 1;
+        }
+        this.progressData.lastAccessDate = today;
+        this.saveProgress();
+      }
+
+      markExerciseComplete(exerciseId) {
+        if (!this.progressData.completedExercises.includes(exerciseId)) {
+          this.progressData.completedExercises.push(exerciseId);
+          if (exerciseId === 'A' && !this.progressData.achievements.firstSteps) {
+            this.progressData.achievements.firstSteps = true;
+            this.showAchievement("First Steps", "Completed your first exercise!");
+          }
+        }
+        this.saveProgress();
+      }
+
+      recordQueryAttempt(isCorrect) {
+        this.progressData.stats.queriesAttempted++;
+        if (isCorrect) this.progressData.stats.correctQueries++;
+        
+        if (this.progressData.stats.queriesAttempted >= 10 && 
+            !this.progressData.achievements.queryExplorer) {
+          this.progressData.achievements.queryExplorer = true;
+          this.showAchievement("Query Explorer", "Attempted 10+ queries!");
+        }
+        this.saveProgress();
+      }
+
+      showAchievement(title, message) {
+        const notification = document.createElement('div');
+        notification.className = 'achievement-notification';
+        notification.innerHTML = `
+          <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; 
+                      position: fixed; bottom: 20px; left: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+            <div style="font-weight: bold; font-size: 1.2rem;">🏆 ${title}</div>
+            <div>${message}</div>
+          </div>
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 5000);
+      }
+    }
+
+    // Initialize progress tracker
+    const progressTracker = new ProgressTracker();
+    progressTracker.updateStreak();
+
+    // Make functions available globally
+    window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
+    window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
+
+    // Toggle hint visibility
+    function toggleHint(button) {
+      const card = button.closest('.question-card');
+      const hint = card.querySelector('.hint-content');
+      hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Check answer against expected keywords
+    function checkAnswer(button, expectedKeywords) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim().toLowerCase();
+      
+      let correctCount = 0;
+      expectedKeywords.forEach(keyword => {
+        if (userAnswer.includes(keyword.toLowerCase())) {
+          correctCount++;
+        }
+      });
+      
+      const percentage = (correctCount / expectedKeywords.length) * 100;
+      const isCorrect = percentage >= 50;
+      
+      // Track progress
+      if (isCorrect && typeof window.markExerciseComplete === 'function') {
+        window.markExerciseComplete('A');
+      }
+      if (typeof window.recordQueryAttempt === 'function') {
+        window.recordQueryAttempt(isCorrect);
+      }
+      
+      feedback.innerHTML = isCorrect 
+        ? `<div class="feedback-content">
+            <strong>✅ Correct!</strong>
+            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+          </div>`
+        : `<div class="feedback-content">
+            <strong>❌ Try Again</strong>
+            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+          </div>`;
+      feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+    }
+
+    function toggleButtonState(button, isLoading) {
+      if (isLoading) {
+        button.innerHTML = '<span class="loading"></span> Analyzing...';
+        button.disabled = true;
+      } else {
+        button.innerHTML = `
+          <div class="avatar-img-container">
+            <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI">
+          </div>
+          <span class="avatar-text">Get AI Feedback</span>
+        `;
+        button.disabled = false;
+        button.style.animation = 'buttonRestore 0.3s ease';
+        setTimeout(() => button.style.animation = '', 300);
+      }
+    }
+
+    function showFeedback(element, message, isSuccess) {
+      element.innerHTML = isSuccess 
+        ? `<div class="feedback-content">
+            <strong>AI Feedback:</strong>
+            <div class="feedback-bullets">${message}</div>
+          </div>`
+        : message;
+      element.className = `feedback feedback-${isSuccess ? 'success' : 'error'}`;
+    }
+
+    function formatAIResponse(text) {
+      // Remove grade references
+      text = text.replace(/\bGrade:\s*[A-F][-+]?\b/i, '');
+      
+      // Convert to proper HTML bullet points
+      return text
+        .split('\n')
+        .map(line => {
+          line = line.replace(/^[\s*\-•]+/, '').trim();
+          return line ? `• ${line}` : '';
+        })
+        .filter(line => line)
+        .join('<br>');
+    }
+
+    async function getAIFeedback(button, question) {
+      const card = button.closest('.question-card');
+      const editor = card.querySelector('.sql-editor');
+      const feedback = card.querySelector('.feedback');
+      const userAnswer = editor.value.trim();
+      
+      if (!userAnswer) {
+        feedback.innerHTML = '❌ Please write your answer first';
+        feedback.className = 'feedback feedback-error';
+        return;
+      }
+
+      if (typeof window.recordQueryAttempt === 'function') {
+        window.recordQueryAttempt(false);
+      }
+        
+      // Store original button state
+      const originalBtnHTML = button.innerHTML;
+      const originalBtnDisabled = button.disabled;
+        
+      // Set loading state
+      button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+      button.disabled = true;
+        
+      try {
+        const response = await fetch(`${API_BASE_URL}/ai`, {
+          method: 'POST',
+          headers: { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            messages: [
+              {
+                role: "system",
+                content: `You are a SQL instructor. Provide specific feedback on conceptual SQL questions. 
+                        Focus on accuracy, completeness, and clarity. Format as clean bullet points.`
+              },
+              {
+                role: "user",
+                content: `Question: ${question}\nStudent Answer: ${userAnswer}`
+              }
+            ]
+          })
+        });
+
+        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+        
+        const data = await response.json();
+        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+        aiResponse = formatAIResponse(aiResponse);
+        
+        // First restore the button state
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        // Then update the feedback with explicit icon
+        feedback.innerHTML = `<div class="feedback-content">
+          <strong>🤖 AI Feedback:</strong>
+          <div class="feedback-bullets">${aiResponse}</div>
+        </div>`;
+        feedback.className = 'feedback feedback-success';
+        
+      } catch (error) {
+        console.error("Error:", error);
+        // Restore button state even on error
+        button.innerHTML = originalBtnHTML;
+        button.disabled = originalBtnDisabled;
+        
+        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+        feedback.className = 'feedback feedback-error';
+      }
+    }
+  </script>
 </body>
 </html>
