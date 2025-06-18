@@ -134,7 +134,7 @@ Practice with live exercises and AI-powered feedback.
 ## 🏆 Your Progress
 <div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
 "The more you know, the more you realize you don't know."
-— Aristotle (perfect for SQL learning!)
+— Aristotle
 
 
 <div id="ai-assistant">
