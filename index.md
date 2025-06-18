@@ -249,44 +249,189 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
+// In your index.md file, replace the script section with this:
+
 <script>
-// Load progress from localStorage or use defaults
+// Progress Manager Class
+class ProgressTracker {
+  constructor() {
+    this.progressData = this.loadProgress();
+    this.init();
+  }
+
+  loadProgress() {
+    // Load from localStorage or initialize defaults
+    const defaultData = {
+      version: 1,
+      completedExercises: [],
+      exerciseProgress: {},
+      streak: 0,
+      lastAccessDate: null,
+      achievements: {
+        firstSteps: false,
+        queryExplorer: false,
+        joinMaster: false,
+        sqlChampion: false
+      },
+      stats: {
+        queriesAttempted: 0,
+        correctQueries: 0,
+        timeSpent: 0 // in minutes
+      }
+    };
+    
+    const savedData = JSON.parse(localStorage.getItem('sqlLearningProgress')) || defaultData;
+    return {...defaultData, ...savedData};
+  }
+
+  saveProgress() {
+    localStorage.setItem('sqlLearningProgress', JSON.stringify(this.progressData));
+  }
+
+  updateStreak() {
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    
+    if (this.progressData.lastAccessDate === today) return;
+    
+    if (!this.progressData.lastAccessDate || 
+        this.progressData.lastAccessDate === yesterday) {
+      this.progressData.streak++;
+    } else {
+      this.progressData.streak = 1;
+    }
+    
+    this.progressData.lastAccessDate = today;
+    this.checkAchievements();
+    this.saveProgress();
+  }
+
+  markExerciseComplete(exerciseId) {
+    if (!this.progressData.completedExercises.includes(exerciseId)) {
+      this.progressData.completedExercises.push(exerciseId);
+    }
+    this.progressData.exerciseProgress[exerciseId] = 100;
+    this.updateStreak();
+    this.checkAchievements();
+    this.saveProgress();
+  }
+
+  updateExerciseProgress(exerciseId, percent) {
+    this.progressData.exerciseProgress[exerciseId] = Math.max(
+      percent, 
+      this.progressData.exerciseProgress[exerciseId] || 0
+    );
+    this.saveProgress();
+  }
+
+  recordQueryAttempt(isCorrect) {
+    this.progressData.stats.queriesAttempted++;
+    if (isCorrect) this.progressData.stats.correctQueries++;
+    this.checkAchievements();
+    this.saveProgress();
+  }
+
+  checkAchievements() {
+    // First Steps - Completed first exercise
+    if (this.progressData.completedExercises.length > 0 && !this.progressData.achievements.firstSteps) {
+      this.progressData.achievements.firstSteps = true;
+      this.showAchievementNotification("First Steps", "Completed your first exercise!");
+    }
+    
+    // Query Explorer - Attempted 10+ queries
+    if (this.progressData.stats.queriesAttempted >= 10 && !this.progressData.achievements.queryExplorer) {
+      this.progressData.achievements.queryExplorer = true;
+      this.showAchievementNotification("Query Explorer", "Attempted 10+ SQL queries!");
+    }
+    
+    // Join Master - Completed JOIN exercises
+    const joinExercises = ['D', 'E']; // Adjust based on your exercise IDs
+    if (joinExercises.every(ex => this.progressData.completedExercises.includes(ex)) && 
+        !this.progressData.achievements.joinMaster) {
+      this.progressData.achievements.joinMaster = true;
+      this.showAchievementNotification("Join Master", "Completed all JOIN exercises!");
+    }
+    
+    // SQL Champion - Completed all exercises
+    if (this.progressData.completedExercises.length >= 6 && !this.progressData.achievements.sqlChampion) {
+      this.progressData.achievements.sqlChampion = true;
+      this.showAchievementNotification("SQL Champion", "Completed all exercises!");
+    }
+  }
+
+  showAchievementNotification(title, message) {
+    // Create and show a notification (customize this to match your UI)
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+      <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; 
+                  position: fixed; bottom: 20px; left: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div style="font-weight: bold; font-size: 1.2rem;">🏆 ${title}</div>
+        <div>${message}</div>
+      </div>
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 5000);
+  }
+
+  init() {
+    this.updateStreak();
+    this.renderProgress();
+  }
+
+  renderProgress() {
+    // Update UI elements with current progress
+    const totalExercises = 6; // Update this based on your actual count
+    
+    // Overall progress
+    const completionPercent = Math.round(
+      (this.progressData.completedExercises.length / totalExercises) * 100
+    );
+    document.querySelector('.progress-fill').style.width = `${completionPercent}%`;
+    document.querySelector('.progress-stats span:last-child').textContent = 
+      `${completionPercent}% complete`;
+    
+    // Exercise-specific progress
+    const exercises = ['A', 'B', 'C', 'D', 'E', 'F'];
+    exercises.forEach(ex => {
+      const progress = this.progressData.exerciseProgress[ex] || 0;
+      const element = document.querySelector(`a[href*="activity_${ex}"] .progress-fill`);
+      if (element) element.style.width = `${progress}%`;
+    });
+    
+    // Streak counter
+    document.querySelector('.progress-stats span:first-child').textContent = 
+      `Current streak: ${this.progressData.streak} days`;
+    
+    // Badges
+    const badgeContainer = document.querySelector('.badge-container');
+    if (badgeContainer) {
+      badgeContainer.innerHTML = '';
+      if (this.progressData.achievements.firstSteps) {
+        badgeContainer.innerHTML += '<span class="badge">First Steps</span>';
+      }
+      if (this.progressData.achievements.queryExplorer) {
+        badgeContainer.innerHTML += '<span class="badge">Query Explorer</span>';
+      }
+      // Add more badges as needed
+    }
+  }
+}
+
+// Initialize when page loads
 document.addEventListener('DOMContentLoaded', function() {
-  // Toggle AI assistant
+  // Initialize progress tracker
+  const progressTracker = new ProgressTracker();
+  
+  // Toggle AI assistant (keep your existing functionality)
   document.getElementById('assistant-avatar').addEventListener('click', function() {
     document.getElementById('ai-assistant').classList.toggle('active');
   });
   
-  // In a real implementation, you would load actual progress data here
-  const progressData = JSON.parse(localStorage.getItem('sqlProgress')) || {
-    completed: 2,
-    total: 6,
-    streak: 3,
-    exercises: {
-      A: 75,
-      B: 50,
-      C: 25,
-      D: 10,
-      E: 5,
-      F: 0
-    }
-  };
-  
-  // Update progress bars
-  document.querySelector('.progress-fill').style.width = `${(progressData.completed / progressData.total) * 100}%`;
-  
-  // Update exercise progress bars
-  Object.entries(progressData.exercises).forEach(([exercise, percent]) => {
-    const exerciseElement = document.querySelector(`a[href*="activity_${exercise}"] .progress-fill`);
-    if (exerciseElement) {
-      exerciseElement.style.width = `${percent}%`;
-    }
-  });
-  
-  // Update stats
-  document.querySelector('.badge').textContent = `${progressData.completed} of ${progressData.total} completed`;
-  document.querySelector('.progress-stats span:last-child').textContent = 
-    `${Math.round((progressData.completed / progressData.total) * 100)}% complete`;
+  // For demonstration - in real usage, call these from your exercise pages
+  window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
+  window.updateExerciseProgress = (id, percent) => progressTracker.updateExerciseProgress(id, percent);
+  window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
 });
 </script>
 
