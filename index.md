@@ -158,7 +158,7 @@ Practice with live exercises and AI-powered feedback.
   <a href="exercises/activity_4A_AI.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">🔍</div> 
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise A</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">SELECT basics Conceptual Questions</div>
+    <div style="font-size: 0.9em; opacity: 0.9;">Basics SQL Conceptual Questions</div>
     <div class="progress-bar">
       <div class="progress-fill" style="width: 75%"></div>
     </div>
@@ -194,7 +194,7 @@ Practice with live exercises and AI-powered feedback.
   <a href="exercises/4E_AI_TRY.html" class="exercise-card"> 
     <div style="font-size: 1.5rem;">🚗</div> 
     <div style="font-weight: bold; margin: 0.5rem 0;">Exercise E</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div>
+    <div style="font-size: 0.9em; opacity: 0.9;">CALCULATIONS queries</div>
     <div class="progress-bar">
       <div class="progress-fill" style="width: 5%"></div>
     </div>
