@@ -249,8 +249,6 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
-// In your index.md file, replace the script section with this:
-
 <script>
 // Progress Manager Class
 class ProgressTracker {
