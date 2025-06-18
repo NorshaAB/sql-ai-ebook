@@ -3,9 +3,6 @@
 ---
 
 <style>
-/* Hide GitHub elements */
-.footer, .octocat { display: none !important; }
-
 /* Modern card styling */
 .intro-card {
   background: linear-gradient(135deg, #3498db, #2c3e50);
@@ -14,6 +11,7 @@
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   margin-bottom: 2rem;
+  text-align: center;
 }
 
 /* Exercise grid */
@@ -25,172 +23,267 @@
 }
 
 .exercise-card {
-  background: linear-gradient(135deg, #3498db, #2c3e50); 
-  color: white;
-  padding: 1rem;
-  border-radius: 6px;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 8px;
   text-align: center;
-  transition: transform 0.2s;
+  transition: all 0.3s ease;
   text-decoration: none;
   display: block;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.exercise-card:nth-child(2) {
-   background: linear-gradient(135deg, #3498db, #2c3e50);
+.exercise-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  border-color: #3498db;
 }
 
-/* Interactive elements */
-.sql-playground {
-  width: 100%;
-  height: 400px;
-  border: 1px solid #ddd;
+.exercise-icon {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #3498db;
+}
+
+.progress-section {
+  background: white;
   border-radius: 8px;
-  margin: 1.5rem 0;
+  padding: 1.5rem;
+  margin: 2rem 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-.quick-note {
-  background: #f8f9fa;
-  border-left: 4px solid #3498db;
-  padding: 1rem;
+.progress-bar {
+  height: 10px;
+  background: #e0e0e0;
+  border-radius: 5px;
   margin: 1rem 0;
-  border-radius: 0 8px 8px 0;
+  overflow: hidden;
 }
 
-.badge-container {
+.progress-fill {
+  height: 100%;
+  background: #2ecc71;
+  width: 0%;
+  transition: width 0.5s ease;
+}
+
+.progress-stats {
   display: flex;
-  gap: 0.5rem;
-  margin: 1.5rem 0;
-  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 1rem;
 }
 
-  .notes-image {
-  width: 100%;
-  max-width: 800px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin: 1.5rem auto;
-  display: block;
+/* Make it match your exercise pages */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+h1, h2, h3 {
+  color: #2c3e50;
+}
+
+h2 {
+  border-bottom: 2px solid #3498db;
+  padding-bottom: 8px;
+  margin-top: 30px;
+}
+
+/* Header to match other pages */
+.site-header {
+  background: #2c3e50;
+  color: white;
+  padding: 1rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.site-title {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.site-nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s;
+}
+
+.site-nav a:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .site-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .site-nav {
+    margin-top: 1rem;
+  }
+  
+  .site-nav a {
+    margin: 0 0.5rem;
+  }
+  
+  .exercise-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 
-<div class="intro-card">
-Welcome to the <strong>Interactive SQL Learning Platform</strong>!<br>
-Practice with live exercises and AI-powered feedback.
+<div class="site-header">
+  <div class="site-title">📘 AI-Augmented SQL Learning</div>
+  <div class="site-nav">
+    <a href="#features">Features</a>
+    <a href="#exercises">Exercises</a>
+    <a href="#progress">Progress</a>
+    <a href="notes.html">Reference</a>
+  </div>
 </div>
 
-## 🚀 Key Features
-- **Live SQL Editor** - Try queries directly in your browser
-- **Quick Reference** - Expandable syntax examples
-- **Progress Tracking** - Visualize your learning journey
+<div class="intro-card">
+  <h1>Interactive SQL Learning Platform</h1>
+  <p>Practice with live exercises and get AI-powered feedback on your queries</p>
+</div>
 
-## 📝 Your Exercises
+## 🚀 <span id="features">Key Features</span>
+- **Live SQL Editor** - Try queries directly in your browser
+- **Instant Feedback** - Get AI-powered suggestions on your solutions
+- **Progress Tracking** - Visual dashboard showing your learning journey
+- **Comprehensive Reference** - Quick access to SQL syntax and examples
+
+## 📝 <span id="exercises">Your Exercises</span>
 <div class="exercise-grid"> 
   <a href="exercises/activity_4A_AI.html" class="exercise-card"> 
-  <div style="font-size: 1.5rem;">📌</div> 
-  <div style="font-weight: bold; margin: 0.5rem 0;">Exercise A</div> 
-  <div style="font-size: 0.9em; opacity: 0.9;">SELECT basics Conceptual Questions</div> 
+    <div class="exercise-icon">🔍</div>
+    <h3>Exercise A</h3>
+    <p>SELECT basics Conceptual Questions</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 75%"></div>
+    </div>
   </a>
   
   <a href="exercises/activity_B_AI.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise B</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">WHERE conditions queries</div> 
+    <div class="exercise-icon">✏️</div>
+    <h3>Exercise B</h3>
+    <p>WHERE conditions queries</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 50%"></div>
+    </div>
   </a>
   
   <a href="exercises/activity_4C_AI.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise C</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">ORDER BY practice queries</div> 
-  </a> 
+    <div class="exercise-icon">📊</div>
+    <h3>Exercise C</h3>
+    <p>ORDER BY practice queries</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 25%"></div>
+    </div>
+  </a>
 
- <a href="exercises/activity_4D.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise D</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">JOINs queries</div> 
+  <a href="exercises/activity_4D.html" class="exercise-card"> 
+    <div class="exercise-icon">🔗</div>
+    <h3>Exercise D</h3>
+    <p>JOINs queries</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 10%"></div>
+    </div>
   </a>
 
   <a href="exercises/4E_AI_TRY.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise E</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">CAR database queries</div> 
+    <div class="exercise-icon">🚗</div>
+    <h3>Exercise E</h3>
+    <p>CAR database queries</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 5%"></div>
+    </div>
   </a>
 
   <a href="exercises/activity_F.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📌</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise F</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">GROUP BY and HAVING queries</div> 
+    <div class="exercise-icon">📈</div>
+    <h3>Exercise F</h3>
+    <p>GROUP BY and HAVING queries</p>
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: 0%"></div>
+    </div>
   </a>
 </div>
 
 ## 📚 SQL Quick Reference
 <div class="exercise-grid">
-    <a href="notes.html" class="exercise-card">
-        <div style="font-size: 1.5rem;">📚</div>
-        <div style="font-weight: bold; margin: 0.5rem 0;">Interactive SQL Reference</div>
-        <div style="font-size: 0.9em; opacity: 0.9;">Click to view the complete guide</div>
-    </a>
+  <a href="notes.html" class="exercise-card">
+    <div class="exercise-icon">📚</div>
+    <h3>Interactive SQL Reference</h3>
+    <p>Complete syntax guide with examples</p>
+  </a>
 </div>
 
-## 🏆 Your Progress
-<div class="badge-container"> <img src="https://img.shields.io/badge/Exercises-2%20completed-brightgreen" alt="Progress"> <img src="https://img.shields.io/badge/Level-Intermediate-blue" alt="Level"> </div>
-"The more you know, the more you realize you don't know."
-— Aristotle
-
+## 🏆 <span id="progress">Your Progress</span>
+<div class="progress-section">
+  <h3>Overall Completion</h3>
+  <div class="progress-bar">
+    <div class="progress-fill" style="width: 30%"></div>
+  </div>
+  <div class="progress-stats">
+    <span>2 of 6 exercises completed</span>
+    <span>30%</span>
+  </div>
+  
+  <h3 style="margin-top: 2rem;">Recent Achievements</h3>
+  <div class="exercise-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
+    <div class="exercise-card">
+      <div class="exercise-icon">🎯</div>
+      <h4>First Steps</h4>
+      <small>Completed Exercise A</small>
+    </div>
+    <div class="exercise-card">
+      <div class="exercise-icon">🔍</div>
+      <h4>Query Explorer</h4>
+      <small>Attempted 5+ queries</small>
+    </div>
+  </div>
+</div>
 
 <div id="ai-assistant">
   <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
   <div id="chat-box">
-    <p>Hi! I'm your SQL AI Assistant. Let's try some SQL exercises, and I'll guide you!</p>
+    <p>Hi! I'm your SQL AI Assistant. Ready to practice some queries?</p>
+    <button style="margin-top: 10px; padding: 5px 10px; background: #3498db; color: white; border: none; border-radius: 4px;">Start Exercise</button>
   </div>
 </div>
 
-<style>
-  #ai-assistant {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
-    text-align: center;
-  }
-
-  #assistant-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
-  }
-
-  #assistant-avatar:hover {
-    transform: scale(1.1);
-  }
-
-  #chat-box {
-    display: none;
-    position: absolute;
-    bottom: 100px;
-    right: 0;
-    width: 250px;
-    background: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-    color: #333; /* Added for better text contrast */
-  }
-
-  #ai-assistant.active #chat-box {
-    display: block;
-  }
-</style>
-
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('assistant-avatar').addEventListener('click', function () {
-      document.getElementById('ai-assistant').classList.toggle('active');
-    });
+// In a real implementation, you would load progress from localStorage or a database
+document.addEventListener('DOMContentLoaded', function() {
+  // Toggle AI assistant
+  document.getElementById('assistant-avatar').addEventListener('click', function() {
+    document.getElementById('ai-assistant').classList.toggle('active');
   });
+  
+  // Example of loading progress (would be replaced with real data)
+  const savedProgress = localStorage.getItem('sqlProgress');
+  if (savedProgress) {
+    const progress = JSON.parse(savedProgress);
+    // Update progress bars and stats
+  }
+});
 </script>
 
-<div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
+<div style="text-align: center; margin-top: 2rem; color: #7f8c8d;">
+  <small>AI-Augmented SQL eBook | © 2025</small>
+</div>
