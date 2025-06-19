@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SQL Quick Reference Guide</title>
     <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2c3e50;
+            --success: #2ecc71;
+            --danger: #e74c3c;
+            --light: #f5f7fa;
+            --dark: #333;
+            --gray: #7f8c8d;
+        }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
@@ -15,6 +25,43 @@
             background-color: #f9f9f9;
         }
         
+        /* New Header Styles to Match Exercises */
+        .header {
+            background: var(--secondary);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        
+        .header p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin-left: 1rem;
+            padding: 0.5rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        
+        .nav-links a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        /* Rest of your existing styles */
         h1 {
             color: #2c3e50;
             text-align: center;
@@ -103,11 +150,45 @@
             border-top: 1px solid #eee;
             color: #777;
         }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .nav-links {
+                margin-top: 1rem;
+            }
+            
+            .nav-links a {
+                margin: 0 0.5rem;
+            }
+        }
+
+        a:hover span {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>SQL Quick Reference Guide</h1>
-    
+    <!-- New Header Matching Exercises -->
+    <div class="header">
+        <div class="logo">
+            <h1>📘 SQL Quick Reference Guide</h1>
+            <p>Essential SQL Commands and Syntax</p>
+        </div>
+        <div class="nav-links">
+            <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
+            <a href="activity_4A_AI.html">Exercise A</a>
+            <a href="activity_B_AI.html">Exercise B</a>
+            <a href="activity_4C_AI.html">Exercise C</a>
+            <a href="activity_4D.html">Exercise D</a>
+            <a href="4E_AI_TRY.html">Exercise E</a>
+            <a href="activity_F.html">Exercise F</a>
+        </div>
+    </div>
+
     <div class="card-container">
         <div class="card">
             <h3>📚 Data Definition Language (DDL)</h3>
