@@ -1,436 +1,347 @@
----
-# 📘 AI-Augmented SQL eBook - Interactive Platform
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Quick Reference Guide</title>
+  <style>
+    :root {
+      --primary: #3498db;
+      --secondary: #2c3e50;
+      --success: #2ecc71;
+      --danger: #e74c3c;
+      --light: #f5f7fa;
+      --dark: #333;
+      --gray: #7f8c8d;
+    }
 
-<style>
-/* Hide GitHub elements */
-.footer, .octocat { display: none !important; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      color: var(--dark);
+      background-color: var(--light);
+    }
 
-/* Modern card styling - Keeping your original colors */
-.intro-card {
-  background: linear-gradient(135deg, #3498db, #2c3e50);
-  color: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  margin-bottom: 2rem;
-  text-align: center;
-}
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      box-sizing: border-box;
+    }
 
-/* Exercise grid - Keeping your original gradient */
-.exercise-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-  margin: 2rem 0;
-}
+    /* Header Styles to Match Exactly */
+    .header {
+      background: var(--secondary);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
 
-.exercise-card {
-  background: linear-gradient(135deg, #3498db, #2c3e50);
-  color: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  text-align: center;
-  transition: transform 0.2s;
-  text-decoration: none;
-  display: block;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-}
+    .header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
 
-.exercise-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-}
+    .header p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
 
-/* Progress section styling */
-.progress-section {
-  background: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin: 2rem 0;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+    .nav-links a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
 
-.progress-bar {
-  height: 10px;
-  background: #e0e0e0;
-  border-radius: 5px;
-  margin: 1rem 0;
-  overflow: hidden;
-}
+    .nav-links a:hover {
+      background: rgba(255,255,255,0.1);
+    }
 
-.progress-fill {
-  height: 100%;
-  background: #2ecc71;
-  width: 30%;
-  border-radius: 5px;
-}
+    /* Content Styling Adjusted to Match Exercises */
+    h1 {
+      color: var(--secondary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-top: 0;
+    }
 
-.progress-stats {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
-  color: #7f8c8d;
-}
+    h2 {
+      color: var(--secondary);
+      border-bottom: 2px solid var(--primary);
+      padding-bottom: 8px;
+      margin-top: 30px;
+    }
 
-/* Badge styling */
-.badge {
-  display: inline-block;
-  background: #3498db;
-  color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-}
+    h3 {
+      color: var(--secondary);
+      margin-top: 25px;
+    }
 
-/* Your original AI assistant styling */
-#ai-assistant {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  text-align: center;
-}
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 1.5rem 0;
+    }
 
-#assistant-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
-}
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
 
-#assistant-avatar:hover {
-  transform: scale(1.1);
-}
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
 
-#chat-box {
-  display: none;
-  position: absolute;
-  bottom: 100px;
-  right: 0;
-  width: 250px;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  color: #333;
-}
+    .syntax-box {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      border-left: 4px solid var(--primary);
+      overflow-x: auto;
+      font-family: 'Consolas', 'Monaco', monospace;
+      margin: 15px 0;
+    }
 
-#ai-assistant.active #chat-box {
-  display: block;
-}
+    .operator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 15px 0;
+    }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .exercise-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  #ai-assistant {
-    bottom: 10px;
-    right: 10px;
-  }
-  
-  #assistant-avatar {
-    width: 60px;
-    height: 60px;
-  }
-}
-</style>
+    .operator {
+      background: #e8f4fc;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      font-weight: bold;
+    }
 
-<div class="intro-card">
-Welcome to the <strong>Interactive SQL Learning Platform</strong>!<br>
-Practice with live exercises and AI-powered feedback.
-</div>
+    .note {
+      background: #e3f2fd;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 15px 0;
+      font-size: 0.9em;
+    }
 
-## 🚀 Key Features
-- **Live SQL Editor** - Try queries directly in your browser
-- **Quick Reference** - Expandable syntax examples
-- **Progress Tracking** - Visualize your learning journey
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+      color: var(--gray);
+    }
 
-## 📝 Your Exercises
-<div class="exercise-grid"> 
-  <a href="exercises/activity_4A_AI.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">🔍</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise A</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">Basics SQL Conceptual Questions</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 75%"></div>
-    </div>
-  </a>
-  
-  <a href="exercises/activity_B_AI.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">✏️</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise B</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">WHERE conditions queries</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 50%"></div>
-    </div>
-  </a>
-  
-  <a href="exercises/activity_4C_AI.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📊</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise C</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">ORDER BY practice queries</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 25%"></div>
-    </div>
-  </a>
-
-  <a href="exercises/activity_4D.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">🔗</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise D</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">JOINs queries</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 10%"></div>
-    </div>
-  </a>
-
-  <a href="exercises/4E_AI_TRY.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">🚗</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise E</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">CALCULATIONS queries</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 5%"></div>
-    </div>
-  </a>
-
-  <a href="exercises/activity_F.html" class="exercise-card"> 
-    <div style="font-size: 1.5rem;">📈</div> 
-    <div style="font-weight: bold; margin: 0.5rem 0;">Exercise F</div> 
-    <div style="font-size: 0.9em; opacity: 0.9;">GROUP BY and HAVING queries</div>
-    <div class="progress-bar">
-      <div class="progress-fill" style="width: 0%"></div>
-    </div>
-  </a>
-</div>
-
-## 📚 SQL Quick Reference
-<div class="exercise-grid">
-    <a href="notes.html" class="exercise-card">
-        <div style="font-size: 1.5rem;">📚</div>
-        <div style="font-weight: bold; margin: 0.5rem 0;">Interactive SQL Reference</div>
-        <div style="font-size: 0.9em; opacity: 0.9;">Click to view the complete guide</div>
-    </a>
-</div>
-
-## 🏆 Your Progress
-<div class="progress-section">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h3 style="margin: 0;">Your Learning Journey</h3>
-    <span class="badge">2 of 6 completed</span>
-  </div>
-  <div class="progress-bar">
-    <div class="progress-fill"></div>
-  </div>
-  <div class="progress-stats">
-    <span>Current streak: 3 days</span>
-    <span>30% complete</span>
-  </div>
-  
-  <div style="margin-top: 1.5rem;">
-    <h4>Recent Achievements</h4>
-    <div>
-      <span class="badge">First Steps</span>
-      <span class="badge">Query Explorer</span>
-    </div>
-  </div>
-</div>
-
-<div id="ai-assistant">
-  <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
-  <div id="chat-box">
-    <p>Hi! I'm your SQL AI Assistant. Let's try some SQL exercises, and I'll guide you!</p>
-  </div>
-</div>
-
-<script>
-// Progress Manager Class
-class ProgressTracker {
-  constructor() {
-    this.progressData = this.loadProgress();
-    this.init();
-  }
-
-  loadProgress() {
-    // Load from localStorage or initialize defaults
-    const defaultData = {
-      version: 1,
-      completedExercises: [],
-      exerciseProgress: {},
-      streak: 0,
-      lastAccessDate: null,
-      achievements: {
-        firstSteps: false,
-        queryExplorer: false,
-        joinMaster: false,
-        sqlChampion: false
-      },
-      stats: {
-        queriesAttempted: 0,
-        correctQueries: 0,
-        timeSpent: 0 // in minutes
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header {
+        flex-direction: column;
+        text-align: center;
       }
-    };
-    
-    const savedData = JSON.parse(localStorage.getItem('sqlLearningProgress')) || defaultData;
-    return {...defaultData, ...savedData};
-  }
-
-  saveProgress() {
-    localStorage.setItem('sqlLearningProgress', JSON.stringify(this.progressData));
-  }
-
-  updateStreak() {
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
-    
-    if (this.progressData.lastAccessDate === today) return;
-    
-    if (!this.progressData.lastAccessDate || 
-        this.progressData.lastAccessDate === yesterday) {
-      this.progressData.streak++;
-    } else {
-      this.progressData.streak = 1;
+      
+      .nav-links {
+        margin-top: 1rem;
+      }
+      
+      .nav-links a {
+        margin: 0 0.5rem;
+      }
+      
+      .card-container {
+        grid-template-columns: 1fr;
+      }
     }
+
+    a:hover span {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Matching Exercises Exactly -->
+  <div class="header">
+    <div class="logo">
+      <h1>📘 SQL Quick Reference Guide</h1>
+      <p>Essential SQL Commands and Syntax</p>
+    </div>
+    <div class="nav-links">
+      <a href="https://norshaab.github.io/sql-ai-ebook/">Home</a>
+      <a href="activity_4A_AI.html">Exercise A</a>
+      <a href="activity_B_AI.html">Exercise B</a>
+      <a href="activity_4C_AI.html">Exercise C</a>
+      <a href="activity_4D.html">Exercise D</a>
+      <a href="4E_AI_TRY.html">Exercise E</a>
+      <a href="activity_F.html">Exercise F</a>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>SQL Quick Reference</h1>
     
-    this.progressData.lastAccessDate = today;
-    this.checkAchievements();
-    this.saveProgress();
-  }
-
-  markExerciseComplete(exerciseId) {
-    if (!this.progressData.completedExercises.includes(exerciseId)) {
-      this.progressData.completedExercises.push(exerciseId);
-    }
-    this.progressData.exerciseProgress[exerciseId] = 100;
-    this.updateStreak();
-    this.checkAchievements();
-    this.saveProgress();
-  }
-
-  updateExerciseProgress(exerciseId, percent) {
-    this.progressData.exerciseProgress[exerciseId] = Math.max(
-      percent, 
-      this.progressData.exerciseProgress[exerciseId] || 0
-    );
-    this.saveProgress();
-  }
-
-  recordQueryAttempt(isCorrect) {
-    this.progressData.stats.queriesAttempted++;
-    if (isCorrect) this.progressData.stats.correctQueries++;
-    this.checkAchievements();
-    this.saveProgress();
-  }
-
-  checkAchievements() {
-    // First Steps - Completed first exercise
-    if (this.progressData.completedExercises.length > 0 && !this.progressData.achievements.firstSteps) {
-      this.progressData.achievements.firstSteps = true;
-      this.showAchievementNotification("First Steps", "Completed your first exercise!");
-    }
-    
-    // Query Explorer - Attempted 10+ queries
-    if (this.progressData.stats.queriesAttempted >= 10 && !this.progressData.achievements.queryExplorer) {
-      this.progressData.achievements.queryExplorer = true;
-      this.showAchievementNotification("Query Explorer", "Attempted 10+ SQL queries!");
-    }
-    
-    // Join Master - Completed JOIN exercises
-    const joinExercises = ['D', 'E']; // Adjust based on your exercise IDs
-    if (joinExercises.every(ex => this.progressData.completedExercises.includes(ex)) && 
-        !this.progressData.achievements.joinMaster) {
-      this.progressData.achievements.joinMaster = true;
-      this.showAchievementNotification("Join Master", "Completed all JOIN exercises!");
-    }
-    
-    // SQL Champion - Completed all exercises
-    if (this.progressData.completedExercises.length >= 6 && !this.progressData.achievements.sqlChampion) {
-      this.progressData.achievements.sqlChampion = true;
-      this.showAchievementNotification("SQL Champion", "Completed all exercises!");
-    }
-  }
-
-  showAchievementNotification(title, message) {
-    // Create and show a notification (customize this to match your UI)
-    const notification = document.createElement('div');
-    notification.className = 'achievement-notification';
-    notification.innerHTML = `
-      <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; 
-                  position: fixed; bottom: 20px; left: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        <div style="font-weight: bold; font-size: 1.2rem;">🏆 ${title}</div>
-        <div>${message}</div>
+    <div class="card-container">
+      <div class="card">
+        <h3>📚 Data Definition Language (DDL)</h3>
+        <p>Commands that define the database structure:</p>
+        <ul>
+          <li><strong>CREATE DATABASE</strong> - Creates a new database</li>
+          <li><strong>CREATE TABLE</strong> - Creates a new table</li>
+          <li><strong>DROP DATABASE</strong> - Deletes a database</li>
+          <li><strong>DROP TABLE</strong> - Deletes a table</li>
+        </ul>
+        <div class="note">
+          💡 DDL commands are used to create and modify the database structure itself.
+        </div>
       </div>
-    `;
-    document.body.appendChild(notification);
-    setTimeout(() => notification.remove(), 5000);
-  }
-
-  init() {
-    this.updateStreak();
-    this.renderProgress();
-  }
-
-  renderProgress() {
-    // Update UI elements with current progress
-    const totalExercises = 6; // Update this based on your actual count
+      
+      <div class="card">
+        <h3>🔍 Data Manipulation Language (DML)</h3>
+        <p>Commands that work with the data:</p>
+        <ul>
+          <li><strong>SELECT</strong> - Retrieves data from database</li>
+          <li><strong>INSERT</strong> - Adds new records</li>
+          <li><strong>UPDATE</strong> - Modifies existing records</li>
+          <li><strong>DELETE</strong> - Removes records</li>
+        </ul>
+      </div>
+    </div>
     
-    // Overall progress
-    const completionPercent = Math.round(
-      (this.progressData.completedExercises.length / totalExercises) * 100
-    );
-    document.querySelector('.progress-fill').style.width = `${completionPercent}%`;
-    document.querySelector('.progress-stats span:last-child').textContent = 
-      `${completionPercent}% complete`;
+    <h2>Basic Data Types</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>🔢 Numeric Types</h3>
+        <ul>
+          <li><strong>INT</strong> - Integer numbers</li>
+          <li><strong>FLOAT</strong> - Floating-point numbers</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>🔤 Character Types</h3>
+        <ul>
+          <li><strong>VARCHAR</strong> - Variable-length strings</li>
+          <li><strong>DATE</strong> - Date values</li>
+        </ul>
+      </div>
+    </div>
     
-    // Exercise-specific progress
-    const exercises = ['A', 'B', 'C', 'D', 'E', 'F'];
-    exercises.forEach(ex => {
-      const progress = this.progressData.exerciseProgress[ex] || 0;
-      const element = document.querySelector(`a[href*="activity_${ex}"] .progress-fill`);
-      if (element) element.style.width = `${progress}%`;
-    });
+    <h2>SQL Query Syntax</h2>
+    <div class="syntax-box">
+SELECT column_list 
+FROM table_list
+[ WHERE condition_list ]
+[ GROUP BY column_list ]
+[ HAVING condition_list ]
+[ ORDER BY column_list [ ASC | DESC ] ];
+    </div>
     
-    // Streak counter
-    document.querySelector('.progress-stats span:first-child').textContent = 
-      `Current streak: ${this.progressData.streak} days`;
+    <h2>Operators</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>🧠 Logical Operators</h3>
+        <div class="operator-grid">
+          <div class="operator">AND</div>
+          <div class="operator">OR</div>
+          <div class="operator">NOT</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>⚖️ Comparison Operators</h3>
+        <div class="operator-grid">
+          <div class="operator">=</div>
+          <div class="operator"><</div>
+          <div class="operator"><=</div>
+          <div class="operator">></div>
+          <div class="operator">>=</div>
+          <div class="operator"><></div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>✨ Special Operators</h3>
+        <div class="operator-grid">
+          <div class="operator">BETWEEN</div>
+          <div class="operator">IS NULL</div>
+          <div class="operator">LIKE</div>
+          <div class="operator">IN</div>
+        </div>
+      </div>
+    </div>
     
-    // Badges
-    const badgeContainer = document.querySelector('.badge-container');
-    if (badgeContainer) {
-      badgeContainer.innerHTML = '';
-      if (this.progressData.achievements.firstSteps) {
-        badgeContainer.innerHTML += '<span class="badge">First Steps</span>';
-      }
-      if (this.progressData.achievements.queryExplorer) {
-        badgeContainer.innerHTML += '<span class="badge">Query Explorer</span>';
-      }
-      // Add more badges as needed
-    }
-  }
-}
-
-// Initialize when page loads
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize progress tracker
-  const progressTracker = new ProgressTracker();
-  
-  // Toggle AI assistant (keep your existing functionality)
-  document.getElementById('assistant-avatar').addEventListener('click', function() {
-    document.getElementById('ai-assistant').classList.toggle('active');
-  });
-  
-  // For demonstration - in real usage, call these from your exercise pages
-  window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
-  window.updateExerciseProgress = (id, percent) => progressTracker.updateExerciseProgress(id, percent);
-  window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
-});
-</script>
-
-<div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
+    <h2>Aggregate Functions</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>📊 Data Aggregation</h3>
+        <p>Perform calculations across sets of rows:</p>
+        <div class="operator-grid">
+          <div class="operator">COUNT()</div>
+          <div class="operator">MIN()</div>
+          <div class="operator">MAX()</div>
+          <div class="operator">SUM()</div>
+          <div class="operator">AVG()</div>
+        </div>
+        
+        <div class="syntax-box">
+-- Example:
+SELECT department, AVG(salary)
+FROM employees
+GROUP BY department
+HAVING AVG(salary) > 50000;
+        </div>
+        
+        <ul>
+          <li><strong>GROUP BY</strong> - Groups rows by specified columns</li>
+          <li><strong>HAVING</strong> - Filters groups (like WHERE for GROUP BY)</li>
+        </ul>
+      </div>
+    </div>
+    
+    <h2>Joins</h2>
+    <div class="card-container">
+      <div class="card">
+        <h3>🔗 Outer Join</h3>
+        <p>Returns all rows from one table and matching rows from another:</p>
+        <div class="syntax-box">
+-- Left Outer Join (returns all left table rows)
+SELECT *
+FROM table1
+LEFT JOIN table2 ON table1.id = table2.id;
+        </div>
+        <div class="note">
+          ⚠️ Without a join condition, you get a Cartesian product (all possible row combinations)!
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🤝 Natural Join</h3>
+        <p>Automatically joins tables by columns with the same name:</p>
+        <div class="syntax-box">
+SELECT *
+FROM employees
+NATURAL JOIN departments;
+        </div>
+      </div>
+    </div>
+    
+    <footer>
+      <p>SQL Quick Reference Guide | Last updated: 2023</p>
+    </footer>
+  </div>
+</body>
+</html>
