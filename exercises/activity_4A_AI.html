@@ -522,13 +522,14 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-            'where clause is used to filter individual rows',
-            'having clause is used to filter groups of rows',
-            'where executes before group by',
-            'having executes after group by',
-            'use WHERE and HAVING in the same SELECT statement',
-            ' 	When a SELECT statement is executed, the WHERE clause is executed before the GROUP BY clause, if one exists'
-          ])">
+  'filter individual rows',
+  'filter groups of rows',
+  'where before group by',
+  'having after group by',
+  'use where and having',
+  'where clause is executed before',
+  'having clause is executed after'
+])">
             <span>🔍</span> Check Answer
           </button>
 <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
@@ -558,14 +559,14 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-            'no mathematical function needed',
-            'preserve leading zeros',
-            'Sometimes a number sequence is pointless as a number',
-            'phone number',
-            'phone numbers',
-            'social security number',
-            'social security numbers'
-          ])">
+  'no mathematical function',
+  'phone number',
+  'social security number',
+  'string types',
+  'append or remove',
+  'pointless as a number',
+  'digits as character'
+])">
             <span>🔍</span> Check Answer
           </button>
         <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Your question title')">
@@ -595,10 +596,12 @@
             <span>💡</span> Show Hint
           </button>
 <button class="btn" onclick="checkAnswer(this, [
-  'order by sorts the query result',
-  'group by summarize unique combinations',
-  'order by specific columns',
-  'group by column values'
+  'order by sorts',
+  'group by summarize',
+  'unique combinations',
+  'sort the query result',
+  'specific columns',
+  'column values'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -629,10 +632,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'count returns the number of values',
-  'sum adds the values together',
-  'count without regard to values',
-  'sum only applied to numeric'
+  'count returns number',
+  'sum adds values',
+  'without regard to values',
+  'only numeric values',
+  'aggregate function',
+  'count vs sum'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -663,10 +668,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'date data type uses numeric values',
   'julian calendar',
-  'date arithmetic possible',
-  'adding and subtracting days'
+  'date arithmetic',
+  'adding subtracting days',
+  'numeric values',
+  'preferable to character',
+  'date data type'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -697,10 +704,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'delete remove tuples from table',
-  'drop remove entire schema',
-  'delete some or all tuples',
-  'drop table or constraints'
+  'delete remove tuples',
+  'drop remove schema',
+  'some or all tuples',
+  'table or constraints',
+  'delete vs drop',
+  'entire schema'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -731,10 +740,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'and both values must be true',
-  'or only one needs to be true',
-  'and operator &&',
-  'or operator ||'
+  'and both true',
+  'or one true',
+  'logical expressions',
+  '&& operator',
+  '|| operator',
+  'infix operator'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -765,10 +776,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'distinct return only different values',
-  'column contains duplicate values',
-  'list different values',
-  'select distinct statement'
+  'distinct values',
+  'duplicate values',
+  'different values',
+  'select distinct',
+  'return only distinct',
+  'list different'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -799,10 +812,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'date type no time part',
-  'yyyy-mm-dd format',
-  '1000-01-01 to 9999-12-31',
-  'mysql retrieves date values'
+  'date part',
+  'no time part',
+  'yyyy-mm-dd',
+  '1000-01-01',
+  '9999-12-31',
+  'mysql retrieves'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -833,10 +848,12 @@
             <span>💡</span> Show Hint
           </button>
           <button class="btn" onclick="checkAnswer(this, [
-  'null unknown or missing value',
-  'not null non empty value',
-  'user leaves field empty',
-  'user fills field with data'
+  'null unknown',
+  'not null non empty',
+  'missing value',
+  'user leaves field',
+  'user fills field',
+  'zero or white space'
 ])">
   <span>🔍</span> Check Answer
 </button>
@@ -956,42 +973,42 @@
       hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Check answer against expected keywords
-    function checkAnswer(button, expectedKeywords) {
-      const card = button.closest('.question-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim().toLowerCase();
-      
-      let correctCount = 0;
-      expectedKeywords.forEach(keyword => {
-        if (userAnswer.includes(keyword.toLowerCase())) {
-          correctCount++;
-        }
-      });
-      
-      const percentage = (correctCount / expectedKeywords.length) * 100;
-      const isCorrect = percentage >= 50;
-      
-      // Track progress
-      if (isCorrect && typeof window.markExerciseComplete === 'function') {
-        window.markExerciseComplete('A');
-      }
-      if (typeof window.recordQueryAttempt === 'function') {
-        window.recordQueryAttempt(isCorrect);
-      }
-      
-      feedback.innerHTML = isCorrect 
-        ? `<div class="feedback-content">
-            <strong>✅ Correct!</strong>
-            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
-          </div>`
-        : `<div class="feedback-content">
-            <strong>❌ Try Again</strong>
-            <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
-          </div>`;
-      feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+// Check Answer function calls for each question
+function checkAnswer(button, expectedKeywords) {
+  const card = button.closest('.question-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim().toLowerCase();
+  
+  let correctCount = 0;
+  expectedKeywords.forEach(keyword => {
+    if (userAnswer.includes(keyword.toLowerCase())) {
+      correctCount++;
     }
+  });
+  
+  const percentage = (correctCount / expectedKeywords.length) * 100;
+  const isCorrect = percentage >= 50;
+  
+  // Track progress
+  if (isCorrect && typeof window.markExerciseComplete === 'function') {
+    window.markExerciseComplete('A');
+  }
+  if (typeof window.recordQueryAttempt === 'function') {
+    window.recordQueryAttempt(isCorrect);
+  }
+  
+  feedback.innerHTML = isCorrect 
+    ? `<div class="feedback-content">
+        <strong>✅ Correct!</strong>
+        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+      </div>`
+    : `<div class="feedback-content">
+        <strong>❌ Try Again</strong>
+        <div class="feedback-bullets">Matched ${correctCount} of ${expectedKeywords.length} key concepts</div>
+      </div>`;
+  feedback.className = `feedback feedback-${isCorrect ? 'success' : 'error'}`;
+}
 
     function toggleButtonState(button, isLoading) {
       if (isLoading) {
