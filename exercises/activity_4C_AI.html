@@ -503,193 +503,385 @@
     </div>
   </div>
 
-    <script>
-    const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+<script>
+const API_BASE_URL = 'https://openrouter-proxy-k2ca.onrender.com';
+
+// Progress Tracker Class
+class ProgressTracker {
+  constructor() {
+    this.progressData = this.loadProgress();
+  }
+
+  loadProgress() {
+    const defaultData = {
+      completedExercises: [],
+      exerciseProgress: {},
+      streak: 0,
+      lastAccessDate: null,
+      achievements: {
+        firstSteps: false,
+        queryExplorer: false
+      },
+      stats: {
+        queriesAttempted: 0,
+        correctQueries: 0
+      }
+    };
+    const savedData = JSON.parse(localStorage.getItem('sqlLearningProgress')) || defaultData;
+    return {...defaultData, ...savedData};
+  }
+
+  saveProgress() {
+    localStorage.setItem('sqlLearningProgress', JSON.stringify(this.progressData));
+  }
+
+  updateStreak() {
+    const today = new Date().toISOString().split('T')[0];
+    if (this.progressData.lastAccessDate === today) return;
     
-    // Check answer function
-    function checkAnswer(button) {
-      const card = button.closest('.activity-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const sql = editor.value.trim().toLowerCase();
-      
-      if (sql.includes('create table') && sql.includes('primary key')) {
-        feedback.innerHTML = '✅ Correct! Well done!';
-        feedback.className = 'feedback feedback-success';
-      } else {
-        feedback.innerHTML = '❌ Please check your syntax. Make sure to include PRIMARY KEY.';
-        feedback.className = 'feedback feedback-error';
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    if (!this.progressData.lastAccessDate || this.progressData.lastAccessDate === yesterday) {
+      this.progressData.streak++;
+    } else {
+      this.progressData.streak = 1;
+    }
+    this.progressData.lastAccessDate = today;
+    this.saveProgress();
+  }
+
+  markExerciseComplete(exerciseId) {
+    if (!this.progressData.completedExercises.includes(exerciseId)) {
+      this.progressData.completedExercises.push(exerciseId);
+      if (exerciseId === 'C' && !this.progressData.achievements.firstSteps) {
+        this.progressData.achievements.firstSteps = true;
+        this.showAchievement("First Steps", "Completed your first exercise!");
       }
     }
+    this.saveProgress();
+  }
 
-    // Show hint function
-    function showHint(button) {
-      const card = button.closest('.activity-card');
-      const header = card.querySelector('.table-header').textContent;
-      
-      // Improved table type detection
-      let tableType = '';
-      if (header.includes('Branch')) tableType = 'branch';
-      else if (header.includes('Staff')) tableType = 'staff';
-      else if (header.includes('PropertyForRent')) tableType = 'property';
-      else if (header.includes('Client')) tableType = 'client';
-      else if (header.includes('PrivateOwner')) tableType = 'owner';
-      else if (header.includes('Viewing')) tableType = 'viewing';
-      
-      const hints = {
-        branch: `Structure your CREATE TABLE statement with:
-          • <code>branchNo</code> as PRIMARY KEY
-          • Include all specified columns
-          • Use VARCHAR for text fields
-          • Add NOT NULL constraints where appropriate`,
-
-        staff: `Key points for Staff table:
-          • <code>staffNo</code> must be PRIMARY KEY
-          • Include all columns from the schema
-          • Remember the foreign key to Branch table
-          • Use appropriate data types (DATE for DOB, DECIMAL for salary)`,
-
-        property: `Remember to:
-          • Set <code>propertyNo</code> as PRIMARY KEY
-          • Include all specified columns
-          • Add three foreign key constraints
-          • Use INT for rooms, DECIMAL for rent`,
-
-        client: `Client table should have:
-          • <code>clientNo</code> as PRIMARY KEY
-          • All specified columns included
-          • VARCHAR for text fields
-          • DECIMAL for maxRent`,
-
-        owner: `PrivateOwner structure:
-          • <code>ownerNo</code> as PRIMARY KEY
-          • Include all personal information fields
-          • VARCHAR for text fields
-          • Consider field lengths`,
-
-        viewing: `Special considerations:
-          • Composite PRIMARY KEY (clientNo + propertyNo)
-          • Two foreign key constraints
-          • DATE for viewDate
-          • TEXT for comments`
-      };
-
-      // Remove any existing hint
-      const existingHint = card.querySelector('.hint-content');
-      if (existingHint) existingHint.remove();
-      
-      // Check if we found a matching table type
-      if (!tableType || !hints[tableType]) {
-        const errorHint = document.createElement('div');
-        errorHint.className = 'hint-content';
-        errorHint.textContent = 'Hint not available for this table';
-        card.querySelector('.button-row').after(errorHint);
-        return;
-      }
-      
-      // Create new hint element
-      const hintContent = document.createElement('div');
-      hintContent.className = 'hint-content';
-      hintContent.innerHTML = hints[tableType];
-      
-      // Insert after the button row
-      const buttonRow = card.querySelector('.button-row');
-      buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
-      
-      // Auto-close after 10 seconds
-      setTimeout(() => {
-        hintContent.style.opacity = '0';
-        setTimeout(() => hintContent.remove(), 300);
-      }, 10000);
+  recordQueryAttempt(isCorrect) {
+    this.progressData.stats.queriesAttempted++;
+    if (isCorrect) this.progressData.stats.correctQueries++;
+    
+    if (this.progressData.stats.queriesAttempted >= 10 && 
+        !this.progressData.achievements.queryExplorer) {
+      this.progressData.achievements.queryExplorer = true;
+      this.showAchievement("Query Explorer", "Attempted 10+ queries!");
     }
+    this.saveProgress();
+  }
 
-    // Format AI response
-    function formatAIResponse(text) {
-      // Remove grade references
-      text = text.replace(/\bGrade:\s*[A-F][-+]?\b/gi, '');
-      
-      // Convert to bullet points
-      return text
-        .split('\n')
-        .map(line => line.replace(/^[\s*\-•]+/, '').trim())
-        .filter(line => line)
-        .map(line => `• ${line}`)
-        .join('<br>');
-    }
+  showAchievement(title, message) {
+    const notification = document.createElement('div');
+    notification.className = 'achievement-notification';
+    notification.innerHTML = `
+      <div style="background: #2ecc71; color: white; padding: 15px; border-radius: 8px; 
+                  position: fixed; bottom: 20px; left: 20px; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+        <div style="font-weight: bold; font-size: 1.2rem;">🏆 ${title}</div>
+        <div>${message}</div>
+      </div>
+    `;
+    document.body.appendChild(notification);
+    setTimeout(() => notification.remove(), 5000);
+  }
+}
 
-    async function getAIFeedback(button, question) {
-      const card = button.closest('.activity-card');
-      const editor = card.querySelector('.sql-editor');
-      const feedback = card.querySelector('.feedback');
-      const userAnswer = editor.value.trim();
-      
-      if (!userAnswer) {
-        feedback.innerHTML = '❌ Please write your SQL query first';
-        feedback.className = 'feedback feedback-error';
-        return;
-      }
-      
-      // Store original button state
-      const originalBtnHTML = button.innerHTML;
-      const originalBtnDisabled = button.disabled;
-      
-      // Set loading state
-     const originalContent = button.innerHTML;
-    button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div>';
-      
-      try {
-        const response = await fetch(`${API_BASE_URL}/ai`, {
-          method: 'POST',
-          headers: { 
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
+// Initialize progress tracker
+const progressTracker = new ProgressTracker();
+progressTracker.updateStreak();
+
+// Make functions available globally
+window.markExerciseComplete = (id) => progressTracker.markExerciseComplete(id);
+window.recordQueryAttempt = (isCorrect) => progressTracker.recordQueryAttempt(isCorrect);
+
+// Expected answers for each table
+const expectedAnswers = {
+  branch: [
+    'create table branch',
+    'branchno varchar',
+    'primary key',
+    'street varchar',
+    'city varchar',
+    'postcode varchar'
+  ],
+  staff: [
+    'create table staff',
+    'staffno varchar',
+    'primary key',
+    'fname varchar',
+    'lname varchar',
+    'position varchar',
+    'gender varchar',
+    'dob date',
+    'salary decimal',
+    'foreign key',
+    'references branch'
+  ],
+  property: [
+    'create table propertyforrent',
+    'propertyno varchar',
+    'primary key',
+    'type varchar',
+    'rooms int',
+    'rent decimal',
+    'foreign key',
+    'references privateowner',
+    'references staff',
+    'references branch'
+  ],
+  client: [
+    'create table client',
+    'clientno varchar',
+    'primary key',
+    'fname varchar',
+    'lname varchar',
+    'telno varchar',
+    'preftype varchar',
+    'maxrent decimal',
+    'email varchar'
+  ],
+  owner: [
+    'create table privateowner',
+    'ownerno varchar',
+    'primary key',
+    'fname varchar',
+    'lname varchar',
+    'address varchar',
+    'telno varchar',
+    'email varchar',
+    'password varchar'
+  ],
+  viewing: [
+    'create table viewing',
+    'primary key',
+    'clientno varchar',
+    'propertyno varchar',
+    'viewdate date',
+    'comments text',
+    'foreign key',
+    'references client',
+    'references propertyforrent'
+  ]
+};
+
+// Check answer function with progress tracking
+function checkAnswer(button) {
+  const card = button.closest('.activity-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const sql = editor.value.trim().toLowerCase();
+  const header = card.querySelector('.table-header').textContent.toLowerCase();
+  
+  // Determine which table we're checking
+  let tableType = '';
+  if (header.includes('branch')) tableType = 'branch';
+  else if (header.includes('staff')) tableType = 'staff';
+  else if (header.includes('propertyforrent')) tableType = 'property';
+  else if (header.includes('client')) tableType = 'client';
+  else if (header.includes('privateowner')) tableType = 'owner';
+  else if (header.includes('viewing')) tableType = 'viewing';
+  
+  if (!tableType || !expectedAnswers[tableType]) {
+    feedback.innerHTML = '❌ Unable to validate this table type';
+    feedback.className = 'feedback feedback-error';
+    return;
+  }
+  
+  // Check for required keywords
+  let correctCount = 0;
+  expectedAnswers[tableType].forEach(keyword => {
+    if (sql.includes(keyword)) correctCount++;
+  });
+  
+  const percentage = (correctCount / expectedAnswers[tableType].length) * 100;
+  const isCorrect = percentage >= 70; // Require 70% match
+  
+  // Track progress
+  if (isCorrect) {
+    window.markExerciseComplete('C');
+  }
+  window.recordQueryAttempt(isCorrect);
+  
+  if (isCorrect) {
+    feedback.innerHTML = `✅ Correct! (Matched ${correctCount} of ${expectedAnswers[tableType].length} key elements)`;
+    feedback.className = 'feedback feedback-success';
+  } else {
+    feedback.innerHTML = `❌ Needs improvement (Matched ${correctCount} of ${expectedAnswers[tableType].length} key elements)`;
+    feedback.className = 'feedback feedback-error';
+  }
+}
+
+// Show hint function
+function showHint(button) {
+  const card = button.closest('.activity-card');
+  const header = card.querySelector('.table-header').textContent;
+  
+  let tableType = '';
+  if (header.includes('Branch')) tableType = 'branch';
+  else if (header.includes('Staff')) tableType = 'staff';
+  else if (header.includes('PropertyForRent')) tableType = 'property';
+  else if (header.includes('Client')) tableType = 'client';
+  else if (header.includes('PrivateOwner')) tableType = 'owner';
+  else if (header.includes('Viewing')) tableType = 'viewing';
+  
+  const hints = {
+    branch: `Structure your CREATE TABLE statement with:
+      • <code>branchNo</code> as PRIMARY KEY
+      • Include all specified columns
+      • Use VARCHAR for text fields
+      • Add NOT NULL constraints where appropriate`,
+
+    staff: `Key points for Staff table:
+      • <code>staffNo</code> must be PRIMARY KEY
+      • Include all columns from the schema
+      • Remember the foreign key to Branch table
+      • Use appropriate data types (DATE for DOB, DECIMAL for salary)`,
+
+    property: `Remember to:
+      • Set <code>propertyNo</code> as PRIMARY KEY
+      • Include all specified columns
+      • Add three foreign key constraints
+      • Use INT for rooms, DECIMAL for rent`,
+
+    client: `Client table should have:
+      • <code>clientNo</code> as PRIMARY KEY
+      • All specified columns included
+      • VARCHAR for text fields
+      • DECIMAL for maxRent`,
+
+    owner: `PrivateOwner structure:
+      • <code>ownerNo</code> as PRIMARY KEY
+      • Include all personal information fields
+      • VARCHAR for text fields
+      • Consider field lengths`,
+
+    viewing: `Special considerations:
+      • Composite PRIMARY KEY (clientNo + propertyNo)
+      • Two foreign key constraints
+      • DATE for viewDate
+      • TEXT for comments`
+  };
+
+  // Remove any existing hint
+  const existingHint = card.querySelector('.hint-content');
+  if (existingHint) existingHint.remove();
+  
+  // Check if we found a matching table type
+  if (!tableType || !hints[tableType]) {
+    const errorHint = document.createElement('div');
+    errorHint.className = 'hint-content';
+    errorHint.textContent = 'Hint not available for this table';
+    card.querySelector('.button-row').after(errorHint);
+    return;
+  }
+  
+  // Create new hint element
+  const hintContent = document.createElement('div');
+  hintContent.className = 'hint-content';
+  hintContent.innerHTML = hints[tableType];
+  
+  // Insert after the button row
+  const buttonRow = card.querySelector('.button-row');
+  buttonRow.parentNode.insertBefore(hintContent, buttonRow.nextSibling);
+  
+  // Auto-close after 10 seconds
+  setTimeout(() => {
+    hintContent.style.opacity = '0';
+    setTimeout(() => hintContent.remove(), 300);
+  }, 10000);
+}
+
+// Format AI response
+function formatAIResponse(text) {
+  // Remove grade references
+  text = text.replace(/\bGrade:\s*[A-F][-+]?\b/gi, '');
+  
+  // Convert to bullet points
+  return text
+    .split('\n')
+    .map(line => line.replace(/^[\s*\-•]+/, '').trim())
+    .filter(line => line)
+    .map(line => `• ${line}`)
+    .join('<br>');
+}
+
+async function getAIFeedback(button, question) {
+  const card = button.closest('.activity-card');
+  const editor = card.querySelector('.sql-editor');
+  const feedback = card.querySelector('.feedback');
+  const userAnswer = editor.value.trim();
+  
+  if (!userAnswer) {
+    feedback.innerHTML = '❌ Please write your SQL query first';
+    feedback.className = 'feedback feedback-error';
+    return;
+  }
+  
+  // Store original button state
+  const originalBtnHTML = button.innerHTML;
+  const originalBtnDisabled = button.disabled;
+  
+  // Set loading state
+  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
+  button.disabled = true;
+  
+  try {
+    const response = await fetch(`${API_BASE_URL}/ai`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: `You are a SQL instructor. Provide specific feedback on:
+                     - Syntax errors
+                     - Best practices
+                     - Optimization suggestions
+                     Format as clean bullet points`
           },
-          body: JSON.stringify({
-            messages: [
-              {
-                role: "system",
-                content: `You are a SQL instructor. Provide specific feedback on:
-                         - Syntax errors
-                         - Best practices
-                         - Optimization suggestions
-                         Format as clean bullet points`
-              },
-              {
-                role: "user",
-                content: `Question: ${question}\nSQL Query: ${userAnswer}`
-              }
-            ]
-          })
-        });
+          {
+            role: "user",
+            content: `Question: ${question}\nSQL Query: ${userAnswer}`
+          }
+        ]
+      })
+    });
 
-        if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-        
-        const data = await response.json();
-        let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-        aiResponse = formatAIResponse(aiResponse);
-        
-        // First restore the button state
-        button.innerHTML = originalBtnHTML;
-        button.disabled = originalBtnDisabled;
-        
-        // Then update the feedback with explicit icon
-        feedback.innerHTML = `<div class="feedback-content">
-          <strong>🤖 AI Feedback:</strong>
-          <div class="feedback-bullets">${aiResponse}</div>
-        </div>`;
-        feedback.className = 'feedback feedback-success';
-        
-      } catch (error) {
-        console.error("Error:", error);
-        // Restore button state even on error
-        button.innerHTML = originalBtnHTML;
-        button.disabled = originalBtnDisabled;
-        
-        feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
-        feedback.className = 'feedback feedback-error';
-      }
-    }
-  </script>
+    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
+    
+    const data = await response.json();
+    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
+    aiResponse = formatAIResponse(aiResponse);
+    
+    // First restore the button state
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    // Then update the feedback with explicit icon
+    feedback.innerHTML = `<div class="feedback-content">
+      <strong>🤖 AI Feedback:</strong>
+      <div class="feedback-bullets">${aiResponse}</div>
+    </div>`;
+    feedback.className = 'feedback feedback-success';
+    
+    // Track the attempt
+    window.recordQueryAttempt(false); // AI feedback counts as attempt but not necessarily correct
+    
+  } catch (error) {
+    console.error("Error:", error);
+    // Restore button state even on error
+    button.innerHTML = originalBtnHTML;
+    button.disabled = originalBtnDisabled;
+    
+    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
+    feedback.className = 'feedback feedback-error';
+  }
+}
+</script>
 
   <a href="https://forms.gle/YOUR_SURVEY_LINK" target="_blank" 
    style="position: fixed; bottom: 20px; right: 20px; display: flex; align-items: center; background-color: #2c3e50; color: white; padding: 10px 16px; border-radius: 30px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999;">
