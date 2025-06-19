@@ -1,18 +1,6 @@
 ---
 # 📘 AI-Augmented SQL eBook - Interactive Platform
 ---
-<div class="intro-card my-4">
-  <h2>👋 Welcome to the AI-Powered SQL Tutor</h2>
-  <p>This tool uses AI to help you practice SQL in a fun, interactive way!</p>
-  <ol class="list-decimal ml-6 mt-2 space-y-1">
-    <li>Choose any activity card below.</li>
-    <li>Read the scenario and task carefully.</li>
-    <li>Type your SQL query in the box.</li>
-    <li>Click "Submit" to get AI feedback.</li>
-    <li>Use the feedback to improve your answer.</li>
-  </ol>
-  <p class="mt-2 text-yellow-200">✨ Don’t forget to <strong>fill in the survey</strong> after trying the tool!</p>
-</div>
 
 <style>
 /* Hide GitHub elements */
@@ -164,6 +152,19 @@ Practice with live exercises and AI-powered feedback.
 - **Live SQL Editor** - Try queries directly in your browser
 - **Quick Reference** - Expandable syntax examples
 - **Progress Tracking** - Visualize your learning journey
+
+<div class="intro-card my-4">
+  <h2>👋 Welcome to the AI-Powered SQL Tutor</h2>
+  <p>This tool uses AI to help you practice SQL in a fun, interactive way!</p>
+  <ol class="list-decimal ml-6 mt-2 space-y-1">
+    <li>Choose any activity card below.</li>
+    <li>Read the scenario and task carefully.</li>
+    <li>Type your SQL query in the box.</li>
+    <li>Click "Submit" to get AI feedback.</li>
+    <li>Use the feedback to improve your answer.</li>
+  </ol>
+  <p class="mt-2 text-yellow-200">✨ Don’t forget to <strong>fill in the survey</strong> after trying the tool!</p>
+</div>
 
 ## 📝 Your Exercises
 <div class="exercise-grid"> 
