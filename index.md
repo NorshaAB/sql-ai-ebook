@@ -148,6 +148,12 @@ Welcome to the <strong>Interactive SQL Learning Platform</strong>!<br>
 Practice with live exercises and AI-powered feedback.
 </div>
 
+## 🎥 Platform Demo
+<div style="text-align: center; margin: 2rem 0;">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/jXBfQCEsuyE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>
+<p style="margin-top: 0.5rem; font-size: 0.9em;">Watch a quick demo of the platform</p>
+</div>
+
 ## 🚀 Key Features
 - **Live SQL Editor** - Try queries directly in your browser
 - **Quick Reference** - Expandable syntax examples
