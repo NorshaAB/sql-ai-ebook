@@ -1,4 +1,3 @@
----
 # 📘 AI-Augmented SQL eBook - Interactive Platform
 ---
 
@@ -86,15 +85,42 @@
 }
 
 /* Enhanced AI Assistant */
-#ai-assistant {
+#ai-assistant-container {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
+}
+
+#avatar-callout {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  background: white;
+  color: #2c3e50;
+  padding: 8px 12px;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  font-size: 0.9em;
+  white-space: nowrap;
+  animation: float 3s infinite ease-in-out;
+  z-index: 1001;
+}
+
+#avatar-callout:after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 15px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 12px solid white;
+}
+
+#ai-assistant {
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
 }
 
 #assistant-avatar {
@@ -111,31 +137,6 @@
   transform: scale(1.1) rotate(5deg);
 }
 
-#speech-bubble {
-  position: absolute;
-  bottom: calc(100% + 10px);
-  right: 0;
-  background: white;
-  color: #333;
-  padding: 12px 15px;
-  border-radius: 18px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-  width: max-content;
-  max-width: 200px;
-  display: none;
-  animation: pulse 2s infinite;
-}
-
-#speech-bubble:after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  right: 20px;
-  border-left: 10px solid transparent;
-  border-right: 10px solid transparent;
-  border-top: 15px solid white;
-}
-
 #chat-box {
   display: none;
   width: 280px;
@@ -145,6 +146,9 @@
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
   color: #333;
   animation: fadeIn 0.3s ease;
+  position: absolute;
+  bottom: 100px;
+  right: 0;
 }
 
 #ai-assistant.active #chat-box {
@@ -157,10 +161,9 @@
   50% { transform: translateY(-10px); }
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
 @keyframes fadeIn {
@@ -170,7 +173,7 @@
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
-  #ai-assistant {
+  #ai-assistant-container {
     bottom: 15px;
     right: 15px;
   }
@@ -184,10 +187,11 @@
     width: 250px;
   }
   
-  #speech-bubble {
-    max-width: 160px;
-    font-size: 0.9em;
-    padding: 8px 12px;
+  #avatar-callout {
+    font-size: 0.8em;
+    padding: 6px 10px;
+    white-space: normal;
+    width: 120px;
   }
 }
 </style>
@@ -291,17 +295,14 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
-<div id="ai-assistant">
-  <div id="speech-bubble">Click me for a quick demo!</div>
-  <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
-  <div id="chat-box">
-    <p>Hello! Here's how the platform works:</p>
-    <div style="margin: 15px 0; text-align: center;">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
-        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
-                src="https://www.youtube.com/embed/jXBfQCEsuyE?rel=0" 
-                frameborder="0" 
-                allowfullscreen></iframe>
+<div id="ai-assistant-container">
+  <div id="avatar-callout">👋 Click me for a demo!</div>
+  <div id="ai-assistant">
+    <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
+    <div id="chat-box">
+      <p>Hello! Let me show you how the platform works:</p>
+      <div style="margin: 15px 0; text-align: center;">
+        <iframe width="100%" height="200" src="https://www.youtube.com/embed/jXBfQCEsuyE?rel=0" frameborder="0" allowfullscreen style="border-radius: 8px;"></iframe>
       </div>
     </div>
   </div>
@@ -309,7 +310,7 @@ Practice with live exercises and AI-powered feedback.
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // ===== PROGRESS TRACKING ===== (Your existing code)
+  // ===== PROGRESS TRACKING =====
   const progressData = JSON.parse(localStorage.getItem('sqlProgress')) || {
     completed: 2,
     total: 6,
@@ -340,30 +341,31 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.progress-stats span:last-child').textContent = 
     `${Math.round((progressData.completed / progressData.total) * 100)}% complete`;
 
-  // ===== AI ASSISTANT + DEMO VIDEO ===== (New enhanced functionality)
+  // ===== AI ASSISTANT + DEMO =====
   const assistant = document.getElementById('ai-assistant');
   const avatar = document.getElementById('assistant-avatar');
+  const callout = document.getElementById('avatar-callout');
   
-  // Toggle chat box with animation
-  avatar.addEventListener('click', function(e) {
-    e.stopPropagation(); // Prevent immediate close when clicking avatar
+  // Show callout for first-time visitors
+  if (!localStorage.getItem('assistantClicked')) {
+    setTimeout(() => {
+      callout.style.display = 'block';
+    }, 1000);
+  }
+
+  // Toggle chat box
+  avatar.addEventListener('click', function() {
+    localStorage.setItem('assistantClicked', 'true');
+    callout.style.display = 'none';
     assistant.classList.toggle('active');
   });
   
   // Close when clicking outside
   document.addEventListener('click', function(e) {
-    if (!assistant.contains(e.target)) {
+    if (!assistant.contains(e.target) && !callout.contains(e.target)) {
       assistant.classList.remove('active');
     }
   });
-
-  // Optional: Add button functionality
-  const startButton = document.querySelector('#chat-box button');
-  if (startButton) {
-    startButton.addEventListener('click', function() {
-      window.location.href = "exercises/activity_4A_AI.html"; // Link to first exercise
-    });
-  }
 });
 </script>
 
