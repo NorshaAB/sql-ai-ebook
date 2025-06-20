@@ -6,7 +6,7 @@
 /* Hide GitHub elements */
 .footer, .octocat { display: none !important; }
 
-/* Modern card styling - Keeping your original colors */
+/* Modern card styling */
 .intro-card {
   background: linear-gradient(135deg, #3498db, #2c3e50);
   color: white;
@@ -17,7 +17,7 @@
   text-align: center;
 }
 
-/* Exercise grid - Keeping your original gradient */
+/* Exercise grid */
 .exercise-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -42,7 +42,7 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-/* Progress section styling */
+/* Progress section */
 .progress-section {
   background: white;
   border-radius: 8px;
@@ -85,13 +85,16 @@
   margin-bottom: 0.5rem;
 }
 
-/* Your original AI assistant styling */
+/* Enhanced AI Assistant */
 #ai-assistant {
   position: fixed;
   bottom: 20px;
   right: 20px;
   z-index: 1000;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 #assistant-avatar {
@@ -100,11 +103,37 @@
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  animation: bounce 2s ease infinite;
 }
 
 #assistant-avatar:hover {
   transform: scale(1.1) rotate(5deg);
+}
+
+#speech-bubble {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  background: white;
+  color: #333;
+  padding: 12px 15px;
+  border-radius: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+  width: max-content;
+  max-width: 200px;
+  display: none;
+  animation: pulse 2s infinite;
+}
+
+#speech-bubble:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  right: 20px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 15px solid white;
 }
 
 #chat-box {
@@ -122,6 +151,18 @@
   display: block;
 }
 
+/* Animations */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -133,30 +174,21 @@
     bottom: 15px;
     right: 15px;
   }
+  
+  #assistant-avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
   #chat-box {
     width: 250px;
   }
   
-#ai-assistant {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 1000;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-  
-#assistant-avatar {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-  margin-bottom: 10px;
-}
+  #speech-bubble {
+    max-width: 160px;
+    font-size: 0.9em;
+    padding: 8px 12px;
+  }
 }
 </style>
 
@@ -259,21 +291,19 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
-<!-- Combined AI Assistant + Demo Video -->
 <div id="ai-assistant">
+  <div id="speech-bubble">Click me for a quick demo!</div>
   <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
   <div id="chat-box">
-    <p>Hi! I'm your SQL AI Assistant. Let's try some SQL exercises!</p>
+    <p>Hello! Here's how the platform works:</p>
     <div style="margin: 15px 0; text-align: center;">
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; background: #000;">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px;">
         <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
                 src="https://www.youtube.com/embed/jXBfQCEsuyE?rel=0" 
                 frameborder="0" 
                 allowfullscreen></iframe>
       </div>
-      <p style="font-size: 0.8em; margin-top: 5px;">Platform demo (1:30)</p>
     </div>
-    <button style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%;">Start Exercises</button>
   </div>
 </div>
 
