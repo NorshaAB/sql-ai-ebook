@@ -148,12 +148,6 @@ Welcome to the <strong>Interactive SQL Learning Platform</strong>!<br>
 Practice with live exercises and AI-powered feedback.
 </div>
 
-## 🎥 Platform Demo
-<div style="text-align: center; margin: 2rem 0;">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/jXBfQCEsuyE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"></iframe>
-<p style="margin-top: 0.5rem; font-size: 0.9em;">Watch a quick demo of the platform</p>
-</div>
-
 ## 🚀 Key Features
 - **Live SQL Editor** - Try queries directly in your browser
 - **Quick Reference** - Expandable syntax examples
@@ -294,6 +288,15 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.progress-stats span:last-child').textContent = 
     `${Math.round((progressData.completed / progressData.total) * 100)}% complete`;
 });
+
+  <!-- Demo Video - Bottom Left Corner -->
+<div style="position: fixed; left: 20px; bottom: 20px; z-index: 999; width: 300px; background: linear-gradient(135deg, #3498db, #2c3e50); padding: 12px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+  <h3 style="color: white; margin: 0 0 8px 0; font-size: 1rem;">🎬 Quick Demo</h3>
+  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px;">
+    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/jXBfQCEsuyE" frameborder="0" allowfullscreen></iframe>
+  </div>
+  <p style="color: white; font-size: 0.8rem; margin: 8px 0 0 0; text-align: center;">Click to play</p>
+</div>
 </script>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
