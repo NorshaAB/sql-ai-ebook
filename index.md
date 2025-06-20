@@ -289,6 +289,8 @@ document.addEventListener('DOMContentLoaded', function() {
     `${Math.round((progressData.completed / progressData.total) * 100)}% complete`;
 });
 
+</script>
+
   <!-- Demo Video - Bottom Left Corner -->
 <div style="position: fixed; left: 20px; bottom: 20px; z-index: 999; width: 300px; background: linear-gradient(135deg, #3498db, #2c3e50); padding: 12px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
   <h3 style="color: white; margin: 0 0 8px 0; font-size: 1rem;">🎬 Quick Demo</h3>
@@ -297,6 +299,4 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
   <p style="color: white; font-size: 0.8rem; margin: 8px 0 0 0; text-align: center;">Click to play</p>
 </div>
-</script>
-
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
