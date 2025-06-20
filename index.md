@@ -104,42 +104,59 @@
 }
 
 #assistant-avatar:hover {
-  transform: scale(1.1);
+  transform: scale(1.1) rotate(5deg);
 }
 
 #chat-box {
   display: none;
-  position: absolute;
-  bottom: 100px;
-  right: 0;
-  width: 250px;
-  background: #f9f9f9;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  width: 280px;
+  background: white;
+  border-radius: 12px;
   padding: 15px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
   color: #333;
+  animation: fadeIn 0.3s ease;
 }
 
 #ai-assistant.active #chat-box {
   display: block;
 }
 
-/* Responsive adjustments */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Responsiveness */
 @media (max-width: 768px) {
-  .exercise-grid {
-    grid-template-columns: 1fr;
-  }
-  
   #ai-assistant {
-    bottom: 10px;
-    right: 10px;
+    bottom: 15px;
+    right: 15px;
+  }
+  #chat-box {
+    width: 250px;
   }
   
-  #assistant-avatar {
-    width: 60px;
-    height: 60px;
-  }
+#ai-assistant {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+  
+#assistant-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
 }
 </style>
 
@@ -242,22 +259,27 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
+<!-- Combined AI Assistant + Demo Video -->
 <div id="ai-assistant">
   <img src="/sql-ai-ebook/AI_lecturer.png" alt="AI Assistant Avatar" id="assistant-avatar" />
   <div id="chat-box">
-    <p>Hi! I'm your SQL AI Assistant. Let's try some SQL exercises, and I'll guide you!</p>
+    <p>Hi! I'm your SQL AI Assistant. Let's try some SQL exercises!</p>
+    <div style="margin: 15px 0; text-align: center;">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px; background: #000;">
+        <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" 
+                src="https://www.youtube.com/embed/jXBfQCEsuyE?rel=0" 
+                frameborder="0" 
+                allowfullscreen></iframe>
+      </div>
+      <p style="font-size: 0.8em; margin-top: 5px;">Platform demo (1:30)</p>
+    </div>
+    <button style="background: #3498db; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; width: 100%;">Start Exercises</button>
   </div>
 </div>
 
 <script>
-// Load progress from localStorage or use defaults
 document.addEventListener('DOMContentLoaded', function() {
-  // Toggle AI assistant
-  document.getElementById('assistant-avatar').addEventListener('click', function() {
-    document.getElementById('ai-assistant').classList.toggle('active');
-  });
-  
-  // In a real implementation, you would load actual progress data here
+  // ===== PROGRESS TRACKING ===== (Your existing code)
   const progressData = JSON.parse(localStorage.getItem('sqlProgress')) || {
     completed: 2,
     total: 6,
@@ -287,16 +309,32 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('.badge').textContent = `${progressData.completed} of ${progressData.total} completed`;
   document.querySelector('.progress-stats span:last-child').textContent = 
     `${Math.round((progressData.completed / progressData.total) * 100)}% complete`;
-});
 
+  // ===== AI ASSISTANT + DEMO VIDEO ===== (New enhanced functionality)
+  const assistant = document.getElementById('ai-assistant');
+  const avatar = document.getElementById('assistant-avatar');
+  
+  // Toggle chat box with animation
+  avatar.addEventListener('click', function(e) {
+    e.stopPropagation(); // Prevent immediate close when clicking avatar
+    assistant.classList.toggle('active');
+  });
+  
+  // Close when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!assistant.contains(e.target)) {
+      assistant.classList.remove('active');
+    }
+  });
+
+  // Optional: Add button functionality
+  const startButton = document.querySelector('#chat-box button');
+  if (startButton) {
+    startButton.addEventListener('click', function() {
+      window.location.href = "exercises/activity_4A_AI.html"; // Link to first exercise
+    });
+  }
+});
 </script>
 
-  <!-- Demo Video - Bottom Left Corner -->
-<div style="position: fixed; left: 20px; bottom: 20px; z-index: 999; width: 300px; background: linear-gradient(135deg, #3498db, #2c3e50); padding: 12px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-  <h3 style="color: white; margin: 0 0 8px 0; font-size: 1rem;">🎬 Quick Demo</h3>
-  <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 4px;">
-    <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/jXBfQCEsuyE" frameborder="0" allowfullscreen></iframe>
-  </div>
-  <p style="color: white; font-size: 0.8rem; margin: 8px 0 0 0; text-align: center;">Click to play</p>
-</div>
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
