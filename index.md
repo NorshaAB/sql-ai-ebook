@@ -369,8 +369,11 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<a href="https://hits.seeyoufarm.com" style="display: block; text-align: center; margin: 20px 0;">
-  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fnorshaab.github.io%2Fsql-ai-ebook%2F&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false"/>
-</a>
+<div style="text-align: center; margin: 1.5rem 0;">
+  <a href="https://hits.seeyoufarm.com" style="text-decoration: none;">
+    <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fnorshaab.github.io%2Fsql-ai-ebook%2F&count_bg=%2323497e&title_bg=%232c3e50&icon=git&icon_color=%23E7E7E7&title=Visitors&edge_flat=true" 
+         style="width: 130px; border-radius: 6px;"/>
+  </a>
+</div>
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
