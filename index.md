@@ -369,6 +369,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<div style="text-align: center; margin-top: 2rem; padding: 10px 0;">
+  <small>AI-Augmented SQL eBook | © 2025</small>
+</div>
+
 <div style="text-align: center; margin: 30px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
   <p style="margin: 0; font-size: 0.9em; color: #2c3e50;">
     <span id="visitor-count">Loading...</span> visitors
@@ -388,7 +392,3 @@ if (localStorage.getItem('siteVisits')) {
 </script>
 
 <div id="ai-assistant-container">
-
-<div style="text-align: center; margin-top: 2rem; padding: 10px 0;">
-  <small>AI-Augmented SQL eBook | © 2025</small>
-</div>
