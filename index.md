@@ -376,23 +376,3 @@ document.addEventListener('DOMContentLoaded', function() {
 <div style="text-align: center; margin-top: 2rem; padding: 10px 0;">
   <small>AI-Augmented SQL eBook | © 2025</small>
 </div>
-
-<div style="text-align: center; margin: 30px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
-  <p style="margin: 0; font-size: 0.9em; color: #2c3e50;">
-    <span id="visitor-count">Loading...</span> visitors
-  </p>
-</div>
-
-<script>
-// Simple persistent counter
-if (localStorage.getItem('siteVisits')) {
-  const visits = parseInt(localStorage.getItem('siteVisits')) + 1;
-  localStorage.setItem('siteVisits', visits);
-  document.getElementById('visitor-count').textContent = visits;
-} else {
-  localStorage.setItem('siteVisits', 1);
-  document.getElementById('visitor-count').textContent = 1;
-}
-</script>
-
-<div id="ai-assistant-container">
