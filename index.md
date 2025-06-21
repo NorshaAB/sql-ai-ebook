@@ -369,4 +369,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+<a href="https://hits.seeyoufarm.com" style="display: block; text-align: center; margin: 20px 0;">
+  <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fnorshaab.github.io%2Fsql-ai-ebook%2F&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visits&edge_flat=false"/>
+</a>
+
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
