@@ -308,6 +308,10 @@ Practice with live exercises and AI-powered feedback.
   </div>
 </div>
 
+<!-- Cloudflare Web Analytics -->
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "1e6b50c5f851429a8964054e3565947a"}'></script>
+<!-- End Cloudflare Web Analytics -->
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // ===== PROGRESS TRACKING =====
