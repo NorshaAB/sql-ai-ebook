@@ -369,8 +369,24 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<div style="text-align: center; margin: 20px 0;">
-  [![Visitors](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fnorshaab.github.io%2Fsql-ai-ebook%2F&count_bg=%2323497e&title_bg=%232c3e50&icon=git&icon_color=%23E7E7E7&title=Visitors&edge_flat=true)](https://hits.seeyoufarm.com)
+<div style="text-align: center; margin: 30px 0; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+  <p style="margin: 0; font-size: 0.9em; color: #2c3e50;">
+    <span id="visitor-count">Loading...</span> visitors
+  </p>
 </div>
+
+<script>
+// Simple persistent counter
+if (localStorage.getItem('siteVisits')) {
+  const visits = parseInt(localStorage.getItem('siteVisits')) + 1;
+  localStorage.setItem('siteVisits', visits);
+  document.getElementById('visitor-count').textContent = visits;
+} else {
+  localStorage.setItem('siteVisits', 1);
+  document.getElementById('visitor-count').textContent = 1;
+}
+</script>
+
+<div id="ai-assistant-container">
 
 <div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
