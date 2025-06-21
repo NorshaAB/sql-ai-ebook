@@ -389,4 +389,6 @@ if (localStorage.getItem('siteVisits')) {
 
 <div id="ai-assistant-container">
 
-<div style="text-align: center; margin-top: 2rem;"> <small>AI-Augmented SQL eBook | © 2025</small> </div>
+<div style="text-align: center; margin-top: 2rem; padding: 10px 0;">
+  <small>AI-Augmented SQL eBook | © 2025</small>
+</div>
