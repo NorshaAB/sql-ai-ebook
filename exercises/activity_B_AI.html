@@ -434,6 +434,40 @@
       padding-left: 20px;
     }
 
+    /* Copy protection styles */
+    .no-copy {
+      user-select: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+    }
+    
+    .sql-sample {
+      background: #f0f0f0;
+      padding: 8px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      position: relative;
+    }
+    
+    .sql-sample::after {
+      content: "Type this yourself to learn better!";
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #e74c3c;
+      color: white;
+      padding: 2px 6px;
+      font-size: 0.7em;
+      border-radius: 0 4px 0 4px;
+    }
+    
+    .copy-warning {
+      color: #e74c3c;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
@@ -483,9 +517,8 @@
     }
 
     a:hover span {
-  text-decoration: underline;
-}
-
+      text-decoration: underline;
+    }
   </style>
 </head>
   
@@ -509,32 +542,31 @@
     <h1>Activity B: CONSULT_COMPANY Database</h1>
 
     <div class="intro-card my-4" style="
-  background: #ffffff;
-  color: #333333;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-  margin-bottom: 2rem;
-  text-align: left;
-  border: 1px solid #e0e0e0;
-  line-height: 1.5;
-  font-size: 1rem;
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
-">
-  <h2 style="margin-bottom: 1rem;">👋 <strong>Welcome to the AI-Powered SQL Tutor</strong></h2>
-  <p>This tool uses AI to help you practice SQL in a fun, interactive way!</p>
-  <ol style="margin-left: 1.2rem; padding-left: 0.5rem; margin-top: 1rem;">
-    <li>Read the question and task carefully.</li>
-    <li>Type your SQL query in the box.</li>
-    <li>Click "Hint" to get a clue on how to answer the question.</li>
-    <li>Click "Check Answer" to view the correct answer after entering your own answer.</li>
-    <li>Click "Get AI Feedback" to receive a response based on your submitted answer.</li>
-  </ol>
-  <p style="margin-top: 1rem; color: #ff9800;">✨ Don’t forget to <strong>fill in the survey</strong> after trying the tool, thanks!</p>
-</div>
-
+      background: #ffffff;
+      color: #333333;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      margin-bottom: 2rem;
+      text-align: left;
+      border: 1px solid #e0e0e0;
+      line-height: 1.5;
+      font-size: 1rem;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    ">
+      <h2 style="margin-bottom: 1rem;">👋 <strong>Welcome to the AI-Powered SQL Tutor</strong></h2>
+      <p>This tool uses AI to help you practice SQL in a fun, interactive way!</p>
+      <ol style="margin-left: 1.2rem; padding-left: 0.5rem; margin-top: 1rem;">
+        <li>Read the question and task carefully.</li>
+        <li>Type your SQL query in the box.</li>
+        <li>Click "Hint" to get a clue on how to answer the question.</li>
+        <li>Click "Check Answer" to view the correct answer after entering your own answer.</li>
+        <li>Click "Get AI Feedback" to receive a response based on your submitted answer.</li>
+      </ol>
+      <p style="margin-top: 1rem; color: #ff9800;">✨ <strong>Important:</strong> For best learning results, please type all queries yourself rather than copying.</p>
+    </div>
 
     <h2>Part 1: Define Data Types and Sample Data</h2>
     
@@ -557,13 +589,13 @@
           <span>🔍</span> Check Answer
         </button>
       </div>
-      <div class="hint-content job-hint">
+      <div class="hint-content job-hint no-copy">
         Consider appropriate data types:
         • Text fields: VARCHAR with suitable length
         • Monetary values: DECIMAL
         • Dates: DATE
       </div>
-      <div class="feedback job-feedback"></div>
+      <div class="feedback job-feedback no-copy"></div>
     </div>
 
     <!-- EMPLOYEE Table Section -->
@@ -586,16 +618,14 @@
           <span>🔍</span> Check Answer
         </button>
       </div>
-      <div class="hint-content employee-hint">
+      <div class="hint-content employee-hint no-copy">
         Remember:
         • Match foreign key data types to referenced primary keys
         • Years can be INT or SMALLINT
         • Names typically use VARCHAR
       </div>
-      <div class="feedback employee-feedback"></div>
+      <div class="feedback employee-feedback no-copy"></div>
     </div>
-
-    <!-- Add similar sections for PROJECT and ASSIGNMENT tables -->
 
     <hr>
 
@@ -620,10 +650,10 @@
             <span>🔍</span> Check Answer
           </button>
         </div>
-        <div class="hint-content create-db-hint">
+        <div class="hint-content create-db-hint no-copy">
           Basic syntax: <code>CREATE DATABASE database_name;</code>
         </div>
-        <div class="feedback create-db-feedback"></div>
+        <div class="feedback create-db-feedback no-copy"></div>
       </div>
 
       <!-- Step 2: Use Database -->
@@ -644,10 +674,10 @@
             <span>🔍</span> Check Answer
           </button>
         </div>
-        <div class="hint-content use-db-hint">
+        <div class="hint-content use-db-hint no-copy">
           Basic syntax: <code>USE database_name;</code>
         </div>
-        <div class="feedback use-db-feedback"></div>
+        <div class="feedback use-db-feedback no-copy"></div>
       </div>
 
       <!-- Step 3: Create JOB Table -->
@@ -679,13 +709,13 @@
             <span class="avatar-text">Get AI Feedback</span>
           </button>
         </div>
-        <div class="hint-content create-job-hint">
+        <div class="hint-content create-job-hint no-copy">
           Remember to:
           • Include all columns from Part 1
           • Set JOB_CODE as PRIMARY KEY
           • Use correct data types
         </div>
-        <div class="feedback create-job-feedback"></div>
+        <div class="feedback create-job-feedback no-copy"></div>
       </div>
 
       <!-- Step 4: Create EMPLOYEE Table -->
@@ -697,7 +727,7 @@
         <div class="question-content">
           <p>Write the SQL statement to create the EMPLOYEE table with all columns and constraints:</p>
           <textarea class="sql-editor" placeholder="CREATE TABLE EMPLOYEE (
-  EMP_NO VARCHAR(10) PRIMARY KEY,
+  EMP_NO VARCHAR(5) PRIMARY KEY,
   EMP_NAME VARCHAR(100),
   EMP_HIREDATE DATE,
   JOB_CODE VARCHAR(10),
@@ -719,16 +749,14 @@
             <span class="avatar-text">Get AI Feedback</span>
           </button>
         </div>
-        <div class="hint-content create-employee-hint">
+        <div class="hint-content create-employee-hint no-copy">
           Remember to:
           • Include all columns from Part 1
           • Set EMP_NO as PRIMARY KEY
           • Add FOREIGN KEY constraint for JOB_CODE
         </div>
-        <div class="feedback create-employee-feedback"></div>
+        <div class="feedback create-employee-feedback no-copy"></div>
       </div>
-
-      <!-- Add similar steps for PROJECT and ASSIGNMENT tables -->
 
       <!-- Final Step: Complete Solution -->
       <div class="question-card">
@@ -760,7 +788,7 @@ CREATE TABLE JOB (
             <span class="avatar-text">Get Full AI Feedback</span>
           </button>
         </div>
-        <div class="feedback complete-feedback"></div>
+        <div class="feedback complete-feedback no-copy"></div>
       </div>
     </div>
   </div>
@@ -885,34 +913,41 @@ const expectedAnswers = {
       EMP_HIREDATE: '2019-02-08',
       EMP_YEARS: '5'
     }
-  },
-  project: {
-    dataTypes: {
-      PROJ_NO: 'VARCHAR(10)',
-      PROJ_NAME: 'VARCHAR(100)',
-      PROJ_VALUE: 'INT',
-      PROJ_BALANCE: 'INT'
-    },
-    samples: {
-      PROJ_NO: 'P100016',
-      PROJ_NAME: 'SIME DARBY LISTING PROPERTY',
-      PROJ_VALUE: '20000',
-      PROJ_BALANCE: '25000'
-    }
-  },
-  assignment: {
-    dataTypes: {
-      ASSIGN_NO: 'VARCHAR(8)',
-      ASSIGN_DATE: 'DATE',
-      ASSIGN_CHARGE_HOUR: 'INT'
-    },
-    samples: {
-      ASSIGN_NO: 'A722912',
-      ASSIGN_DATE: '2019-05-16',
-      ASSIGN_CHARGE_HOUR: '3'
-    }
   }
 };
+
+// Copy protection functions
+function obfuscateSQL(sql) {
+  // Add invisible characters between SQL keywords
+  const keywords = ['SELECT', 'FROM', 'WHERE', 'JOIN', 'CREATE', 'TABLE', 'DATABASE', 
+                   'USE', 'PRIMARY KEY', 'FOREIGN KEY', 'REFERENCES', 'INT', 'VARCHAR', 
+                   'DATE', 'DECIMAL', 'NOT NULL'];
+  
+  let obfuscated = sql;
+  keywords.forEach(keyword => {
+    const regex = new RegExp(`\\b${keyword}\\b`, 'gi');
+    obfuscated = obfuscated.replace(regex, 
+      match => match.split('').join('\u200B') // Zero-width space
+    );
+  });
+  
+  return obfuscated;
+}
+
+function formatSQLForDisplay(sql) {
+  // Format SQL with line breaks and proper spacing
+  const formatted = sql
+    .replace(/;/g, ';\n\n')
+    .replace(/,/g, ',\n  ')
+    .replace(/\(/g, '(\n  ')
+    .replace(/\)/g, '\n)');
+  
+  // Add warning message
+  return `<div class="sql-sample no-copy">
+    ${formatted}
+    <div class="copy-warning">Type this yourself to learn better!</div>
+  </div>`;
+}
 
 // Check data types and sample data for each table
 function checkDataTypes(button, table) {
@@ -979,204 +1014,4 @@ function checkDataTypes(button, table) {
 function checkDatabaseCreation(button) {
   const card = button.closest('.question-card');
   const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const sql = editor.value.trim().toUpperCase();
-  
-  if (sql.includes('CREATE DATABASE CONSULT_COMPANY')) {
-    feedback.innerHTML = '✅ Correct database creation statement!';
-    feedback.className = 'feedback feedback-success';
-    window.recordQueryAttempt(true);
-  } else {
-    feedback.innerHTML = '❌ Please write a proper CREATE DATABASE statement for CONSULT_COMPANY';
-    feedback.className = 'feedback feedback-error';
-    window.recordQueryAttempt(false);
-  }
-  feedback.style.display = 'block';
-}
-
-function checkUseDatabase(button) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const sql = editor.value.trim().toUpperCase();
-  
-  if (sql.includes('USE CONSULT_COMPANY')) {
-    feedback.innerHTML = '✅ Correct USE statement!';
-    feedback.className = 'feedback feedback-success';
-    window.recordQueryAttempt(true);
-  } else {
-    feedback.innerHTML = '❌ Please write a proper USE CONSULT_COMPANY statement';
-    feedback.className = 'feedback feedback-error';
-    window.recordQueryAttempt(false);
-  }
-  feedback.style.display = 'block';
-}
-
-function checkJobTable(button) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const sql = editor.value.trim().toUpperCase();
-  
-  const requiredElements = [
-    'CREATE TABLE JOB',
-    'JOB_CODE VARCHAR(10) NOT NULL',
-    'JOB_DESCRIPTION VARCHAR(100)',
-    'JOB_CHARGE_HOUR INT',
-    'JOB_LAST_DATE DATE',
-    'PRIMARY KEY (JOB_CODE)'
-  ];
-  
-  let missingElements = requiredElements.filter(el => !sql.includes(el));
-  
-  if (missingElements.length === 0) {
-    feedback.innerHTML = '✅ Correct JOB table creation statement!';
-    feedback.className = 'feedback feedback-success';
-    window.recordQueryAttempt(true);
-  } else {
-    feedback.innerHTML = `❌ Missing or incorrect elements:<br>• ${missingElements.join('<br>• ')}`;
-    feedback.className = 'feedback feedback-error';
-    window.recordQueryAttempt(false);
-  }
-  feedback.style.display = 'block';
-}
-
-function checkEmployeeTable(button) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const sql = editor.value.trim().toUpperCase();
-  
-  const requiredElements = [
-    'CREATE TABLE EMPLOYEE',
-    'EMP_NO VARCHAR(5) NOT NULL',
-    'EMP_NAME VARCHAR(100)',
-    'EMP_HIREDATE DATE',
-    'JOB_CODE VARCHAR(10)',
-    'EMP_YEARS INT',
-    'PRIMARY KEY (EMP_NO)',
-    'FOREIGN KEY (JOB_CODE) REFERENCES JOB (JOB_CODE)'
-  ];
-  
-  let missingElements = requiredElements.filter(el => !sql.includes(el));
-  
-  if (missingElements.length === 0) {
-    feedback.innerHTML = '✅ Correct EMPLOYEE table creation statement!';
-    feedback.className = 'feedback feedback-success';
-    window.recordQueryAttempt(true);
-  } else {
-    feedback.innerHTML = `❌ Missing or incorrect elements:<br>• ${missingElements.join('<br>• ')}`;
-    feedback.className = 'feedback feedback-error';
-    window.recordQueryAttempt(false);
-  }
-  feedback.style.display = 'block';
-}
-
-// AI Feedback function
-async function getAIFeedback(button, question) {
-  const card = button.closest('.question-card');
-  const editor = card.querySelector('.sql-editor');
-  const feedback = card.querySelector('.feedback');
-  const userAnswer = editor.value.trim();
-  
-  if (!userAnswer) {
-    feedback.innerHTML = '❌ Please write your SQL query first';
-    feedback.className = 'feedback feedback-error';
-    feedback.style.display = 'block';
-    return;
-  }
-  
-  // Store original button state
-  const originalBtnHTML = button.innerHTML;
-  const originalBtnDisabled = button.disabled;
-  
-  // Set loading state
-  button.innerHTML = '<div class="loading" style="border-top-color:white;width:24px;height:24px;"></div> Analyzing...';
-  button.disabled = true;
-  
-  try {
-    const response = await fetch(`${API_BASE_URL}/ai`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "system",
-            content: `You are a SQL instructor reviewing database creation scripts. Provide feedback on:
-                     - Correct syntax
-                     - Proper constraints (PK, FK)
-                     - Appropriate data types
-                     - Best practices
-                     Format your response with bullet points`
-          },
-          {
-            role: "user",
-            content: `Question: ${question}\nSQL Query: ${userAnswer}`
-          }
-        ]
-      })
-    });
-
-    if (!response.ok) throw new Error(`Server responded with ${response.status}`);
-    
-    const data = await response.json();
-    let aiResponse = data.choices?.[0]?.message?.content || data.feedback || "No feedback available";
-    
-    // Format the AI response
-    aiResponse = aiResponse
-      .replace(/\bGrade:\s*[A-F][-+]?\b/gi, '')
-      .split('\n')
-      .map(line => line.replace(/^[\s*\-•]+/, '').trim())
-      .filter(line => line)
-      .map(line => `• ${line}`)
-      .join('<br>');
-    
-    // Restore button state
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    // Show feedback
-    feedback.innerHTML = `<div class="feedback-content">
-      <strong>🤖 AI Feedback:</strong>
-      <div class="feedback-bullets">${aiResponse}</div>
-    </div>`;
-    feedback.className = 'feedback feedback-success';
-    
-  } catch (error) {
-    console.error("Error:", error);
-    // Restore button state even on error
-    button.innerHTML = originalBtnHTML;
-    button.disabled = originalBtnDisabled;
-    
-    feedback.innerHTML = `❌ Failed to get feedback: ${error.message}`;
-    feedback.className = 'feedback feedback-error';
-  }
-  
-  feedback.style.display = 'block';
-  window.recordQueryAttempt(false);
-}
-
-// Toggle hint visibility
-function toggleHint(button, table) {
-  const card = button.closest('.question-card');
-  const hint = card.querySelector('.hint-content');
-  const isHidden = hint.style.display !== 'block';
-  
-  hint.style.display = isHidden ? 'block' : 'none';
-  button.innerHTML = isHidden 
-    ? '<span>💡</span> Hide Hint' 
-    : '<span>💡</span> Show Hint';
-}
-</script>
-
-  <a href="https://forms.gle/EDrfqyhGLvkqpoVK9" target="_blank" 
-   style="position: fixed; bottom: 20px; right: 20px; display: flex; align-items: center; background-color: #2c3e50; color: white; padding: 10px 16px; border-radius: 30px; text-decoration: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 999;">
-  <img src="/sql-ai-ebook/AI_lecturer.png" alt="Lecturer" style="width: 36px; height: 36px; border-radius: 50%; margin-right: 10px;">
-  <span>📋 Give Feedback</span>
-</a>
-
-</body>
-</html>
+ 
