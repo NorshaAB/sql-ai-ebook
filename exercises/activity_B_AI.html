@@ -610,7 +610,7 @@
         </div>
         <div class="question-content">
           <p>Write the SQL statement to create the CONSULT_COMPANY database:</p>
-          <textarea class="sql-editor" placeholder="CREATE DATABASE CONSULT_COMPANY;"></textarea>
+          <textarea class="sql-editor" placeholder="Write your answer here.."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this, 'create-db')">
@@ -634,7 +634,7 @@
         </div>
         <div class="question-content">
           <p>Write the SQL statement to use the CONSULT_COMPANY database:</p>
-          <textarea class="sql-editor" placeholder="USE CONSULT_COMPANY;"></textarea>
+          <textarea class="sql-editor" placeholder="Write your answer here.."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this, 'use-db')">
@@ -658,12 +658,7 @@
         </div>
         <div class="question-content">
           <p>Write the SQL statement to create the JOB table with all columns and constraints:</p>
-          <textarea class="sql-editor" placeholder="CREATE TABLE JOB (
-  JOB_CODE VARCHAR(10) PRIMARY KEY,
-  JOB_DESCRIPTION VARCHAR(100),
-  JOB_CHARGE_HOUR DECIMAL(10,2),
-  JOB_LAST_DATE DATE
-);"></textarea>
+          <textarea class="sql-editor" placeholder="Write your answer here.."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this, 'create-job')">
@@ -696,14 +691,7 @@
         </div>
         <div class="question-content">
           <p>Write the SQL statement to create the EMPLOYEE table with all columns and constraints:</p>
-          <textarea class="sql-editor" placeholder="CREATE TABLE EMPLOYEE (
-  EMP_NO VARCHAR(10) PRIMARY KEY,
-  EMP_NAME VARCHAR(100),
-  EMP_HIREDATE DATE,
-  JOB_CODE VARCHAR(10),
-  EMP_YEARS INT,
-  FOREIGN KEY (JOB_CODE) REFERENCES JOB(JOB_CODE)
-);"></textarea>
+          <textarea class="sql-editor" placeholder="Write your answer here.."></textarea>
         </div>
         <div class="button-row">
           <button class="btn-secondary" onclick="toggleHint(this, 'create-employee')">
@@ -738,19 +726,7 @@
         </div>
         <div class="question-content">
           <p>Combine all your statements into one complete solution:</p>
-          <textarea class="sql-editor" placeholder="-- Your complete solution here
-CREATE DATABASE CONSULT_COMPANY;
-
-USE CONSULT_COMPANY;
-
-CREATE TABLE JOB (
-  JOB_CODE VARCHAR(10) PRIMARY KEY,
-  JOB_DESCRIPTION VARCHAR(100),
-  JOB_CHARGE_HOUR DECIMAL(10,2),
-  JOB_LAST_DATE DATE
-);
-
--- Add your other CREATE TABLE statements here"></textarea>
+          <textarea class="sql-editor" placeholder="Write your complete solution here"></textarea>
         </div>
         <div class="button-row">
           <button class="ai-feedback-btn" onclick="getAIFeedback(this, 'Complete CONSULT_COMPANY database creation script')">
